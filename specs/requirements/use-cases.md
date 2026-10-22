@@ -76,14 +76,12 @@ Every use case links to its functional (`FR-xxx`) and non-functional (`NFR-xxx`)
 - **Trigger**: User inputs a RUC number during invoice preparation.
 - **Main Success Scenario**:
   1. The actor enters the 11-digit RUC number.
-  2. The system executes structural validation (11 digits, numeric-only, valid legal prefix: 10, 15, 17, 20).
-  3. The system computes the Modulo 11 verification check digit.
-  4. The calculated check digit matches the 11th digit.
-  5. The system accepts the RUC and allows invoice creation to proceed.
+  2. The system validates the RUC against established legal tax identification rules without inventing unverified endpoints or methods.
+  3. If validation succeeds, the system accepts the RUC and allows invoice creation to proceed.
 - **Alternative / Exception Flows**:
-  - *2a/3a/4a. Validation fails*: The system rejects the input, flags the specific invalid condition (e.g., invalid prefix, bad checksum), and blocks tax invoice generation.
-- **Postconditions**: Only structurally valid RUC numbers are linked to issued electronic invoices.
-- **Open Questions**: [Q-13](file:///c:/Users/LOQ/Documents/GitHub/Examen/docs/01-open-questions.md#category-d-peruvian-tax-compliance--sunat-integration) (Need for online SUNAT API check).
+  - *2a. Validation fails*: The system rejects the input, flags the specific invalid condition, and blocks tax invoice generation.
+- **Postconditions**: Only valid RUC numbers are linked to issued electronic invoices.
+- **Open Questions**: [Q-13](file:///c:/Users/LOQ/Documents/GitHub/Examen/docs/01-open-questions.md#category-d-peruvian-tax-compliance--sunat-integration) (Clarification of mandated validation mechanism: offline check digit calculation vs. online SUNAT padrón consultation vs. external API; no external endpoints assumed).
 
 ---
 
@@ -156,19 +154,20 @@ Every use case links to its functional (`FR-xxx`) and non-functional (`NFR-xxx`)
 - **Source**: Teacher Assessment
 - **Status**: Confirmed
 - **Traces to**: `FR-013`, `FR-014`, `NFR-011`
-- **Primary Actor**: DEMO User (Evaluator / Trainee)
-- **Preconditions**: The application is started with the DEMO user account selected.
-- **Trigger**: Evaluator logs in as DEMO.
+- **Primary Actor**: DEMO User (as requested in the assessment)
+- **Preconditions**: The application is accessed in demonstration mode under the requested DEMO user profile without assuming unstated credentials, personal data, or arbitrary roles ([Q-03](file:///c:/Users/LOQ/Documents/GitHub/Examen/docs/01-open-questions.md#category-a-scope-and-functional-boundaries)).
+- **Trigger**: Evaluator initiates a demonstration session as the DEMO user.
 - **Main Success Scenario**:
-  1. The system initializes an isolated sandbox session (or in-memory mock store) containing sample grocery products and mock customers.
-  2. The system displays a persistent visual indicator: "DEMO MODE - NON-TAX SANDBOX".
-  3. The DEMO user executes warehouse receipts, sales, tax calculations, and XML generation.
-  4. External transmission attempts are intercepted and resolved locally with simulated successful CDR responses.
-  5. The DEMO user inspects generated XML, calculation outputs, and document states.
+  1. The system activates the demonstration mode, ensuring complete isolation from production records and live external endpoints.
+  2. The system displays a visual indicator signifying that operations are running in demonstration mode.
+  3. The DEMO user executes demonstration workflows for warehouse and electronic invoicing features.
+  4. Simulated document generation or dispatch outputs are resolved locally without sending real traffic to live SUNAT endpoints or creating tax obligations.
+  5. The DEMO user inspects the demonstration outputs.
 - **Alternative / Exception Flows**:
   - *3a. DEMO user attempts to access production database*: The system explicitly blocks access and enforces sandbox boundaries.
-- **Postconditions**: Production records, legacy databases, and live tax authority endpoints remain completely untouched.
-- **Open Questions**: [Q-03](file:///c:/Users/LOQ/Documents/GitHub/Examen/docs/01-open-questions.md#category-a-scope-and-functional-boundaries).
+- **Postconditions**: Real historical records, production databases, and external tax authorities remain completely unaltered.
+- **Open Questions**: [Q-03](file:///c:/Users/LOQ/Documents/GitHub/Examen/docs/01-open-questions.md#category-a-scope-and-functional-boundaries) (Confirmation of credentials, roles, permissions, personal/mock data, and expected demonstration workflows).
+
 
 ---
 

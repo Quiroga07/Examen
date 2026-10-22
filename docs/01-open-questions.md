@@ -25,13 +25,15 @@ To maintain architectural integrity, **no assumptions** will be made on any of t
     - *Guía de Remisión Remitente* (Code 09) and/or *Guía de Remisión Transportista* (Code 31)?
   - *Impact*: Governs document entity schemas, UBL 2.1 templates, and tax catalog mappings.
 
-- **Q-03: What are the exact requirements and constraints for the DEMO user?**
-  - *Context*: The assessment mandates use cases reflecting electronic invoicing users and explicitly requests a DEMO user.
+- **Q-03: What are the exact credentials, roles, permissions, and test workflows for the DEMO user?**
+  - *Context*: The assessment explicitly requests use cases based on the needs of electronic invoicing users and specifically mentions a DEMO user. However, the assessment specifies zero credentials, roles, permissions, personal data, or test workflows.
   - *Question*:
-    - What permissions, roles, and visual indicators must accompany the DEMO user?
-    - Should the DEMO user operate against an isolated in-memory or sandbox database with preloaded mock products and transactions?
-    - Is the DEMO user permitted to trigger simulated SUNAT XML dispatch, or should external dispatches be blocked/mocked?
-  - *Impact*: Determines authentication design, multi-tenant/sandbox data segregation, and security policies.
+    - What credentials (e.g., username, password, or direct login bypass) should be assigned to the DEMO user?
+    - What specific role(s) and permission set should the DEMO user possess (e.g., read-only inspection, mock warehouse movements, or simulated invoice generation)?
+    - What test data or personal data (if any) should be associated with the DEMO user, or should generic mock data be preloaded?
+    - What exact demonstration workflows (e.g., end-to-end invoice simulation, warehouse dispatch simulation) are expected during evaluation?
+    - Should the DEMO user operate in a completely isolated sandbox database with external dispatches mocked/blocked to prevent any live tax emission?
+  - *Impact*: Determines authentication design, permission matrix, sandbox data segregation, and demonstration state management.
 
 ---
 
@@ -110,12 +112,14 @@ To maintain architectural integrity, **no assumptions** will be made on any of t
     - Will official SUNAT test SOL credentials (RUC 20xxxxxxxx, Usuario SOL, Clave SOL) and test digital certificates (`.pfx` / `.p12`) be supplied by the course?
   - *Impact*: Determines whether digital signing libraries (XMLDSig) and secure keystores must be implemented locally or delegated to a service adapter.
 
-- **Q-13: What RUC validation mechanism is authorized?**
-  - *Context*: The legacy system exhibits difficulty validating RUC numbers.
+- **Q-13: What specific RUC validation mechanism, external service, or integration method is authorized?**
+  - *Context*: The assessment identifies "difficulty validating RUC numbers" as a critical legacy deficiency, making RUC validation a confirmed functional requirement (`FR-007`). However, the assessment does not define the exact validation rules, whether an external SUNAT service must be queried, or the authorized integration method. In accordance with project rules, no external SUNAT endpoints, web-scraping routines, or unverified protocols may be invented.
   - *Question*:
-    - Is offline mathematical validation (11-digit format, valid prefix 10/15/17/20, and Modulo 11 check digit) sufficient?
-    - Or is online validation required against the official SUNAT RUC consultation service (*Padrón Reducido SUNAT* or SUNAT REST API)?
-  - *Impact*: Defines whether RUC validation is a self-contained value object algorithm or an external integration adapter.
+    - Is statutory offline mathematical validation (11-digit numeric format, valid prefixes 10/15/17/20, and Modulo 11 check digit verification) sufficient for evaluation?
+    - Is an online verification query required against an official SUNAT service (such as SUNAT's *Padrón Reducido RUC* dataset or SUNAT REST API) to verify contributor state (*Activo*) and condition (*Habido*)?
+    - If an external SUNAT endpoint or integration method is required, what is the official URL, protocol, and required authentication token/credentials provided for evaluation?
+    - How should validation handle offline network conditions or temporary SUNAT service unavailability?
+  - *Impact*: Governs whether RUC validation is encapsulated as an offline domain Value Object rule or implemented via an asynchronous external network adapter.
 
 - **Q-14: How should legacy internal document numbers relate to legal SUNAT series numbering?**
   - *Context*: The legacy system tracks "internal document numbers", while SUNAT electronic invoicing requires standardized series (e.g., F### for Facturas, B### for Boletas, T### for Remission Guides) with an 8-digit sequential correlative.

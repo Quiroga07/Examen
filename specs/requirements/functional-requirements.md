@@ -75,10 +75,10 @@ No visual FoxPro schemas, tax rates, codes, or technology decisions are invented
 #### `FR-007`: Validate Taxpayer RUC Numbers
 - **Source**: Teacher Assessment
 - **Status**: Confirmed
-- **Evidence from Context**: `docs/00-context-and-scope.md` Section 2.1, Item 3: *"The legacy system suffers from critical tax compliance ... deficiencies: Inability/difficulty in validating RUC numbers (Registro Único de Contribuyentes)."*
-- **Description**: The system shall validate RUC identification numbers entered for commercial and electronic billing transactions, verifying structure, valid 11-digit length, legal prefix, and checksum algorithms.
-- **Acceptance Criterion**: The validation algorithm rejects invalid lengths, non-numeric strings, invalid legal prefixes (e.g., other than 10, 15, 17, 20), and failed Modulo 11 check digits prior to document generation.
-- **Open Questions**: [Q-13](file:///c:/Users/LOQ/Documents/GitHub/Examen/docs/01-open-questions.md#category-d-peruvian-tax-compliance--sunat-integration) (Offline Modulo 11 check vs. online SUNAT consultation).
+- **Evidence from Context**: `docs/00-context-and-scope.md` Section 2.1, Item 3: *"The legacy system suffers from critical tax compliance and electronic document issues: difficulty validating RUC numbers (Registro Único de Contribuyentes)."*
+- **Description**: The system shall validate RUC identification numbers entered for commercial and electronic billing transactions, rejecting non-conforming inputs prior to document issuance.
+- **Acceptance Criterion**: Customer RUC inputs are validated against verified legal identity standards; invalid numbers are rejected with diagnostic error notifications without assuming unverified external endpoints or integration methods.
+- **Open Questions**: [Q-13](file:///c:/Users/LOQ/Documents/GitHub/Examen/docs/01-open-questions.md#category-d-peruvian-tax-compliance--sunat-integration) (Clarification of mandated validation mechanism: offline Modulo 11 check digit calculation vs. online SUNAT padrón consultation vs. external API).
 
 #### `FR-008`: Verify and Calculate Applicable Taxes (IGV and ISC)
 - **Source**: Teacher Assessment
@@ -135,13 +135,14 @@ No visual FoxPro schemas, tax rates, codes, or technology decisions are invented
 - **Acceptance Criterion**: Users cannot access or execute operations outside their designated invoicing and warehouse roles.
 - **Open Questions**: [Q-03](file:///c:/Users/LOQ/Documents/GitHub/Examen/docs/01-open-questions.md#category-a-scope-and-functional-boundaries) (Formal matrix of user roles).
 
-#### `FR-014`: Dedicated DEMO User and Isolated Sandbox Operation
+#### `FR-014`: Dedicated DEMO User Profile and Safe Demonstration Operation
 - **Source**: Teacher Assessment
 - **Status**: Confirmed
 - **Evidence from Context**: `docs/00-context-and-scope.md` Section 2.1, Item 6: *"It also requests use cases based on the needs of electronic invoicing users and mentions a DEMO user."*
-- **Description**: The system shall provide an explicit DEMO user profile allowing evaluators or trainees to execute invoicing and warehouse flows in a safe sandbox mode without creating official tax liabilities or altering production data.
-- **Acceptance Criterion**: A user authenticated as DEMO can complete transactions with simulated outputs, clearly watermarked/flagged as demonstration data, without issuing legal tax documents or corrupting real historical records.
-- **Open Questions**: [Q-03](file:///c:/Users/LOQ/Documents/GitHub/Examen/docs/01-open-questions.md#category-a-scope-and-functional-boundaries) (Sandbox database vs. in-memory seed dataset for DEMO user).
+- **Description**: The system shall provide an explicit DEMO user profile allowing evaluators or trainees to execute invoicing and warehouse workflows in a safe demonstration mode without creating official tax liabilities, mutating production data, or transmitting live data to tax authorities.
+- **Acceptance Criterion**: A user operating under the DEMO user profile can execute demonstration workflows with simulated outputs, without issuing legally binding tax documents or altering real historical records. No credentials, permissions, personal data, or arbitrary workflows are assumed beyond the explicit DEMO context requested.
+- **Open Questions**: [Q-03](file:///c:/Users/LOQ/Documents/GitHub/Examen/docs/01-open-questions.md#category-a-scope-and-functional-boundaries) (Confirmation of credentials, roles, permissions, test data, and expected demonstration workflows).
+
 
 ---
 
@@ -213,7 +214,7 @@ No visual FoxPro schemas, tax rates, codes, or technology decisions are invented
 | `FR-004` | Outbound Dispatches | Assessment | Confirmed | Stock decrements, negative stock prevented |
 | `FR-005` | Internal Tracking | Assessment | Confirmed | Unique, sequential internal document numbers |
 | `FR-006` | Wholesale & Retail | Assessment | Confirmed | Dual-mode support for B2B and B2C flows |
-| `FR-007` | RUC Validation | Assessment | Confirmed | Modulo 11 and structural validation rejection |
+| `FR-007` | RUC Validation | Assessment | Confirmed | Rejection of invalid tax identity numbers without unverified endpoints (subject to Q-13) |
 | `FR-008` | Tax Math (IGV/ISC) | Assessment | Confirmed | 2-decimal rounded tax calculation equals formula |
 | `FR-009` | XML Generation | Assessment | Confirmed | Valid UBL XML produced without manual edits |
 | `FR-010` | SUNAT/PSE Interface| Assessment | Confirmed | Interface sends payload and parses CDR response |

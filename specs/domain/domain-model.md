@@ -164,7 +164,7 @@ In accordance with the spec-first methodology:
   - Length must be exactly 11 digits.
   - Must consist solely of numeric characters `0-9`.
   - Prefix (first 2 digits) must match legal person/natural person codes: `10`, `15`, `17`, or `20`.
-  - Checksum validation: The 11th digit must equal the Modulo 11 check digit calculated across the first 10 digits using factors `[5, 4, 3, 2, 7, 6, 5, 4, 3, 2]`.
+  - Checksum validation: Evaluated in accordance with statutory validation logic (e.g., Modulo 11 check digit). Whether validation is performed purely via this offline checksum algorithm or supplemented/replaced by online SUNAT consultation is an open question ([Q-13](file:///c:/Users/LOQ/Documents/GitHub/Examen/docs/01-open-questions.md#category-d-peruvian-tax-compliance--sunat-integration)); no external endpoints or unconfirmed methods are assumed.
 
 #### Concept: `TaxBreakdown` (Value Object)
 - **Status**: Confirmed
@@ -251,7 +251,7 @@ In accordance with the spec-first methodology:
 | `INV-001` | Product | Unit price must be non-negative; description cannot be empty | `FR-001`, `FR-006` |
 | `INV-002` | Inventory | Stock movements are immutable once posted; timestamp cannot be future | `FR-002`, `AC-002` |
 | `INV-003` | Inventory | Outbound sales cannot result in negative stock unless authorized | `FR-004`, `AC-004` |
-| `INV-004` | Billing | Customer RUC must satisfy 11-digit Modulo 11 checksum algorithm | `FR-007`, `AC-007` |
+| `INV-004` | Billing | Customer RUC must satisfy validated statutory criteria without unverified endpoints (per Q-13) | `FR-007`, `AC-007` |
 | `INV-005` | Billing | Total payable must equal sum of line taxable bases + taxes with 0.00 drift | `FR-008`, `NFR-009`, `AC-008` |
 | `INV-006` | Billing | Signed or accepted electronic invoices are permanently immutable | `FR-012`, `NFR-012` |
 | `INV-007` | Sandbox | DEMO user actions must execute in isolation without live tax emissions | `FR-014`, `NFR-011`, `AC-013` |

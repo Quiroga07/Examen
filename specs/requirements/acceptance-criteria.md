@@ -57,14 +57,12 @@ This document formalizes the verifiable acceptance criteria for ABC Software Cor
 
 ### 2.2 Tax Compliance, RUC Validation, and XML Generation
 
-#### `AC-007`: RUC Number Structural and Checksum Validation
+#### `AC-007`: RUC Number Structural and Identity Validation
 - **Target Requirement**: `FR-007`, `UC-003`
 - **Source**: Teacher Assessment
 - **Status**: Confirmed
-- **Verification Method**: Automated Test
-- **Criterion**: Given a series of test RUC inputs:
-  1. Valid 11-digit RUCs with legal prefixes (10, 15, 17, 20) and correct Modulo 11 check digits must be accepted.
-  2. Strings with length $\ne 11$, non-numeric characters, invalid prefixes, or failed check digits must be rejected with descriptive validation errors.
+- **Verification Method**: Automated Test / Demonstration
+- **Criterion**: Given a candidate RUC input, when validated by the system, then the input is verified against confirmed statutory criteria and invalid numbers are rejected prior to invoice generation, without assuming unverified external endpoints or integration methods (specific verification mechanism subject to confirmation under [Q-13](file:///c:/Users/LOQ/Documents/GitHub/Examen/docs/01-open-questions.md#category-d-peruvian-tax-compliance--sunat-integration)).
 
 #### `AC-008`: Mathematical Precision in Tax Calculations (IGV and ISC)
 - **Target Requirement**: `FR-008`, `NFR-009`, `UC-004`
@@ -114,11 +112,12 @@ This document formalizes the verifiable acceptance criteria for ABC Software Cor
 - **Source**: Teacher Assessment
 - **Status**: Confirmed
 - **Verification Method**: Demonstration / Test
-- **Criterion**: When logged in as the DEMO user:
-  1. All operations execute against an isolated test/in-memory store.
-  2. All generated document previews and printouts display an indelible watermark ("DEMO / NOT VALID FOR TAX").
-  3. External network calls to live production tax endpoints are blocked or routed to local mocks.
-  4. Real historical data remains completely unaltered.
+- **Criterion**: When operating under the requested DEMO user profile:
+  1. Operations execute within a demonstration environment without altering production records or legacy files.
+  2. External network calls to live production tax endpoints are blocked or resolved locally.
+  3. No official tax liabilities are generated.
+  4. No credentials, permissions, personal data, or demo workflows are assumed beyond the explicit DEMO context requested ([Q-03](file:///c:/Users/LOQ/Documents/GitHub/Examen/docs/01-open-questions.md#category-a-scope-and-functional-boundaries)).
+
 
 ---
 

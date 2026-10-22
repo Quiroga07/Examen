@@ -96,6 +96,7 @@ In accordance with the spec-first methodology:
 - **Status**: Confirmed
 - **Traces to**: `FR-007`, `UC-003`, `AC-007`, `Q-13`
 - **Purpose**: Contract for validating Peruvian single taxpayer registration numbers (RUC).
+- **Specification Constraint**: In accordance with the teacher's assessment, no external SUNAT endpoints, scraping routines, or unverified integration methods are invented. The specific validation mechanism (statutory offline check digit vs. online SUNAT consultation) is subject to confirmation under [Q-13](file:///c:/Users/LOQ/Documents/GitHub/Examen/docs/01-open-questions.md#category-d-peruvian-tax-compliance--sunat-integration).
 
 #### `ValidateRucRequestDto`
 | Field Name | Type | Multiplicity | Constraints / Rules | Description |
@@ -197,6 +198,7 @@ In accordance with the spec-first methodology:
 - **Status**: Confirmed
 - **Traces to**: `FR-014`, `NFR-011`, `UC-007`, `AC-013`, `Q-03`
 - **Purpose**: Payloads managing isolated evaluation sandbox sessions for the DEMO user.
+- **Specification Constraint**: In accordance with the teacher's assessment, no credentials, roles, permissions, personal data, or specific demonstration workflows are invented. All operational parameters are subject to confirmation under [Q-03](file:///c:/Users/LOQ/Documents/GitHub/Examen/docs/01-open-questions.md#category-a-scope-and-functional-boundaries).
 
 #### `DemoSessionInitDto`
 | Field Name | Type | Multiplicity | Description |

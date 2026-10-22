@@ -45,7 +45,7 @@ The following standard SUNAT catalogs are officially incorporated into the syste
 
 | Req ID | Document / Process | SUNAT Rule / Field Definition | UBL 2.1 XML Element Path (XPath) | Validation & Compliance Rule | Source Origin | Verification Status |
 |---|---|---|---|---|---|---|
-| `FR-007` | RUC Validation | Taxpayer legal identifier verification (Cat. 06 Code 6) | `/Invoice/cac:AccountingCustomerParty/cac:Party/cac:PartyIdentification/cbc:ID` | Must be an 11-digit numeric string with prefix 10, 15, 17, or 20 matching Modulo 11 check digit. | Assessment | **Confirmed** (RS 097-2012) |
+| `FR-007` | RUC Validation | Taxpayer legal identifier verification (Cat. 06 Code 6) | `/Invoice/cac:AccountingCustomerParty/cac:Party/cac:PartyIdentification/cbc:ID` | Must be an 11-digit numeric string with valid legal prefix (10, 15, 17, 20). Exact verification mechanism (offline Modulo 11 vs. online consultation) is subject to Q-13 without assuming unverified external endpoints. | Assessment | **Confirmed** (RS 097-2012) |
 | `FR-008` | Tax Math (IGV) | 18% IGV calculation on taxable base (Cat. 05 Code 1000, Cat. 07 Code 10) | `/Invoice/cac:TaxTotal/cac:TaxSubtotal/cbc:TaxAmount` | $\text{TaxAmount} = \text{TaxableAmount} \times 0.18$. Arbitrary-precision math with half-up rounding to 2 decimals. | Assessment | **Confirmed** (Ley IGV, Art. 17) |
 | `FR-008` | Tax Math (ISC) | Selective Consumption Tax calculation (Cat. 05 Code 2000) | `/Invoice/cac:TaxTotal/cac:TaxSubtotal[cac:TaxCategory/cac:TaxScheme/cbc:ID='2000']/cbc:TaxAmount` | Calculated per official ISC schedule (Sistema Al Valor or Específico). Incurred prior to IGV if applicable. | Assessment | **Confirmed** (Ley ISC) |
 | `FR-009` | UBL Standard Header | Official document type and numbering series | `/Invoice/cbc:UBLVersionID`<br>`/Invoice/cbc:CustomizationID`<br>`/Invoice/cbc:ID`<br>`/Invoice/cbc:InvoiceTypeCode` | UBLVersionID = `2.1`; CustomizationID = `2.0`; InvoiceTypeCode from Cat. 01 (`01` or `03`). ID format: `[F|B]###-########`. | Assessment | **Confirmed** (RS 117-2017) |
@@ -77,7 +77,10 @@ The following standard SUNAT catalogs are officially incorporated into the syste
 
 ## 6. Mathematical & Algorithm Validation Specifications
 
-### 6.1 Taxpayer RUC Checksum Algorithm (Modulo 11)
+### 6.1 Taxpayer RUC Checksum Algorithm (Modulo 11 - Subject to Verification)
+> **Regulatory Notice on RUC Verification**:
+> The mathematical Modulo 11 check digit algorithm detailed below represents the established Peruvian statutory verification algorithm for RUC numbers. However, in accordance with assessment rules, the system does not invent whether this offline algorithm or an online SUNAT padrón consultation service is required; this is formally recorded as an Open Question ([Q-13](file:///c:/Users/LOQ/Documents/GitHub/Examen/docs/01-open-questions.md#category-d-peruvian-tax-compliance--sunat-integration)). No external SUNAT endpoints or unverified integration methods are assumed.
+
 - **Input**: 11-digit string $d_1 d_2 d_3 d_4 d_5 d_6 d_7 d_8 d_9 d_{10} d_{11}$.
 - **Weights Vector**: $W = [5, 4, 3, 2, 7, 6, 5, 4, 3, 2]$.
 - **Formula**:

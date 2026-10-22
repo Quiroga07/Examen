@@ -80,10 +80,10 @@ Every item in this register identifies the ambiguous statutory requirement, the 
 - **Document Type Affected**: Customer tax identity verification (`FR-007`, `UC-003`).
 - **Regulatory Reference**: SUNAT RUC Verification Guidelines.
 - **Ambiguity**:
-  The assessment notes "difficulty validating RUC numbers". It is unclear whether:
-  - An offline structural Modulo 11 check digit validator is sufficient, or
-  - An online API consultation against SUNAT's taxpayer registry (*Padrón Reducido RUC*) to verify *Estado del Contribuyente* (Activo) and *Condición de Domicilio* (Habido) is required.
-- **Architectural Impact**: Offline validation is a pure domain value object calculation; online validation requires an external HTTP adapter and network dependency.
+  The assessment notes "difficulty validating RUC numbers". In accordance with project directives, no external SUNAT endpoints, web-scraping routines, or integration methods are invented. It must be clarified whether:
+  - An offline statutory Modulo 11 check digit validator is sufficient, or
+  - An online API consultation against SUNAT's taxpayer registry (*Padrón Reducido RUC*) to verify *Estado del Contribuyente* (Activo) and *Condición de Domicilio* (Habido) is required, along with the authorized endpoint and credentials.
+- **Architectural Impact**: Offline validation is an internal domain value object calculation; online validation requires an external network adapter and authentication credentials.
 - **Cross-Reference**: [Q-13 in docs/01-open-questions.md](file:///c:/Users/LOQ/Documents/GitHub/Examen/docs/01-open-questions.md#category-d-peruvian-tax-compliance--sunat-integration).
 
 ---
