@@ -1,0 +1,1129 @@
+openapi: 3.0.3
+info:
+  title: ABC Software Corp. - Enterprise Management & Electronic Invoicing API
+  description: |
+    Formal REST API contract for ABC Software Corp.'s modernized enterprise system.
+    This specification establishes the interface boundaries for warehouse inventory movements,
+    product catalog management, taxpayer RUC verification, Peruvian electronic invoice generation (Facturas and Boletas),
+    demonstration sandbox simulation, and non-destructive legacy data migration reconciliation.
+
+    ### Architectural & Compliance Rules:
+    1. **Project Standard**: OpenAPI 3.0.3 is selected as the baseline contract standard unless the course evaluation committee specifies otherwise.
+    2. **Strict Internal Scope**: Defines only endpoints belonging to this application. No external SUNAT, PSE, or OSE service URLs or endpoints are invented.
+    3. **Regulatory Segregation**: Electronic Remission Guide (GRE / Despatch Advice) endpoints are excluded from this confirmed API contract and documented conditionally in `specs/api/api-design.md` pending confirmation of the evaluated scope (Q-01).
+    4. **Traceability**: Every operation declares `x-requirement-ids` mapping directly to confirmed requirements (`FR-xxx`, `NFR-xxx`, `UC-xxx`, `AC-xxx`).
+    5. **Security Scheme Status**: Authentication schemes (e.g., Bearer JWT vs. Session Cookies) are marked as pending confirmation in Q-07 and Q-21; no unverified security mechanisms or user credentials are hardcoded.
+  version: 1.0.0
+  contact:
+    name: Architecture & Engineering Team - ABC Software Corp.
+servers:
+  - url: /api/v1
+    description: Current Application Base Path (Modular Monolith / REST Adapter)
+
+paths:
+  # =========================================================================
+  # 1. Warehouse & Inventory Management
+  # =========================================================================
+  /warehouse/inbound-movements:
+    post:
+      summary: Record incoming warehouse goods
+      description: |
+        Records incoming inventory from suppliers or internal transfers.
+        Generates an immutable transaction record, assigns a sequential internal tracking voucher,
+        and increments the physical stock balance for each line item.
+      operationId: recordInboundMovement
+      x-requirement-ids:
+        - FR-001
+        - FR-002
+        - FR-003
+        - FR-005
+        - NFR-009
+        - UC-001
+        - AC-003
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateInboundMovementRequest'
+      responses:
+        '201':
+          description: Inbound movement recorded and stock successfully incremented
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WarehouseMovementResponse'
+        '400':
+          description: Invalid request payload, missing mandatory fields, or future timestamp
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Validation error (e.g., unknown product ID, quantity <= 0)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal processing failure
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /warehouse/outbound-movements:
+    post:
+      summary: Record outgoing warehouse goods
+      description: |
+        Records merchandise dispatches for wholesale orders, retail sales, or operational adjustments.
+        Verifies stock availability, decrements inventory balances, prevents unauthorized negative stock,
+        and issues an internal tracking number.
+      operationId: recordOutboundMovement
+      x-requirement-ids:
+        - FR-002
+        - FR-004
+        - FR-005
+        - FR-006
+        - UC-002
+        - AC-004
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateOutboundMovementRequest'
+      responses:
+        '201':
+          description: Outbound movement recorded and stock decremented
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WarehouseMovementResponse'
+        '400':
+          description: Invalid request payload or formatting error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Conflict due to insufficient stock balance
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Unprocessable entity (e.g., missing customer on wholesale operation)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal processing failure
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  # =========================================================================
+  # 2. Product Catalog Management
+  # =========================================================================
+  /products:
+    get:
+      summary: List product catalog items
+      description: Retrieves the active commercial catalog of groceries and general merchandise.
+      operationId: listProducts
+      x-requirement-ids:
+        - FR-001
+        - FR-006
+        - AC-001
+      parameters:
+        - name: activeOnly
+          in: query
+          required: false
+          schema:
+            type: boolean
+            default: true
+          description: Filter only active commercial products
+      responses:
+        '200':
+          description: Array of catalog products
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProductCatalogItem'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    post:
+      summary: Create new catalog product
+      description: Adds a new grocery or merchandise item to the central catalog with unit price and tax classification.
+      operationId: createProduct
+      x-requirement-ids:
+        - FR-001
+        - FR-006
+        - FR-011
+        - AC-001
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductCatalogItem'
+      responses:
+        '201':
+          description: Product successfully created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductCatalogItem'
+        '400':
+          description: Invalid product attributes or price < 0
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Product code (SKU) already exists
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /products/{productId}:
+    get:
+      summary: Get product by ID
+      description: Retrieves detailed attributes for a specific product item.
+      operationId: getProductById
+      x-requirement-ids:
+        - FR-001
+        - AC-001
+      parameters:
+        - name: productId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Unique product identifier
+      responses:
+        '200':
+          description: Product retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductCatalogItem'
+        '404':
+          description: Product not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  # =========================================================================
+  # 3. Tax Identity & RUC Validation
+  # =========================================================================
+  /tax/ruc/validate:
+    post:
+      summary: Validate Peruvian Taxpayer RUC number
+      description: |
+        Evaluates a candidate 11-digit Peruvian single taxpayer registration number (RUC).
+        Verifies numerical length, legal identity prefixes (10, 15, 17, 20), and statutory check criteria.
+        
+        *Notice on Rules & Integration*: In accordance with the teacher's assessment, no external SUNAT scrape
+        endpoints or unverified methods are assumed. Details on whether validation executes purely via offline
+        Modulo 11 check digit or via online SUNAT padrón queries are subject to confirmation under Q-13.
+      operationId: validateRucNumber
+      x-requirement-ids:
+        - FR-007
+        - NFR-009
+        - UC-003
+        - AC-007
+        - Q-13
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ValidateRucRequest'
+      responses:
+        '200':
+          description: RUC validation result successfully evaluated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidateRucResponse'
+        '400':
+          description: Malformed input (not an 11-digit numeric string)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal validation service error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  # =========================================================================
+  # 4. Peruvian Electronic Invoicing (CPE)
+  # =========================================================================
+  /invoices:
+    post:
+      summary: Issue Electronic Payment Receipt (Factura or Boleta)
+      description: |
+        Calculates statutory Peruvian taxes (IGV 18%, verified ISC), validates customer tax identity,
+        assigns standardized series and correlative numbering, generates compliant UBL 2.1 XML,
+        applies digital signature (XMLDSig), and persists the electronic document in DRAFT or SIGNED status.
+      operationId: issueElectronicInvoice
+      x-requirement-ids:
+        - FR-006
+        - FR-007
+        - FR-008
+        - FR-009
+        - FR-011
+        - FR-012
+        - NFR-009
+        - NFR-010
+        - UC-004
+        - UC-005
+        - AC-007
+        - AC-008
+        - AC-009
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IssueElectronicInvoiceRequest'
+      responses:
+        '201':
+          description: Electronic invoice issued, taxes calculated, and XML generated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ElectronicInvoiceResponse'
+        '400':
+          description: Missing mandatory invoice headers, line items, or customer identity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Tax calculation violation, invalid RUC checksum, or unmapped SUNAT catalog code
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: XML generation or digital signing exception
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /invoices/{documentId}:
+    get:
+      summary: Get electronic invoice status and details
+      description: Retrieves invoice totals, tax breakdown, current lifecycle state, and transmission CDR details.
+      operationId: getInvoiceById
+      x-requirement-ids:
+        - FR-012
+        - AC-009
+      parameters:
+        - name: documentId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: System unique invoice identifier
+      responses:
+        '200':
+          description: Invoice details retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ElectronicInvoiceResponse'
+        '404':
+          description: Document not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /invoices/{documentId}/xml:
+    get:
+      summary: Download generated UBL 2.1 XML document
+      description: Returns the raw or digitally signed UBL 2.1 XML document corresponding to the invoice.
+      operationId: getInvoiceXml
+      x-requirement-ids:
+        - FR-009
+        - NFR-010
+        - UC-005
+        - AC-009
+      parameters:
+        - name: documentId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: System unique invoice identifier
+      responses:
+        '200':
+          description: UBL 2.1 XML document payload
+          content:
+            application/xml:
+              schema:
+                type: string
+        '404':
+          description: Invoice or XML payload not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /invoices/{documentId}/transmit:
+    post:
+      summary: Transmit invoice to authorized electronic invoicing provider
+      description: |
+        Packages the signed XML payload into a standard ZIP container, sends it to the configured
+        tax integration endpoint (SUNAT Beta, PSE/OSE, or local simulator per Q-12), parses the returned
+        CDR (Constancia de Recepción), and transitions the document state to ACCEPTED or REJECTED.
+      operationId: transmitInvoice
+      x-requirement-ids:
+        - FR-010
+        - FR-012
+        - NFR-012
+        - UC-006
+        - AC-010
+        - Q-12
+      parameters:
+        - name: documentId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: System unique invoice identifier
+      responses:
+        '200':
+          description: Transmission completed and CDR response processed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ElectronicInvoiceResponse'
+        '404':
+          description: Document not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Document is not in a transmittable status (e.g., already accepted or not signed)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '502':
+          description: External provider gateway or communication failure
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  # =========================================================================
+  # 5. Demonstration Mode & Evaluator Sandbox
+  # =========================================================================
+  /demo/sessions:
+    post:
+      summary: Initialize isolated DEMO user simulation session
+      description: |
+        Activates the requested DEMO user profile in safe demonstration mode.
+        Executes isolated warehouse and invoicing simulations without altering production data,
+        modifying legacy files, or dispatching live traffic to tax authorities.
+        
+        *Notice on Constraints*: No credentials, roles, permissions, personal data, or arbitrary
+        workflows are invented. Specific parameters are subject to confirmation under Q-03.
+      operationId: initDemoSession
+      x-requirement-ids:
+        - FR-014
+        - NFR-011
+        - UC-007
+        - AC-013
+        - Q-03
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DemoSessionInit'
+      responses:
+        '201':
+          description: Sandbox session initialized and simulated document outputs generated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DemoSimulationResult'
+        '400':
+          description: Invalid simulation request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Simulation sandbox engine error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  # =========================================================================
+  # 6. Legacy Migration & Reconciliation
+  # =========================================================================
+  /migration/runs:
+    post:
+      summary: Trigger non-destructive legacy data migration cycle
+      description: |
+        Executes the read-only staging extraction from the Visual FoxPro 9 database.
+        Verifies SHA-256 file immutability, transforms validated records into domain entities,
+        logs non-conforming rows to the exception repository, and proves mathematical reconciliation:
+        Total Source = Migrated + Rejected.
+      operationId: executeMigrationRun
+      x-requirement-ids:
+        - FR-015
+        - FR-016
+        - NFR-007
+        - NFR-008
+        - UC-008
+        - AC-014
+        - AC-015
+      responses:
+        '200':
+          description: Migration executed and reconciliation summary compiled
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MigrationReconciliationSummary'
+        '409':
+          description: Legacy database file hash mismatch or file lock detected
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Migration pipeline execution failure
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /migration/runs/{migrationRunId}:
+    get:
+      summary: Get migration audit and reconciliation report
+      description: Retrieves the detailed audit metrics and reconciliation totals for a past migration run.
+      operationId: getMigrationRunById
+      x-requirement-ids:
+        - FR-016
+        - NFR-008
+        - AC-015
+      parameters:
+        - name: migrationRunId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Unique migration execution batch ID
+      responses:
+        '200':
+          description: Reconciliation audit report retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MigrationReconciliationSummary'
+        '404':
+          description: Migration batch ID not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+components:
+  schemas:
+    # -----------------------------------------------------------------------
+    # Warehouse Schemas
+    # -----------------------------------------------------------------------
+    MovementLine:
+      type: object
+      required:
+        - productId
+        - quantity
+      properties:
+        productId:
+          type: string
+          description: Identifier of product item
+          example: PROD-001
+        quantity:
+          type: number
+          format: double
+          minimum: 0.01
+          description: Physical quantity
+          example: 120.00
+        unitCost:
+          type: number
+          format: double
+          minimum: 0.00
+          nullable: true
+          description: Unit acquisition cost (optional per Q-18)
+          example: 4.50
+
+    CreateInboundMovementRequest:
+      type: object
+      required:
+        - transactionTimestamp
+        - lines
+      properties:
+        transactionTimestamp:
+          type: string
+          format: date-time
+          description: Timestamp of receipt (cannot be in future)
+          example: '2026-10-22T08:30:00Z'
+        internalTrackingNumber:
+          type: string
+          nullable: true
+          description: Optional pre-assigned internal document number
+          example: REC-2026-0041
+        supplierReference:
+          type: string
+          maxLength: 50
+          nullable: true
+          description: Supplier external invoice or guide voucher
+          example: F001-0012948
+        lines:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/MovementLine'
+
+    CreateOutboundMovementRequest:
+      type: object
+      required:
+        - transactionTimestamp
+        - operationMode
+        - lines
+      properties:
+        transactionTimestamp:
+          type: string
+          format: date-time
+          description: Timestamp of dispatch
+          example: '2026-10-22T09:15:00Z'
+        operationMode:
+          type: string
+          enum:
+            - WHOLESALE
+            - RETAIL
+          description: Commercial sales mode (FR-006)
+          example: WHOLESALE
+        customerIdentity:
+          type: string
+          nullable: true
+          description: Customer identity (mandatory for wholesale sales)
+          example: '20123456789'
+        lines:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/MovementLine'
+
+    WarehouseMovementResponse:
+      type: object
+      required:
+        - movementId
+        - internalTrackingNumber
+        - movementType
+        - transactionTimestamp
+        - totalItemCount
+        - totalQuantity
+        - status
+      properties:
+        movementId:
+          type: string
+          description: Immutable system movement ID
+          example: mov-987a-bc12
+        internalTrackingNumber:
+          type: string
+          description: Assigned sequential tracking voucher (FR-005)
+          example: VFP-MV-000842
+        movementType:
+          type: string
+          enum:
+            - INBOUND_PURCHASE
+            - OUTBOUND_SALE
+            - ADJUSTMENT
+          example: INBOUND_PURCHASE
+        transactionTimestamp:
+          type: string
+          format: date-time
+          example: '2026-10-22T08:30:00Z'
+        totalItemCount:
+          type: integer
+          example: 1
+        totalQuantity:
+          type: number
+          format: double
+          example: 120.00
+        status:
+          type: string
+          enum:
+            - POSTED
+          example: POSTED
+
+    ProductCatalogItem:
+      type: object
+      required:
+        - productId
+        - productCode
+        - description
+        - unitOfMeasure
+        - unitPrice
+        - currency
+        - taxCategory
+        - isActive
+      properties:
+        productId:
+          type: string
+          example: prod-001
+        productCode:
+          type: string
+          maxLength: 30
+          example: GROC-RICE-50K
+        description:
+          type: string
+          maxLength: 250
+          example: Arroz Superior 50kg Saco
+        unitOfMeasure:
+          type: string
+          description: SUNAT Cat. 03 code (e.g., KGM, NIU)
+          example: KGM
+        unitPrice:
+          type: number
+          format: double
+          minimum: 0.00
+          description: Base sales price
+          example: 165.00
+        currency:
+          type: string
+          enum:
+            - PEN
+            - USD
+          example: PEN
+        taxCategory:
+          type: string
+          description: SUNAT Cat. 07 affectation code (e.g., 10 Gravado, 20 Exonerado)
+          example: '10'
+        isActive:
+          type: boolean
+          example: true
+
+    # -----------------------------------------------------------------------
+    # Tax Identity Schemas
+    # -----------------------------------------------------------------------
+    ValidateRucRequest:
+      type: object
+      required:
+        - rucNumber
+      properties:
+        rucNumber:
+          type: string
+          pattern: '^[0-9]{11}$'
+          description: Candidate 11-digit Peruvian RUC string
+          example: '20123456789'
+
+    ValidateRucResponse:
+      type: object
+      required:
+        - rucNumber
+        - isValid
+        - validationMessage
+        - verificationSource
+      properties:
+        rucNumber:
+          type: string
+          example: '20123456789'
+        isValid:
+          type: boolean
+          description: True if length, prefix, and check digit pass
+          example: true
+        validationMessage:
+          type: string
+          example: RUC candidate satisfies statutory validation rules
+        legalPrefix:
+          type: string
+          nullable: true
+          description: Extracted prefix (e.g., 20 Legal Entity, 10 Natural Person)
+          example: '20'
+        verificationSource:
+          type: string
+          enum:
+            - OFFLINE_MODULO_11
+            - ONLINE_SUNAT_PADRON
+          description: Verification mechanism used (subject to Q-13)
+          example: OFFLINE_MODULO_11
+
+    CustomerIdentity:
+      type: object
+      required:
+        - identityType
+        - identityNumber
+        - legalName
+      properties:
+        identityType:
+          type: string
+          enum:
+            - '1' # DNI
+            - '4' # Carnet de Extranjería
+            - '6' # RUC
+            - '7' # Pasaporte
+          description: SUNAT Cat. 06 document type
+          example: '6'
+        identityNumber:
+          type: string
+          description: Customer tax identity number (11 digits for RUC)
+          example: '20123456789'
+        legalName:
+          type: string
+          maxLength: 200
+          description: Legal corporate or natural person name
+          example: Distribuidora Los Andes S.A.C.
+        fiscalAddress:
+          type: string
+          nullable: true
+          description: Legal tax fiscal address (mandatory for wholesale Facturas)
+          example: Av. Nicolás de Piérola 450, Lima, Perú
+
+    # -----------------------------------------------------------------------
+    # Invoicing Schemas
+    # -----------------------------------------------------------------------
+    InvoiceLineItem:
+      type: object
+      required:
+        - lineNumber
+        - productId
+        - description
+        - quantity
+        - unitPrice
+        - taxCategory
+      properties:
+        lineNumber:
+          type: integer
+          minimum: 1
+          example: 1
+        productId:
+          type: string
+          example: prod-001
+        description:
+          type: string
+          example: Arroz Superior 50kg Saco
+        quantity:
+          type: number
+          format: double
+          minimum: 0.01
+          example: 10.00
+        unitPrice:
+          type: number
+          format: double
+          minimum: 0.00
+          description: Unit price excluding tax
+          example: 165.00
+        taxCategory:
+          type: string
+          description: SUNAT Cat. 07 affectation code (e.g., 10 Gravado)
+          example: '10'
+
+    IssueElectronicInvoiceRequest:
+      type: object
+      required:
+        - documentType
+        - series
+        - issueDate
+        - currency
+        - customer
+        - lines
+      properties:
+        documentType:
+          type: string
+          enum:
+            - '01' # Factura
+            - '03' # Boleta de Venta
+          description: SUNAT Cat. 01 code
+          example: '01'
+        series:
+          type: string
+          pattern: '^[FB][0-9A-Z]{3}$'
+          description: Standard series (F### for Facturas, B### for Boletas)
+          example: F001
+        issueDate:
+          type: string
+          format: date-time
+          example: '2026-10-22T10:00:00Z'
+        currency:
+          type: string
+          enum:
+            - PEN
+            - USD
+          example: PEN
+        customer:
+          $ref: '#/components/schemas/CustomerIdentity'
+        lines:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/InvoiceLineItem'
+
+    TaxBreakdown:
+      type: object
+      required:
+        - taxableAmount
+        - igvAmount
+        - iscAmount
+        - exoneratedAmount
+        - inafectAmount
+        - totalDiscounts
+      properties:
+        taxableAmount:
+          type: number
+          format: double
+          minimum: 0.00
+          description: Operations subject to IGV
+          example: 1650.00
+        igvAmount:
+          type: number
+          format: double
+          minimum: 0.00
+          description: Calculated 18% IGV (half-up rounding to 2 decimals)
+          example: 297.00
+        iscAmount:
+          type: number
+          format: double
+          minimum: 0.00
+          description: Calculated Selective Consumption Tax
+          example: 0.00
+        exoneratedAmount:
+          type: number
+          format: double
+          minimum: 0.00
+          description: Exempt operations (Apéndice I Ley IGV)
+          example: 0.00
+        inafectAmount:
+          type: number
+          format: double
+          minimum: 0.00
+          example: 0.00
+        totalDiscounts:
+          type: number
+          format: double
+          minimum: 0.00
+          example: 0.00
+
+    CdrResult:
+      type: object
+      required:
+        - cdrCode
+        - cdrDescription
+        - receivedTimestamp
+      properties:
+        cdrCode:
+          type: string
+          description: '0 = Accepted; 2000-3999 = Rejected'
+          example: '0'
+        cdrDescription:
+          type: string
+          example: La Factura F001-00000042 ha sido aceptada
+        receivedTimestamp:
+          type: string
+          format: date-time
+          example: '2026-10-22T10:01:15Z'
+        cdrFileHash:
+          type: string
+          nullable: true
+          example: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+        notes:
+          type: array
+          nullable: true
+          items:
+            type: string
+
+    ElectronicInvoiceResponse:
+      type: object
+      required:
+        - documentId
+        - legalNumber
+        - documentType
+        - taxSummary
+        - totalPayable
+        - currency
+        - lifecycleStatus
+      properties:
+        documentId:
+          type: string
+          example: inv-550e8400-e29b-41d4
+        legalNumber:
+          type: string
+          example: F001-00000042
+        documentType:
+          type: string
+          enum:
+            - '01'
+            - '03'
+          example: '01'
+        taxSummary:
+          $ref: '#/components/schemas/TaxBreakdown'
+        totalPayable:
+          type: number
+          format: double
+          description: Grand total payable (TaxableBase + Taxes)
+          example: 1947.00
+        currency:
+          type: string
+          enum:
+            - PEN
+            - USD
+          example: PEN
+        lifecycleStatus:
+          type: string
+          enum:
+            - DRAFT
+            - GENERATED
+            - SIGNED
+            - ACCEPTED
+            - REJECTED
+          example: SIGNED
+        xmlDigest:
+          type: string
+          nullable: true
+          example: 3c59dc048e8850243be8079a5c74d079
+        cdrDetails:
+          $ref: '#/components/schemas/CdrResult'
+          nullable: true
+
+    # -----------------------------------------------------------------------
+    # Demonstration Sandbox Schemas
+    # -----------------------------------------------------------------------
+    DemoSessionInit:
+      type: object
+      required:
+        - requestedBy
+      properties:
+        requestedBy:
+          type: string
+          description: Name or evaluator handle
+          example: Evaluator-Demo
+        seedCatalogType:
+          type: string
+          nullable: true
+          description: Preloaded grocery catalog profile
+          example: GROCERY_DEFAULT
+
+    DemoSimulationResult:
+      type: object
+      required:
+        - sessionId
+        - isDemo
+        - watermarkText
+        - simulatedXml
+        - simulatedCdr
+        - productionEmissionsBlocked
+      properties:
+        sessionId:
+          type: string
+          example: demo-sess-10293
+        isDemo:
+          type: boolean
+          example: true
+        watermarkText:
+          type: string
+          example: DEMO / NOT VALID FOR TAX
+        simulatedXml:
+          type: string
+          example: '<Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2">...</Invoice>'
+        simulatedCdr:
+          $ref: '#/components/schemas/CdrResult'
+        productionEmissionsBlocked:
+          type: boolean
+          example: true
+
+    # -----------------------------------------------------------------------
+    # Migration & Reconciliation Schemas
+    # -----------------------------------------------------------------------
+    MigrationReconciliationSummary:
+      type: object
+      required:
+        - migrationRunId
+        - sourceTableName
+        - totalSourceRecords
+        - successfullyMigrated
+        - rejectedRecords
+        - reconciliationFormulaValid
+        - executionTimestamp
+      properties:
+        migrationRunId:
+          type: string
+          example: mig-batch-20261022-01
+        sourceTableName:
+          type: string
+          example: ARTICULOS_VFP
+        totalSourceRecords:
+          type: integer
+          example: 1540
+        successfullyMigrated:
+          type: integer
+          example: 1532
+        rejectedRecords:
+          type: integer
+          example: 8
+        reconciliationFormulaValid:
+          type: boolean
+          description: True if TotalSource == SuccessfullyMigrated + RejectedRecords
+          example: true
+        executionTimestamp:
+          type: string
+          format: date-time
+          example: '2026-10-22T04:15:30Z'
+
+    # -----------------------------------------------------------------------
+    # Standard Error Schema
+    # -----------------------------------------------------------------------
+    ErrorResponse:
+      type: object
+      required:
+        - errorCode
+        - message
+        - timestamp
+      properties:
+        errorCode:
+          type: string
+          description: Machine-readable uppercase error token
+          example: INVALID_RUC_CHECKSUM
+        message:
+          type: string
+          description: Human-readable failure message
+          example: The provided customer RUC does not satisfy statutory validation rules.
+        target:
+          type: string
+          nullable: true
+          description: Specific property or field that caused the error
+          example: customer.identityNumber
+        timestamp:
+          type: string
+          format: date-time
+          example: '2026-10-22T10:30:00Z'
+        details:
+          type: array
+          nullable: true
+          items:
+            type: string
+          example:
+            - 'Modulo 11 check digit calculated: 7, received: 9'

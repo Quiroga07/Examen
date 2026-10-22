@@ -156,6 +156,14 @@ To maintain architectural integrity, **no assumptions** will be made on any of t
   - *Question*: Must the retail module and tax calculation engine support ICBPER line items and tax subtotals?
   - *Impact*: Adds an additional tax category and calculation rule to the billing engine.
 
+- **Q-21: What authentication and authorization scheme is required for the REST API?**
+  - *Context*: The system specification introduces an OpenAPI 3.0.3 contract for future desktop/mobile client integration and modular monolith evolution. However, the assessment does not state the authentication standard. In accordance with project rules, no security schemes or credentials may be invented.
+  - *Question*: What authentication and authorization standard is required for REST endpoints?
+    - Bearer JWT tokens with stateless validation?
+    - Cookie-based session authentication for web clients with API keys for external/mobile services?
+    - Basic authentication with TLS for evaluation?
+  - *Impact*: Dictates the `components.securitySchemes` configuration in `specs/api/openapi.yaml` and client authorization headers.
+
 ---
 
 ## 3. Summary of Blocking Items
@@ -163,8 +171,8 @@ Before initiating technical implementation or detailed code architecture, resolu
 1. **Core Scope Boundaries**: Clarification of Q-01 (GRE requirement) and Q-02 (CPE document types).
 2. **Legacy Inputs**: Provision of the VFP 9 schema (Q-04), legacy business rules (Q-05), soft-delete policy (Q-06, Q-16), and encoding (Q-17).
 3. **Target Technology Stack**: Confirmation of the programming language, runtime, and RDBMS (Q-07, Q-08).
-4. **Distribution Architecture**: Clarification of the MSI/APK architectural topology and mobile connectivity (Q-09, Q-15).
-5. **Evaluation Environment**: Testing credentials, digital certificates, and simulation mode authorization (Q-12).
+4. **Distribution Architecture**: Clarification of the MSI/APK architectural topology, mobile connectivity, and API authentication (Q-09, Q-15, Q-21).
+5. **Evaluation Environment**: Testing credentials, digital certificates, and simulation mode authorization (Q-03, Q-12).
 6. **Regulatory Clarifications**: Confirmation of ISC calculation modes (Q-11), payment terms (Q-19), and ICBPER applicability (Q-20).
 
 

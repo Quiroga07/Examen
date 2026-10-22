@@ -3,7 +3,6 @@
 ## Purpose
 This directory contains interface contracts, service boundary specifications, API definitions, and future REST endpoint contracts for internal module communications and potential external client integrations (e.g., mobile clients, automated sync services).
 
-## Planned Documents
-- `service-contracts.md`: Interface definitions for core service boundaries (e.g., WarehouseService, TaxCalculationService, DocumentSigningService, DispatchService).
-- `rest-api-spec.md`: Future REST API specifications, URI conventions, HTTP status codes, request/response payload schemas, error formats, and authentication schemes.
-- `error-contracts.md`: Standardized error models, business error codes, and validation error response schemas.
+## Active Documents
+- [openapi.yaml](file:///c:/Users/LOQ/Documents/GitHub/Examen/specs/api/openapi.yaml): Official OpenAPI 3.0.3 contract specifying all confirmed REST operations for warehouse, product catalog, RUC validation, electronic invoicing, DEMO sandbox, and legacy migration.
+- [api-design.md](file:///c:/Users/LOQ/Documents/GitHub/Examen/specs/api/api-design.md): Detailed REST API architecture, HTTP design principles, operation catalog, error formats, traceability mappings, conditional GRE operations, and unresolved decisions.
