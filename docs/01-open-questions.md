@@ -127,13 +127,29 @@ To maintain architectural integrity, **no assumptions** will be made on any of t
   - *Question*: Must the Android application support offline operation with local database synchronization (e.g., SQLite/Room), or is constant real-time network connectivity to the central backend assumed?
   - *Impact*: Governs mobile client architecture, local data caching, conflict resolution, and offline transaction queues.
 
+- **Q-16: How should Visual FoxPro soft-deleted records (`SET DELETED`) be handled during migration?**
+  - *Context*: Visual FoxPro marks deleted records with an asterisk (`0x2A` / `*`) in the record header byte without physically purging them until a `PACK` command is issued.
+  - *Question*: Should soft-deleted historical records be filtered out and ignored during extraction (equivalent to `SET DELETED ON`), or should they be extracted into a separate historical audit archive?
+  - *Impact*: Affects staging extraction queries, historical record counts, and reconciliation formulas (`AC-015`).
+
+- **Q-17: What code page / character encoding is used in the legacy DBF files?**
+  - *Context*: Peruvian legacy systems commonly use Windows-1252 (ANSI Latin 1) or MS-DOS CP850. Opening files with the wrong encoding corrupts accented Spanish characters (`á`, `é`, `í`, `ó`, `ú`) and `ñ`.
+  - *Question*: What is the official code page recorded in byte 29 of the legacy `.DBF` files, and are there known encoding mismatches in historical text fields?
+  - *Impact*: Governs charset transcoding algorithms in the migration sanitization pipeline.
+
+- **Q-18: Does the inventory domain require automated inventory valuation (costing)?**
+  - *Context*: Legacy warehouse tracking records incoming goods, outgoing goods, and dates, but the assessment does not state whether unit costs and inventory valuation methods (e.g., Weighted Average / *Promedio Ponderado* or FIFO / *PEPS*) are maintained.
+  - *Question*: Is inventory tracking limited strictly to physical quantities, or must the system maintain inventory cost accounting and valuation?
+  - *Impact*: Influences warehouse movement line attributes, stock balance aggregates, and accounting integration models.
+
 ---
 
 ## 3. Summary of Blocking Items
 Before initiating technical implementation or detailed code architecture, resolutions are strictly required for:
 1. **Core Scope Boundaries**: Clarification of Q-01 (GRE requirement) and Q-02 (CPE document types).
-2. **Legacy Inputs**: Provision of the VFP 9 schema (Q-04) and legacy business rules (Q-05).
+2. **Legacy Inputs**: Provision of the VFP 9 schema (Q-04), legacy business rules (Q-05), soft-delete policy (Q-06, Q-16), and encoding (Q-17).
 3. **Target Technology Stack**: Confirmation of the programming language, runtime, and RDBMS (Q-07, Q-08).
 4. **Distribution Architecture**: Clarification of the MSI/APK architectural topology and mobile connectivity (Q-09, Q-15).
 5. **Evaluation Environment**: Testing credentials, digital certificates, and simulation mode authorization (Q-12).
+
 
