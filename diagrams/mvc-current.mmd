@@ -1,0 +1,98 @@
+flowchart TD
+    %% Presentation Tier
+    subgraph PresentationTier ["Presentation Layer (Views & Distribution)"]
+        WinView["Windows Desktop Views (MSI Package - NFR-004)"]
+        MobileView["Android Mobile Views (APK Package - NFR-005)"]
+    end
+
+    %% Controller Tier
+    subgraph ControllerTier ["Controller Layer (MVC Orchestration - NFR-001)"]
+        WarehouseCtrl["WarehouseController (FR-001 - FR-005)"]
+        BillingCtrl["BillingController (FR-006, FR-007)"]
+        TransmissionCtrl["DocumentTransmissionController (FR-009 - FR-012)"]
+        DemoCtrl["DemoSandboxController (FR-014, AC-013)"]
+        MigrationCtrl["MigrationController (FR-015 - FR-017)"]
+        TransportCtrl["TransportController (Conditional GRE - FR-018 - FR-020)"]
+    end
+
+    %% Model Tier: Application Services
+    subgraph ServiceTier ["Model Layer: Application Services"]
+        WarehouseSvc["WarehouseService"]
+        BillingSvc["BillingService"]
+        TaxSvc["TaxCalculationService (FR-008, NFR-009)"]
+        XmlSvc["UblXmlGenerationService (FR-009, NFR-010)"]
+        MigrationSvc["MigrationPipelineService (FR-016, NFR-008)"]
+        TransportSvc["TransportService (Conditional GRE - FR-018)"]
+    end
+
+    %% Model Tier: Domain Entities & Invariants
+    subgraph DomainCore ["Model Layer: Core Domain Entities & Invariants (NFR-002)"]
+        ProductEntity["Product Aggregate (INV-001)"]
+        MovementEntity["WarehouseMovement Aggregate (INV-002, INV-003)"]
+        InvoiceEntity["ElectronicDocument Aggregate (INV-005, INV-006)"]
+        TaxBreakdownVO["TaxBreakdown & RucNumber VOs (INV-004)"]
+        DemoSessionEntity["DemoSandboxSession (INV-007)"]
+        GreEntity["ElectronicRemissionGuide (Conditional - INV-008)"]
+    end
+
+    %% Data Access & External Gateways
+    subgraph DataAccessTier ["Data Access & External Gateways"]
+        RdbmsRepos["Modern RDBMS Repositories (IProductRepo, IMovementRepo, IInvoiceRepo)"]
+        LegacyCursor["Legacy VFP Read-Only Cursor (ILegacyExtractionCursor)"]
+        SunatGateway["SUNAT / PSE Delivery Gateway (ISunatDeliveryGateway)"]
+        XsdValidator["Local XSD Schema Validator (Conditional - IXsdValidator)"]
+    end
+
+    %% External Infrastructure
+    subgraph ExternalInfrastructure ["External Systems & Storage Infrastructure"]
+        TargetDb[("Modern Relational RDBMS (PostgreSQL / SQL Server - Q-08)")]
+        LegacyVfp[("Legacy Visual FoxPro 9 DB (Strictly Read-Only - NFR-007)")]
+        SunatEndpoints["SUNAT Beta / PSE / OSE Web Services (Q-12)"]
+        LocalSimulator["Local CDR Test Simulator (FR-014, NFR-011)"]
+    end
+
+    %% Connectors: Views to Controllers
+    WinView --> WarehouseCtrl
+    WinView --> BillingCtrl
+    WinView --> TransmissionCtrl
+    WinView --> MigrationCtrl
+    WinView --> DemoCtrl
+    WinView --> TransportCtrl
+
+    MobileView --> WarehouseCtrl
+    MobileView --> TransportCtrl
+
+    %% Connectors: Controllers to Services
+    WarehouseCtrl --> WarehouseSvc
+    BillingCtrl --> BillingSvc
+    BillingCtrl --> TaxSvc
+    TransmissionCtrl --> XmlSvc
+    DemoCtrl --> DemoSessionEntity
+    MigrationCtrl --> MigrationSvc
+    TransportCtrl --> TransportSvc
+
+    %% Connectors: Services to Domain
+    WarehouseSvc --> ProductEntity
+    WarehouseSvc --> MovementEntity
+    BillingSvc --> InvoiceEntity
+    BillingSvc --> TaxBreakdownVO
+    TaxSvc --> TaxBreakdownVO
+    XmlSvc --> InvoiceEntity
+    MigrationSvc --> ProductEntity
+    MigrationSvc --> MovementEntity
+    TransportSvc --> GreEntity
+
+    %% Connectors: Services to Data Access / Gateways
+    WarehouseSvc --> RdbmsRepos
+    BillingSvc --> RdbmsRepos
+    MigrationSvc --> LegacyCursor
+    MigrationSvc --> RdbmsRepos
+    XmlSvc --> SunatGateway
+    TransportSvc --> XsdValidator
+    TransportSvc --> SunatGateway
+
+    %% Connectors: Gateways to External Infrastructure
+    RdbmsRepos --> TargetDb
+    LegacyCursor -.->|Read-Only Stream / SHA-256 Verified| LegacyVfp
+    SunatGateway --> SunatEndpoints
+    SunatGateway -.->|DEMO Mode Intercept| LocalSimulator
