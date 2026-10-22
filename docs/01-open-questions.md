@@ -142,6 +142,16 @@ To maintain architectural integrity, **no assumptions** will be made on any of t
   - *Question*: Is inventory tracking limited strictly to physical quantities, or must the system maintain inventory cost accounting and valuation?
   - *Impact*: Influences warehouse movement line attributes, stock balance aggregates, and accounting integration models.
 
+- **Q-19: Are commercial payment terms (Contado vs. Crédito under RS 193-2020) required?**
+  - *Context*: SUNAT Resolution RS 193-2020/SUNAT mandates that invoices declare payment terms (*Contado* or *Crédito*). For credit sales, installment amounts, due dates, and net pending amounts must be reported.
+  - *Question*: Does the evaluated scope require installment schedule management for credit sales, or is single-payment *Contado* sufficient for evaluation?
+  - *Impact*: Governs invoice header attributes, payment term DTOs, and UBL `<cac:PaymentTerms>` nodes.
+
+- **Q-20: Is the Plastic Bag Consumption Tax (ICBPER) required for retail operations?**
+  - *Context*: Peruvian retail merchandise sales commonly incur the Single-Use Plastic Bag Tax (*ICBPER* under Ley 30884 and SUNAT Cat. 05 Code 7152).
+  - *Question*: Must the retail module and tax calculation engine support ICBPER line items and tax subtotals?
+  - *Impact*: Adds an additional tax category and calculation rule to the billing engine.
+
 ---
 
 ## 3. Summary of Blocking Items
@@ -151,5 +161,7 @@ Before initiating technical implementation or detailed code architecture, resolu
 3. **Target Technology Stack**: Confirmation of the programming language, runtime, and RDBMS (Q-07, Q-08).
 4. **Distribution Architecture**: Clarification of the MSI/APK architectural topology and mobile connectivity (Q-09, Q-15).
 5. **Evaluation Environment**: Testing credentials, digital certificates, and simulation mode authorization (Q-12).
+6. **Regulatory Clarifications**: Confirmation of ISC calculation modes (Q-11), payment terms (Q-19), and ICBPER applicability (Q-20).
+
 
 
