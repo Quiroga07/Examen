@@ -5,20 +5,23 @@ info:
     Formal REST API contract for ABC Software Corp.'s modernized enterprise system.
     This specification establishes the interface boundaries for warehouse inventory movements,
     product catalog management, taxpayer RUC verification, Peruvian electronic invoice generation (Facturas and Boletas),
-    demonstration sandbox simulation, and non-destructive legacy data migration reconciliation.
+    electronic document lifecycle/CDR retrieval, and non-destructive legacy data migration reconciliation.
 
     ### Architectural & Compliance Rules:
     1. **Project Standard**: OpenAPI 3.0.3 is selected as the baseline contract standard unless the course evaluation committee specifies otherwise.
     2. **Strict Internal Scope**: Defines only endpoints belonging to this application. No external SUNAT, PSE, or OSE service URLs or endpoints are invented.
-    3. **Regulatory Segregation**: Electronic Remission Guide (GRE / Despatch Advice) endpoints are excluded from this confirmed API contract and documented conditionally in `specs/api/api-design.md` pending confirmation of the evaluated scope (Q-01).
+    3. **Regulatory Segregation**: GRE, DispatchAdvice, transport, and sandbox operations are outside the assessed API scope.
     4. **Traceability**: Every operation declares `x-requirement-ids` mapping directly to confirmed requirements (`FR-xxx`, `NFR-xxx`, `UC-xxx`, `AC-xxx`).
-    5. **Security Scheme Status**: Authentication schemes (e.g., Bearer JWT vs. Session Cookies) are marked as pending confirmation in Q-07 and Q-21; no unverified security mechanisms or user credentials are hardcoded.
+    5. **Security**: Operations require HTTP bearer authentication. Token issuance, claims, and role assignment are outside this contract; no credentials or external authentication endpoints are specified.
   version: 1.0.0
   contact:
     name: Architecture & Engineering Team - ABC Software Corp.
 servers:
   - url: /api/v1
     description: Current Application Base Path (Modular Monolith / REST Adapter)
+
+security:
+  - bearerAuth: []
 
 paths:
   # =========================================================================
@@ -47,6 +50,10 @@ paths:
             schema:
               $ref: '#/components/schemas/CreateInboundMovementRequest'
       responses:
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
         '201':
           description: Inbound movement recorded and stock successfully incremented
           content:
@@ -94,6 +101,10 @@ paths:
             schema:
               $ref: '#/components/schemas/CreateOutboundMovementRequest'
       responses:
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
         '201':
           description: Outbound movement recorded and stock decremented
           content:
@@ -146,6 +157,10 @@ paths:
             default: true
           description: Filter only active commercial products
       responses:
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
         '200':
           description: Array of catalog products
           content:
@@ -176,6 +191,10 @@ paths:
             schema:
               $ref: '#/components/schemas/ProductCatalogItem'
       responses:
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
         '201':
           description: Product successfully created
           content:
@@ -211,6 +230,10 @@ paths:
             type: string
           description: Unique product identifier
       responses:
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
         '200':
           description: Product retrieved
           content:
@@ -243,7 +266,6 @@ paths:
         - NFR-009
         - UC-003
         - AC-007
-        - Q-13
       requestBody:
         required: true
         content:
@@ -251,6 +273,10 @@ paths:
             schema:
               $ref: '#/components/schemas/ValidateRucRequest'
       responses:
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
         '200':
           description: RUC validation result successfully evaluated
           content:
@@ -277,9 +303,10 @@ paths:
     post:
       summary: Issue Electronic Payment Receipt (Factura or Boleta)
       description: |
-        Calculates statutory Peruvian taxes (IGV 18%, verified ISC), validates customer tax identity,
-        assigns standardized series and correlative numbering, generates compliant UBL 2.1 XML,
-        applies digital signature (XMLDSig), and persists the electronic document in DRAFT or SIGNED status.
+        Calculates applicable taxes, validates customer tax identity, assigns standardized series and
+        correlative numbering, generates compliant UBL 2.1 XML, applies digital signature (XMLDSig),
+        and persists the electronic document. Business-specific ISC inputs are governed by the approved
+        tax specifications and are not assumed by this contract.
       operationId: issueElectronicInvoice
       x-requirement-ids:
         - FR-006
@@ -302,12 +329,31 @@ paths:
             schema:
               $ref: '#/components/schemas/IssueElectronicInvoiceRequest'
       responses:
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
         '201':
           description: Electronic invoice issued, taxes calculated, and XML generated
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ElectronicInvoiceResponse'
+        '202':
+          description: Invoice request accepted; processing is pending. The invoice resource is available at Location.
+          headers:
+            Location:
+              description: URI of the invoice resource to query for its current lifecycle state
+              required: true
+              schema:
+                type: string
+                format: uri-reference
+        '409':
+          description: Invoice numbering conflicts with an existing document
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
         '400':
           description: Missing mandatory invoice headers, line items, or customer identity
           content:
@@ -343,6 +389,10 @@ paths:
             type: string
           description: System unique invoice identifier
       responses:
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
         '200':
           description: Invoice details retrieved
           content:
@@ -374,6 +424,10 @@ paths:
             type: string
           description: System unique invoice identifier
       responses:
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
         '200':
           description: UBL 2.1 XML document payload
           content:
@@ -387,21 +441,16 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
 
-  /invoices/{documentId}/transmit:
-    post:
-      summary: Transmit invoice to authorized electronic invoicing provider
-      description: |
-        Packages the signed XML payload into a standard ZIP container, sends it to the configured
-        tax integration endpoint (SUNAT Beta, PSE/OSE, or local simulator per Q-12), parses the returned
-        CDR (Constancia de Recepción), and transitions the document state to ACCEPTED or REJECTED.
-      operationId: transmitInvoice
+  /invoices/{documentId}/cdr:
+    get:
+      summary: Download archived CDR artifact
+      description: Returns the archived CDR artifact for an invoice after processing by the configured provider.
+      operationId: getInvoiceCdr
       x-requirement-ids:
         - FR-010
         - FR-012
-        - NFR-012
         - UC-006
         - AC-010
-        - Q-12
       parameters:
         - name: documentId
           in: path
@@ -410,6 +459,50 @@ paths:
             type: string
           description: System unique invoice identifier
       responses:
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '200':
+          description: Archived CDR artifact
+          content:
+            application/zip:
+              schema:
+                type: string
+                format: binary
+        '404':
+          description: Invoice or archived CDR artifact not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /invoices/{documentId}/transmit:
+    post:
+      summary: Transmit invoice to authorized electronic invoicing provider
+      description: |
+        Packages the signed XML payload according to the configured provider protocol, transmits it
+        through the authorized provider adapter, parses the returned CDR (Constancia de Recepción),
+        and transitions the document state according to the response.
+      operationId: transmitInvoice
+      x-requirement-ids:
+        - FR-010
+        - FR-012
+        - NFR-012
+        - UC-006
+        - AC-010
+      parameters:
+        - name: documentId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: System unique invoice identifier
+      responses:
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
         '200':
           description: Transmission completed and CDR response processed
           content:
@@ -436,62 +529,16 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
 
   # =========================================================================
-  # 5. Demonstration Mode & Evaluator Sandbox
-  # =========================================================================
-  /demo/sessions:
-    post:
-      summary: Initialize isolated DEMO user simulation session
-      description: |
-        Activates the requested DEMO user profile in safe demonstration mode.
-        Executes isolated warehouse and invoicing simulations without altering production data,
-        modifying legacy files, or dispatching live traffic to tax authorities.
-        
-        *Notice on Constraints*: No credentials, roles, permissions, personal data, or arbitrary
-        workflows are invented. Specific parameters are subject to confirmation under Q-03.
-      operationId: initDemoSession
-      x-requirement-ids:
-        - FR-014
-        - NFR-011
-        - UC-007
-        - AC-013
-        - Q-03
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/DemoSessionInit'
-      responses:
-        '201':
-          description: Sandbox session initialized and simulated document outputs generated
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/DemoSimulationResult'
-        '400':
-          description: Invalid simulation request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-        '500':
-          description: Simulation sandbox engine error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-
-  # =========================================================================
-  # 6. Legacy Migration & Reconciliation
+  # 5. Legacy Migration & Reconciliation
   # =========================================================================
   /migration/runs:
     post:
       summary: Trigger non-destructive legacy data migration cycle
       description: |
-        Executes the read-only staging extraction from the Visual FoxPro 9 database.
-        Verifies SHA-256 file immutability, transforms validated records into domain entities,
+        Accepts a request for read-only staging extraction from the Visual FoxPro 9 database.
+        Processing verifies SHA-256 file immutability, transforms validated records into domain entities,
         logs non-conforming rows to the exception repository, and proves mathematical reconciliation:
-        Total Source = Migrated + Rejected.
+        Total Source = Migrated + Rejected. Retrieve the completed result from the run resource.
       operationId: executeMigrationRun
       x-requirement-ids:
         - FR-015
@@ -502,12 +549,19 @@ paths:
         - AC-014
         - AC-015
       responses:
-        '200':
-          description: Migration executed and reconciliation summary compiled
-          content:
-            application/json:
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '202':
+          description: Migration request accepted for asynchronous processing; the run resource is available at Location.
+          headers:
+            Location:
+              description: URI of the migration run resource to query for its reconciliation result
+              required: true
               schema:
-                $ref: '#/components/schemas/MigrationReconciliationSummary'
+                type: string
+                format: uri-reference
         '409':
           description: Legacy database file hash mismatch or file lock detected
           content:
@@ -538,6 +592,10 @@ paths:
             type: string
           description: Unique migration execution batch ID
       responses:
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
         '200':
           description: Reconciliation audit report retrieved
           content:
@@ -937,7 +995,11 @@ components:
       properties:
         cdrCode:
           type: string
-          description: '0 = Accepted; 2000-3999 = Rejected'
+          description: >-
+            Raw SUNAT response code. 0 indicates acceptance; 2000-3999 indicate
+            rejection errors; 4000 and above are observations. Codes 0100-0999
+            and 1000-1999 are service/submission exceptions, not CDR acceptance
+            or rejection outcomes.
           example: '0'
         cdrDescription:
           type: string
@@ -1007,53 +1069,6 @@ components:
           example: 3c59dc048e8850243be8079a5c74d079
         cdrDetails:
           $ref: '#/components/schemas/CdrResult'
-          nullable: true
-
-    # -----------------------------------------------------------------------
-    # Demonstration Sandbox Schemas
-    # -----------------------------------------------------------------------
-    DemoSessionInit:
-      type: object
-      required:
-        - requestedBy
-      properties:
-        requestedBy:
-          type: string
-          description: Name or evaluator handle
-          example: Evaluator-Demo
-        seedCatalogType:
-          type: string
-          nullable: true
-          description: Preloaded grocery catalog profile
-          example: GROCERY_DEFAULT
-
-    DemoSimulationResult:
-      type: object
-      required:
-        - sessionId
-        - isDemo
-        - watermarkText
-        - simulatedXml
-        - simulatedCdr
-        - productionEmissionsBlocked
-      properties:
-        sessionId:
-          type: string
-          example: demo-sess-10293
-        isDemo:
-          type: boolean
-          example: true
-        watermarkText:
-          type: string
-          example: DEMO / NOT VALID FOR TAX
-        simulatedXml:
-          type: string
-          example: '<Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2">...</Invoice>'
-        simulatedCdr:
-          $ref: '#/components/schemas/CdrResult'
-        productionEmissionsBlocked:
-          type: boolean
-          example: true
 
     # -----------------------------------------------------------------------
     # Migration & Reconciliation Schemas
@@ -1074,7 +1089,6 @@ components:
           example: mig-batch-20261022-01
         sourceTableName:
           type: string
-          example: ARTICULOS_VFP
         totalSourceRecords:
           type: integer
           example: 1540
@@ -1127,3 +1141,20 @@ components:
             type: string
           example:
             - 'Modulo 11 check digit calculated: 7, received: 9'
+  responses:
+    Unauthorized:
+      description: Authentication credentials are missing or invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Forbidden:
+      description: Authenticated caller is not authorized to perform this operation
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
