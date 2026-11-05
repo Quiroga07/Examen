@@ -1,127 +1,71 @@
 flowchart LR
-    %% Driving (Inbound) Adapters
-    subgraph DrivingAdapters ["Driving Adapters (Primary / User Interface)"]
-        MvcAdapter["MVC Controller Adapter (Current Monolith - NFR-001)"]
-        DesktopAdapter["Windows Desktop Adapter (MSI Packaged - NFR-004)"]
-        MobileAdapter["Android Mobile Adapter (APK Packaged - NFR-005)"]
-        RestApiAdapter["Future REST API Adapter (JSON Endpoints - NFR-003)"]
-        GateAdapter["Transport Gate Adapter (Conditional GRE - FR-018)"]
+    Stack["PHP + Laravel + Docker (Partial Exam 2; versions unspecified)"]
+
+    subgraph Driving["Driving Adapters"]
+        Mvc["MVC Controllers (initial, NFR-001)"]
+        Rest["Future REST Adapter (NFR-003)"]
     end
 
-    %% Inbound / Driver Ports
-    subgraph InboundPorts ["Inbound / Driver Ports (Use Case Interfaces)"]
-        PortInbound["IRecordInboundPort (FR-003, UC-001)"]
-        PortOutbound["IRecordOutboundPort (FR-004, UC-002)"]
-        PortInvoice["IIssueInvoicePort (FR-006, FR-008, UC-005)"]
-        PortRuc["IValidateRucPort (FR-007, UC-003)"]
-        PortMigrate["IExtractLegacyPort (FR-015, FR-016, UC-008)"]
-        PortGre["IDispatchGrePort (Conditional GRE - FR-019)"]
+    subgraph Inbound["Inbound Ports"]
+        MovementPorts["IRecordInboundPort / IRecordOutboundPort (FR-003, FR-004)"]
+        InvoicePort["IIssueInvoicePort (FR-006, FR-008, FR-009)"]
+        RucPort["IValidateRucPort (FR-007)"]
+        MigrationPort["IExtractLegacyPort (FR-015, FR-016)"]
     end
 
-    %% Application Domain Core
-    subgraph HexagonCore ["APPLICATION DOMAIN CORE (NFR-002)"]
-        subgraph UseCases ["Use Case Interactors"]
-            UcInbound["RecordInboundUseCase"]
-            UcOutbound["RecordOutboundUseCase"]
-            UcInvoice["IssueInvoiceUseCase"]
-            UcRuc["ValidateRucUseCase"]
-            UcMigrate["MigrateLegacyUseCase"]
-            UcGre["DispatchGreUseCase (Conditional)"]
-        end
-
-        subgraph DomainEntities ["Domain Model & Invariants"]
-            ProductCore["Product Aggregate (INV-001)"]
-            MovementCore["Movement Aggregate (INV-002, INV-003)"]
-            InvoiceCore["ElectronicDocument Aggregate (INV-005, INV-006)"]
-            RucTaxCore["RucNumber & TaxBreakdown VOs (INV-004)"]
-            DemoCore["DemoSandboxSession (INV-007)"]
-            GreCore["ElectronicRemissionGuide (Conditional - INV-008)"]
-        end
+    subgraph Core["Application Core (NFR-002)"]
+        UseCases["Use Cases"]
+        Domain["Domain Model and Invariants"]
+        GenerateXml["GenerateInvoiceXmlUseCase (FR-009, UC-005, AC-009)"]
     end
 
-    %% Outbound / Driven Ports
-    subgraph OutboundPorts ["Outbound / Driven Ports (SPI Interfaces)"]
-        PortProductRepo["IProductRepositoryPort"]
-        PortMovementRepo["IMovementRepositoryPort"]
-        PortInvoiceRepo["IInvoiceRepositoryPort"]
-        PortSunatDelivery["ISunatDeliveryPort (FR-010, UC-006)"]
-        PortLegacyExtractor["ILegacyExtractionPort (FR-015, AC-014)"]
-        PortXsdValidator["IXsdValidatorPort (Conditional - FR-020)"]
+    subgraph Outbound["Outbound Ports"]
+        RepositoryPorts["Repository Ports"]
+        XmlPort["IUblGeneratorPort (FR-009, AC-009, NFR-010)"]
+        DeliveryPort["ISunatDeliveryPort (FR-010, UC-006)"]
+        LegacyPort["ILegacyExtractionPort (FR-015, AC-014)"]
     end
 
-    %% Driven (Outbound) Adapters
-    subgraph DrivenAdapters ["Driven Adapters (Secondary / Infrastructure)"]
-        RdbmsAdapter["Modern RDBMS Persistence Adapter (PostgreSQL / SQL Server)"]
-        VfpExtractorAdapter["VFP Read-Only Extraction Adapter (Byte Stream / SHA-256)"]
-        SunatBetaAdapter["SUNAT Beta SOAP/REST Delivery Adapter"]
-        OseProviderAdapter["OSE / PSE Provider Delivery Adapter"]
-        SimulatorAdapter["Local CDR Simulator Adapter (DEMO Mode - FR-014)"]
-        XsdSchemaAdapter["Local XSD Schema Validator Adapter (Conditional - AC-021)"]
+    subgraph Driven["Driven Adapters (Infrastructure)"]
+        RepositoryAdapter["RDBMS Persistence Adapter"]
+        XmlAdapter["UblInvoiceXmlAdapter"]
+        UblTypes["UBL 2.1 classes generated from official Invoice XSD"]
+        PhpTool["PHP-compatible generation / serialization tool to be confirmed"]
+        SunatAdapter["SUNAT / PSE Delivery Adapter"]
+        LegacyAdapter["VFP Read-only Extraction Adapter"]
     end
 
-    %% External Infrastructure
-    subgraph ExternalSystems ["External Infrastructure & Storage"]
-        TargetDatabase[("Modern Relational RDBMS (Q-08)")]
-        LegacyVfpFiles[("Legacy Visual FoxPro 9 DB (Read-Only - NFR-007)")]
-        SunatWebService["SUNAT / PSE Web Services"]
+    subgraph Systems["External Systems"]
+        Database[("Relational Database (Q-08)")]
+        Vfp[("Legacy VFP 9 (NFR-007)")]
+        Sunat["SUNAT / PSE Service (Q-12)"]
     end
 
-    %% Connectors: Driving Adapters to Inbound Ports
-    MvcAdapter --> PortInbound
-    MvcAdapter --> PortInvoice
-    DesktopAdapter --> PortInbound
-    DesktopAdapter --> PortInvoice
-    DesktopAdapter --> PortMigrate
-    MobileAdapter --> PortInbound
-    MobileAdapter --> PortOutbound
-    RestApiAdapter -.->|Future REST Scaling| PortInbound
-    RestApiAdapter -.->|Future REST Scaling| PortInvoice
-    RestApiAdapter -.->|Future REST Scaling| PortRuc
-    GateAdapter --> PortGre
-
-    %% Connectors: Inbound Ports to Use Cases
-    PortInbound --> UcInbound
-    PortOutbound --> UcOutbound
-    PortInvoice --> UcInvoice
-    PortRuc --> UcRuc
-    PortMigrate --> UcMigrate
-    PortGre --> UcGre
-
-    %% Connectors: Use Cases to Domain Model
-    UcInbound --> MovementCore
-    UcInbound --> ProductCore
-    UcOutbound --> MovementCore
-    UcInvoice --> InvoiceCore
-    UcInvoice --> RucTaxCore
-    UcRuc --> RucTaxCore
-    UcMigrate --> ProductCore
-    UcMigrate --> MovementCore
-    UcGre --> GreCore
-
-    %% Connectors: Use Cases to Outbound Ports
-    UcInbound --> PortProductRepo
-    UcInbound --> PortMovementRepo
-    UcOutbound --> PortMovementRepo
-    UcInvoice --> PortInvoiceRepo
-    UcInvoice --> PortSunatDelivery
-    UcMigrate --> PortLegacyExtractor
-    UcMigrate --> PortProductRepo
-    UcMigrate --> PortMovementRepo
-    UcGre --> PortXsdValidator
-    UcGre --> PortSunatDelivery
-
-    %% Connectors: Outbound Ports to Driven Adapters
-    PortProductRepo --> RdbmsAdapter
-    PortMovementRepo --> RdbmsAdapter
-    PortInvoiceRepo --> RdbmsAdapter
-    PortLegacyExtractor --> VfpExtractorAdapter
-    PortSunatDelivery --> SunatBetaAdapter
-    PortSunatDelivery --> OseProviderAdapter
-    PortSunatDelivery -.->|DEMO Sandbox Mode| SimulatorAdapter
-    PortXsdValidator --> XsdSchemaAdapter
-
-    %% Connectors: Driven Adapters to External Systems
-    RdbmsAdapter --> TargetDatabase
-    VfpExtractorAdapter -.->|Strictly Read-Only| LegacyVfpFiles
-    SunatBetaAdapter --> SunatWebService
-    OseProviderAdapter --> SunatWebService
+    Stack -. stack .-> Core
+    Mvc --> MovementPorts
+    Mvc --> InvoicePort
+    Mvc --> RucPort
+    Mvc --> MigrationPort
+    Rest -. future adapter .-> MovementPorts
+    Rest -. future adapter .-> InvoicePort
+    Rest -. future adapter .-> RucPort
+    MovementPorts --> UseCases
+    InvoicePort --> UseCases
+    RucPort --> UseCases
+    MigrationPort --> UseCases
+    UseCases --> Domain
+    UseCases --> GenerateXml
+    GenerateXml --> Domain
+    GenerateXml --> XmlPort
+    XmlPort -. implemented by .-> XmlAdapter
+    XmlAdapter --> UblTypes
+    PhpTool --> UblTypes
+    UseCases --> RepositoryPorts
+    RepositoryPorts -. implemented by .-> RepositoryAdapter
+    RepositoryAdapter --> Database
+    UseCases --> DeliveryPort
+    DeliveryPort -. implemented by .-> SunatAdapter
+    SunatAdapter --> Sunat
+    UseCases --> LegacyPort
+    LegacyPort -. implemented by .-> LegacyAdapter
+    LegacyAdapter -. read only .-> Vfp

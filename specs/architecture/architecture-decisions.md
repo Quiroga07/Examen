@@ -13,8 +13,10 @@ This document records the fundamental Architectural Decision Records (ADRs) gove
 | `ADR-002` | Domain Decoupling for Future Hexagonal / Clean Architecture Evolution | **Accepted** | `NFR-002`, `NFR-003`, Assessment Mandate |
 | `ADR-003` | Dual Client Distribution via Windows MSI and Android APK | **Accepted** (Tech Pending) | `NFR-004`, `NFR-005`, [Q-09](file:///c:/Users/LOQ/Documents/GitHub/Examen/docs/01-open-questions.md#category-c-technology-stack-and-architectural-constraints) |
 | `ADR-004` | Non-Destructive, Read-Only Legacy Extraction and Staging Pipeline | **Accepted** | `NFR-007`, `NFR-008`, `FR-015`, `AC-014` |
-| `ADR-005` | Multi-Environment Sandbox Isolation for DEMO User | **Accepted** | `FR-014`, `NFR-011`, `AC-013` |
-| `ADR-006` | Pluggable, Conditional Isolation for Electronic Remission Guide (GRE) | **Proposed / Conditional** | `FR-018` - `FR-020`, [Q-01](file:///c:/Users/LOQ/Documents/GitHub/Examen/docs/01-open-questions.md#category-a-scope-and-functional-boundaries) |
+| `ADR-005` | DEMO Sandbox Isolation | **Deferred / Out of Scope** | Prior supplementary scope; no active behavior |
+| `ADR-006` | GRE / Transport Module | **Deferred / Out of Scope** | `FR-018` - `FR-020` retained as deferred identifiers |
+| `ADR-007` | UBL Invoice XML Generation Behind an Output Port | **Proposed** | `FR-009`, `AC-009`, `NFR-002`, `NFR-010` |
+| `ADR-008` | PHP / Laravel and Docker for Partial Exam 2 | **Selected; Versions Unspecified** | `NFR-001`, `NFR-002` |
 
 ---
 
@@ -26,11 +28,11 @@ This document records the fundamental Architectural Decision Records (ADRs) gove
 - **Context**:
   ABC Software Corp. is modernizing from a legacy Visual FoxPro 9 system. The immediate business necessity is tax compliance, reliable inventory tracking, and electronic document generation. The assessment explicitly requires an initial architecture based on a clean or modular monolith using the Model-View-Controller (MVC) pattern.
 - **Decision**:
-  The system will be architected as a single deployable **Modular Monolith** organized into distinct, cohesive internal modules (`WarehouseModule`, `BillingModule`, `TaxComplianceModule`, `MigrationModule`, and `DemoSandboxModule`). The presentation tier will strictly implement the **Model-View-Controller (MVC)** architectural pattern.
+  The system will be architected as a single deployable **Modular Monolith** organized into cohesive assessed modules (`WarehouseModule`, `BillingModule`, `TaxComplianceModule`, and `MigrationModule`). The initial presentation tier will implement **Model-View-Controller (MVC)**. GRE, transport, and sandbox behavior are deferred and are not active modules. PHP with Laravel and Docker are the selected implementation stack for Partial Exam 2; exact versions are not specified.
 - **Consequences**:
-  - *Positive*: Minimal operational overhead; avoids distributed transaction complexities; enforces strong compile-time modular boundaries; enables straightforward local debugging and unified packaging.
+  - *Positive*: Minimal operational overhead; avoids distributed transaction complexities; supports clear module boundaries; enables straightforward local debugging and unified packaging.
   - *Negative*: Shared in-process memory requires disciplined module interface adherence to avoid tight coupling.
-- **Related Open Questions**: [Q-07](file:///c:/Users/LOQ/Documents/GitHub/Examen/docs/01-open-questions.md#category-c-technology-stack-and-architectural-constraints) (Specific programming language and MVC framework).
+- **Related Open Questions**: Exact PHP/Laravel/Docker versions, client packaging technology, and deployment topology remain unspecified; see [Q-07](file:///c:/Users/LOQ/Documents/GitHub/Examen/docs/01-open-questions.md#category-c-technology-stack-and-architectural-constraints) and [Q-09](file:///c:/Users/LOQ/Documents/GitHub/Examen/docs/01-open-questions.md#category-c-technology-stack-and-architectural-constraints).
 
 ---
 
@@ -40,7 +42,7 @@ This document records the fundamental Architectural Decision Records (ADRs) gove
 - **Context**:
   The assessment mandates that the initial modular monolith must be prepared to evolve toward Hexagonal Architecture (Ports and Adapters) or Clean Architecture and, in the future, support REST services and horizontal scaling without requiring a complete rewrite.
 - **Decision**:
-  All core domain models, aggregates, business invariants, and calculation algorithms will be implemented in a pure, framework-agnostic domain layer. Controllers and views in the MVC structure will interact with business logic strictly through application service interfaces (driving ports). All external interactions (database access, SUNAT web services, legacy file reading) will be accessed through repository and gateway interfaces (driven ports).
+  All core domain models, aggregates, business invariants, and calculation algorithms will be implemented in a framework-independent domain layer. The initial MVC controllers delegate to application use cases/services. External interactions, including invoice XML generation, database access, SUNAT web services, and legacy file reading, are accessed through output-port interfaces. This creates a staged evolution path toward Hexagonal Architecture without replacing MVC as the initial architecture.
 - **Consequences**:
   - *Positive*: Domain logic remains 100% testable in isolation; transitioning controllers to future REST APIs or transitioning data access from local repositories to remote adapters requires zero alterations to business rules.
   - *Negative*: Introduces interface abstraction layers and DTO translation overhead between presentation, application, and persistence boundaries.
@@ -56,7 +58,7 @@ This document records the fundamental Architectural Decision Records (ADRs) gove
 - **Decision**:
   1. The system architecture will support dual distribution targets: a Windows desktop MSI package and an Android APK package.
   2. To avoid speculative implementation, the architecture defines contract-driven DTO boundaries (`specs/domain/dtos-and-schemas.md`) allowing the clients to communicate with the modular monolith via server-rendered views or future API endpoints.
-  3. The specific client implementation technology (e.g., native C#/WPF vs. MAUI vs. Web wrapper) is formally maintained as an open decision pending evaluation committee guidance.
+  3. PHP/Laravel and Docker are the selected implementation stack for the Partial Exam 2 application; this does not select the desktop/mobile client technology or packaging mechanism. Those details and deployment topology remain open.
 - **Consequences**:
   - *Positive*: Satisfies deployment requirements while insulating core domain specifications from client framework churn.
   - *Negative*: Requires designing mobile-responsive view models and contracts suitable for both desktop screen real estate and mobile handheld devices.
@@ -78,28 +80,36 @@ This document records the fundamental Architectural Decision Records (ADRs) gove
 
 ---
 
-### `ADR-005`: Multi-Environment Sandbox Isolation for DEMO User
-- **Status**: Accepted
-- **Traces to**: `FR-014`, `NFR-011`, `UC-007`, `AC-013`
-- **Context**:
-  The assessment explicitly requests use cases based on the needs of electronic invoicing users and mentions a DEMO user. The DEMO user must be able to explore workflows without creating legal tax liabilities or polluting production data.
-- **Decision**:
-  When a session is authenticated under the `DEMO_USER` profile, the application activates the `DemoSandboxModule`. All data mutations are redirected to an isolated sandbox database (or in-memory mock store). All external calls to SUNAT or PSE/OSE endpoints are intercepted and resolved by a local simulator returning mock CDR responses.
-- **Consequences**:
-  - *Positive*: Guaranteed safety during academic evaluation and user training; prevents fraudulent or erroneous tax emissions.
-  - *Negative*: Requires maintaining a seed dataset and mock simulation responses.
-- **Related Open Questions**: [Q-03](file:///c:/Users/LOQ/Documents/GitHub/Examen/docs/01-open-questions.md#category-a-scope-and-functional-boundaries).
+### `ADR-005`: DEMO Sandbox Isolation — Deferred
+- **Status**: Deferred / Out of Assessed Scope
+- **Traces to**: Deferred identifiers only (`NFR-011`, `AC-013`); `FR-014` concerns the DEMO profile and does not establish sandbox behavior.
+- **Decision**: No sandbox module, isolated data store, simulated CDR behavior, or live-emission interception is specified for the assessed solution.
 
 ---
 
-### `ADR-006`: Pluggable, Conditional Isolation for Electronic Remission Guide (GRE)
-- **Status**: Proposed / Conditional
+### `ADR-006`: GRE / Transport Module — Deferred
+- **Status**: Deferred / Out of Assessed Scope
 - **Traces to**: `FR-018`, `FR-019`, `FR-020`, `UC-009`, `UC-010`, `AC-019` - `AC-021`, [Q-01](file:///c:/Users/LOQ/Documents/GitHub/Examen/docs/01-open-questions.md#category-a-scope-and-functional-boundaries)
 - **Context**:
-  The delegate's supplementary narrative introduces merchandise transport dispatches, mandatory GRE generation, UBL Dispatch Advice, and XSD validation. The prompt explicitly cautions not to assume this represents the entire system.
-- **Decision**:
-  All GRE-specific domain models, use cases, and XSD validation services will be encapsulated within an isolated `TransportModule`. This module interacts with the core warehouse via event/service interfaces, ensuring that if GRE is confirmed as part of the evaluated core scope, it is fully functional; if excluded, it can be decoupled without modifying the core warehouse or billing engines.
+  Prior supplementary material described merchandise transport dispatches, GRE, UBL Dispatch Advice, and XSD validation. Those features are not part of the assessed scope.
+- **Decision**: No GRE, DispatchAdvice, transport, or transport-specific XSD components are included in the assessed architecture. Existing `FR-018` through `FR-020` references remain deferred only; no active transport module or API operation is specified.
+
+---
+
+### `ADR-007`: UBL Invoice XML Generation Behind an Output Port
+- **Status**: Proposed (Tool Compatibility Pending)
+- **Traces to**: `FR-009`, `UC-005`, `AC-009`, `NFR-002`, `NFR-010`
+- **Context**: UBL Invoice 2.1 XML must meet the assessed schema-conformance requirement, while application use cases must not depend on a specific XML library or generated class model.
+- **Decision**: `GenerateInvoiceXmlUseCase` depends on `IUblGeneratorPort`. An infrastructure adapter, `UblInvoiceXmlAdapter`, implements the port. The proposed implementation uses classes generated from the official [OASIS UBL 2.1 Invoice XSD](https://docs.oasis-open.org/ubl/os-UBL-2.1/xsd/maindoc/UBL-Invoice-2.1.xsd) and serializes them to XML. Confirm a PHP-compatible XSD code-generation/serialization tool before implementation. Keep the port stable so the adapter and tool can be replaced without changing the use case or domain.
 - **Consequences**:
-  - *Positive*: Preserves modularity; protects core assessment deliverables from dependency on supplementary scenarios.
-  - *Negative*: Requires loose coupling between sales orders and transport dispatch entities.
-- **Related Open Questions**: [Q-01](file:///c:/Users/LOQ/Documents/GitHub/Examen/docs/01-open-questions.md#category-a-scope-and-functional-boundaries).
+  - *Positive*: Isolates schema/tool-specific code in infrastructure and permits alternate generators or serializers.
+  - *Negative*: Generated classes and serialization behavior require verification against the official UBL 2.1 schema and SUNAT profile.
+- **Implementation Boundary**: The MVC controller invokes the use case; the use case depends on `IUblGeneratorPort`; only the infrastructure adapter depends on generated classes and the selected tool.
+
+---
+
+### `ADR-008`: PHP / Laravel and Docker for Partial Exam 2
+- **Status**: Selected (Exact Versions Unspecified)
+- **Traces to**: `NFR-001`, `NFR-002`
+- **Decision**: Use PHP with Laravel and Docker as the implementation stack for Partial Exam 2. Retain the modular monolith and MVC as the initial architecture. Do not infer exact language, framework, or container versions.
+- **Open Details**: Exact versions, compatible XSD generation/serialization tooling, target RDBMS, and any desktop/mobile client technology or packaging topology remain unconfirmed. This selection does not imply Docker produces MSI or APK packages.

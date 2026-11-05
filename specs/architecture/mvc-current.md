@@ -3,11 +3,11 @@
 ## 1. Document Overview
 This document specifies the initial target architecture for ABC Software Corp.'s enterprise software modernization: a **Modular Monolith** organized under the **Model-View-Controller (MVC)** design pattern.
 
-In accordance with assessment directives:
+For Partial Exam 2, the selected implementation stack is PHP with Laravel and Docker; exact versions are intentionally unspecified. In accordance with assessment directives:
 - The system is architected as a cohesive single-process application, avoiding microservices complexity in this initial phase (`NFR-001`).
 - Clear boundaries isolate distinct business modules to facilitate future evolution toward Hexagonal Architecture (`NFR-002`).
 - All architectural elements link directly to governing **Requirement IDs** (`FR-xxx`, `NFR-xxx`, `AC-xxx`).
-- The **Transport Module (GRE)** is explicitly marked as **Conditional / Pending Confirmation** in accordance with case boundaries.
+- GRE, DispatchAdvice, transport, and sandbox behavior are deferred and out of the assessed scope. No active module, controller, or service is specified for them.
 
 ---
 
@@ -22,8 +22,8 @@ In accordance with assessment directives:
 |                  v                                        v                                        |
 |  +----------------------------------------------------------------------------------------------+  |
 |  | CONTROLLERS                                                                                  |  |
-|  | - WarehouseController   - BillingController   - DemoController                               |  |
-|  | - MigrationController   - TransportController (Conditional)                                  |  |
+|  | - WarehouseController   - BillingController   - DocumentTransmissionController               |  |
+|  | - MigrationController                                                                       |  |
 |  | * Enforces input validation against DTOs, handles UI orchestration, triggers Domain Services |  |
 |  +----------------------------------------------------------------------------------------------+  |
 +---------------------------------------------------|------------------------------------------------+
@@ -34,28 +34,30 @@ In accordance with assessment directives:
 |  +----------------------------------------------------------------------------------------------+  |
 |  | APPLICATION SERVICES                                                                         |  |
 |  | - WarehouseService     - BillingService      - TaxCalculationService                         |  |
-|  | - XmlGenerationService - MigrationService    - TransportService (Conditional)                |  |
+|  | - GenerateInvoiceXmlUseCase (FR-009, AC-009) - MigrationService (FR-015–FR-017)               |  |
 |  +----------------------------------------------------------------------------------------------+  |
 |                                                    |                                               |
 |  +-------------------------------------------------v--------------------------------------------+  |
 |  | DOMAIN MODEL & INVARIANTS                                                                    |  |
-|  | - Product, Movement, ElectronicDocument, TaxBreakdown, RucNumber, DemoSandboxSession         |  |
-|  | * Encapsulates core business invariants (INV-001 to INV-008), zero UI/DB dependencies        |  |
+|  | - Product, Movement, ElectronicDocument, TaxBreakdown, RucNumber                            |  |
+|  | * Encapsulates assessed business invariants; zero UI/DB dependencies (NFR-002)              |  |
 |  +----------------------------------------------------------------------------------------------+  |
 |                                                    |                                               |
 |  +-------------------------------------------------v--------------------------------------------+  |
 |  | DATA ACCESS & REPOSITORY ABSTRACTIONS                                                        |  |
 |  | - IProductRepository    - IMovementRepository  - IInvoiceRepository                         |  |
-|  | - ILegacyExtractionCursor                      - ISunatDeliveryGateway                      |  |
+|  | - ILegacyExtractionCursor  - ISunatDeliveryPort  - IUblGeneratorPort (FR-009, NFR-010)      |  |
 |  +----------------------------------------------------------------------------------------------+  |
 +---------------------------------------------------|------------------------------------------------+
                                                     | (Persistence & I/O)
 +---------------------------------------------------v------------------------------------------------+
 |                                     INFRASTRUCTURE & STORAGE                                       |
 |                                                                                                    |
-|  [Modern Relational RDBMS]       [Legacy VFP 9 (Read-Only)]       [SUNAT / PSE Gateway / Simulator] |
+|  [Repository / Delivery Adapters] [UblInvoiceXmlAdapter + XSD-generated types] [RDBMS / SUNAT] |
 +----------------------------------------------------------------------------------------------------+
 ```
+
+`GenerateInvoiceXmlUseCase` depends on `IUblGeneratorPort`; `UblInvoiceXmlAdapter` implements the port in infrastructure and uses classes generated from the official OASIS UBL 2.1 Invoice XSD to serialize the invoice. The MVC controller invokes the use case, not the XML library or generated classes. A compatible PHP code-generation/serialization tool must be confirmed before implementation; the adapter remains replaceable behind the port (`FR-009`, `AC-009`, `NFR-002`, `NFR-010`; [ADR-007](file:///c:/Users/LOQ/Documents/GitHub/Examen/specs/architecture/architecture-decisions.md#adr-007-ubl-invoice-xml-generation-behind-an-output-port)).
 
 ### 2.1 View Layer (Presentation)
 - **Role**: Renders visual interfaces, handles user gestures/inputs, and displays validated data models.
@@ -69,21 +71,20 @@ In accordance with assessment directives:
 - **Key Controllers**:
   - `WarehouseController`: Handles inbound receipts (`FR-003`, `UC-001`), outbound dispatches (`FR-004`, `UC-002`), and stock balance views.
   - `BillingController`: Coordinates customer RUC validation (`FR-007`, `UC-003`), invoice drafting (`FR-006`, `UC-004`), and tax calculation previews.
-  - `DocumentTransmissionController`: Triggers digital signing (`FR-009`, `UC-005`), transmission to SUNAT/PSE/OSE (`FR-010`, `UC-006`), and CDR status inspection.
-  - `DemoSandboxController`: Manages isolated testing sessions for the DEMO user (`FR-014`, `UC-007`).
+  - `DocumentTransmissionController`: Coordinates UBL Invoice XML generation (`FR-009`, `UC-005`), signing, transmission to the selected SUNAT/PSE/OSE pathway (`FR-010`, `UC-006`), and CDR status inspection. XML generation is invoked through `GenerateInvoiceXmlUseCase` and `IUblGeneratorPort`; the implementation is in infrastructure.
   - `MigrationController`: Provides administrative UI for triggering read-only legacy extraction and viewing reconciliation reports (`FR-015`, `FR-016`, `UC-008`).
-  - `TransportController` *(Conditional)*: Coordinates Electronic Remission Guide generation, XSD validation, and vehicle departure clearance (`FR-018` - `FR-020`, `UC-009`).
 
 ### 2.3 Model Layer
 The Model layer is partitioned into three distinct sub-layers to enforce separation of concerns:
 1. **Application Services**:
-   - Orchestrates domain business flows, manages transactions, and coordinates infrastructure gateways.
-   - Examples: `WarehouseService`, `BillingService`, `TaxCalculationService`, `UblXmlService`, `MigrationPipelineService`.
+   - Orchestrates domain business flows and transactions. Invoice XML generation is a use case that calls the `IUblGeneratorPort` abstraction (`FR-009`, `AC-009`, `NFR-010`).
+   - Examples: `WarehouseService`, `BillingService`, `TaxCalculationService`, `GenerateInvoiceXmlUseCase`, `MigrationPipelineService`.
 2. **Domain Model & Invariants**:
    - Pure domain entities, value objects, and business invariants as defined in [specs/domain/domain-model.md](file:///c:/Users/LOQ/Documents/GitHub/Examen/specs/domain/domain-model.md).
    - Independent of frameworks, databases, and UI components (`NFR-002`).
-3. **Data Access & Repository Abstractions**:
-   - Interface contracts for data persistence (`IProductRepository`, `IMovementRepository`, `IInvoiceRepository`, `ILegacyExtractionCursor`).
+3. **Application Output Ports and Data Access Abstractions**:
+   - Interface contracts for persistence and external capabilities (`IProductRepository`, `IMovementRepository`, `IInvoiceRepository`, `ILegacyExtractionCursor`, `ISunatDeliveryPort`, `IUblGeneratorPort`). The MVC application service depends on `IUblGeneratorPort`, not its infrastructure implementation (`NFR-002`).
+   - The infrastructure `UblInvoiceXmlAdapter` implements the output port and encapsulates the selected PHP-compatible generation/serialization tool and its XSD-generated UBL 2.1 classes. Tool compatibility remains to be confirmed (`ADR-007`).
 
 ---
 
@@ -96,10 +97,8 @@ src/ or App/
 ├── Modules/
 │   ├── WarehouseModule/          # FR-001 to FR-005: Products, movements, stock balance
 │   ├── BillingModule/            # FR-006, FR-007, FR-012: Sales, customers, RUC validation
-│   ├── TaxComplianceModule/      # FR-008 to FR-011: Tax math, UBL XML, digital signature, SUNAT
-│   ├── MigrationModule/          # FR-015 to FR-017: VFP read-only extract, staging, reconciliation
-│   ├── DemoSandboxModule/        # FR-014: Isolation context, mock CDR simulator
-│   └── TransportModule/          # FR-018 to FR-020: GRE, vehicles, XSD schema validator (CONDITIONAL)
+│   ├── TaxComplianceModule/      # FR-008 to FR-012: Tax math, UBL XML, signing, SUNAT lifecycle
+│   └── MigrationModule/          # FR-015 to FR-017: VFP read-only extract, staging, reconciliation
 └── SharedKernel/                 # Money, Common Enums, Result/Error models, Audit logger
 ```
 
@@ -113,11 +112,10 @@ src/ or App/
 ## 4. Cross-Cutting Concerns
 
 ### 4.1 Authentication and Role-Based Access Control
-- **Traces to**: `FR-013`, `FR-014`, `AC-012`, `AC-013`
+- **Traces to**: `FR-013`, `AC-012`
 - **Specification**: In-process authorization filters on MVC controllers enforce role-based execution:
   - `WarehouseOperator`: Restricted to `WarehouseController` actions.
   - `BillingClerk`: Accesses `BillingController` and `DocumentTransmissionController`.
-  - `DemoUser`: Automatically intercepts data access, switching connection strings to the isolated sandbox store.
 
 ### 4.2 Immutable Audit Trail
 - **Traces to**: `NFR-012`, `FR-010`
@@ -138,4 +136,4 @@ src/ or App/
 | Windows MSI Packaging | Desktop Portability | `NFR-004`, `AC-017` | Generates verified Windows `.msi` installation package |
 | Android APK Packaging | Mobile Portability | `NFR-005`, `AC-018` | Generates verified Android `.apk` package |
 | Read-Only Legacy Extraction | Data Safety | `NFR-007`, `AC-014` | Legacy files maintain identical SHA-256 hashes |
-| Transport Module Isolation | Modularity, Conditional Scope | `FR-018`, `ADR-006` | GRE module can be decoupled without breaking billing core |
+| UBL XML Generation Boundary | Replaceability, Testability | `FR-009`, `AC-009`, `NFR-002`, `NFR-010`, `ADR-007` | Use case depends on `IUblGeneratorPort`; only the infrastructure adapter depends on the selected UBL generation tool |

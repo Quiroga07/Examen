@@ -4,9 +4,16 @@
 This document specifies the deployment topologies, packaging strategies, client distribution mechanisms, and scalability blueprints for ABC Software Corp.'s modernized enterprise system.
 
 In strict accordance with the assessment constraints:
+- **PHP with Laravel and Docker** is the selected implementation stack for Partial Exam 2. Exact versions are unspecified.
 - **Windows distribution via MSI installer** (`NFR-004`, `AC-017`) and **Android distribution via APK package** (`NFR-005`, `AC-018`) are mandatory distribution requirements.
 - The system is architected as an initial **modular monolith** prepared for future horizontal scaling and REST services (`NFR-001`, `NFR-003`).
-- To avoid speculative implementation, unspecified technologies (client programming frameworks, packaging compilers, database vendors) are formally categorized as **Proposed Options** with unresolved questions referenced in [docs/01-open-questions.md](file:///c:/Users/LOQ/Documents/GitHub/Examen/docs/01-open-questions.md).
+- Unresolved details (stack versions, client programming frameworks, package-generation tools, database vendor, and deployment topology) remain open rather than inferred from the stack selection; see [docs/01-open-questions.md](file:///c:/Users/LOQ/Documents/GitHub/Examen/docs/01-open-questions.md).
+- GRE, transport, and sandbox behavior are deferred and out of the assessed deployment scope.
+
+### 1.1 Selected Partial Exam 2 Stack
+- **Application**: PHP with Laravel, organized as the initial MVC modular monolith (`NFR-001`, `NFR-002`).
+- **Container tooling**: Docker. Its use does not determine the client architecture, desktop/mobile packaging mechanism, or production hosting topology.
+- **Versioning**: PHP, Laravel, and Docker versions are not specified.
 
 ---
 
@@ -28,7 +35,7 @@ TOPOLOGY A: Centralized Modular Monolith with Dual Clients (RECOMMENDED BLUEPRIN
                     +---------------+---------------+
                     |                               |
                     v                               v
-         [Enterprise RDBMS]           [SUNAT / PSE / Simulator]
+         [Enterprise RDBMS]           [SUNAT / PSE]
          (Central Database)            (External Tax Gateway)
 ```
 

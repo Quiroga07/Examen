@@ -3,49 +3,45 @@
 ## 1. Document Overview
 This document specifies the evolutionary roadmap for transitioning ABC Software Corp.'s modular monolith MVC architecture toward **Hexagonal Architecture (Ports and Adapters)** or **Clean Architecture**.
 
+For Partial Exam 2, the selected implementation stack is PHP with Laravel and Docker. Exact versions are unspecified; this stack decision does not change MVC as the initial architecture.
+
 In strict adherence to the assessment directives:
 - **No microservices are built now**: The application remains a cohesive, single-process deployment (`NFR-001`).
 - The transition focuses on **architectural decoupling** to protect core business logic from framework and infrastructure volatility (`NFR-002`).
 - The design prepares the system for future **REST services** and **horizontal scaling** without requiring domain rewrites (`NFR-003`).
 - All ports, adapters, and evolutionary steps are linked directly to governing **Requirement IDs** (`FR-xxx`, `NFR-xxx`, `AC-xxx`).
-- Components related to the **Electronic Remission Guide (GRE)** remain explicitly **Conditional**.
+- GRE, DispatchAdvice, transport, and sandbox behavior are deferred and out of the assessed scope; they are not modeled as active ports, adapters, or modules.
 
 ---
 
 ## 2. Hexagonal Architectural Model (Ports & Adapters)
 
 ```
-+-------------------------------------------------------------------------------------------------------+
-|                                        HEXAGONAL ARCHITECTURE                                         |
-|                                                                                                       |
-|   DRIVING (PRIMARY) ADAPTERS                                              DRIVEN (SECONDARY) ADAPTERS |
-|                                                                                                       |
-|  +---------------------------+       +-------------------------+       +---------------------------+  |
-|  | MVC Web Controller        |       | Inbound / Driver Ports  |       | Outbound / Driven Ports   |  |
-|  +---------------------------+ ----> | - IRecordInboundPort    |       | - IProductRepositoryPort  |  |
-|                                      | - IIssueInvoicePort     |       | - IMovementRepositoryPort |  |
-|  +---------------------------+ ----> | - IValidateRucPort      |       | - IInvoiceRepositoryPort  | -+-> Modern RDBMS
-|  | Windows Desktop Adapter   |       | - IExtractLegacyPort    |       |                           |  |  (PostgreSQL/SQLServer)
-|  | (MSI Packaged Client)     |       +-------------------------+       +---------------------------+  |
-|  +---------------------------+                    |                                  |                |
-|                                                   v                                  v                |
-|  +---------------------------+       +-------------------------+       +---------------------------+  |
-|  | Android Mobile Adapter    |       |    APPLICATION CORE     |       | ISunatDeliveryPort        | -+-> SUNAT / PSE
-|  | (APK Packaged Client)     | ----> |  - Domain Aggregates    | ----> | - DirectBetaAdapter       |  |  (Web Services)
-|  +---------------------------+       |  - Value Objects        |       | - OseAdapter              |  |
-|                                      |  - Business Invariants  |       | - LocalSimulatorAdapter   |  |
-|  +---------------------------+       |  - Use Case Interactors |       +---------------------------+  |
-|  | FUTURE REST API Adapter   | ----> +-------------------------+                                      |
-|  | (Json/Http Endpoints)     |                                         +---------------------------+  |
-|  +---------------------------+                                         | ILegacyExtractionPort     | -+-> Legacy VFP 9
-|                                                                        | - VfpReadOnlyStreamAdapter|  |  (Read-Only Files)
-|  +---------------------------+       +-------------------------+       +---------------------------+  |
-|  | Transport Gate Adapter    | ----> | IDispatchGrePort        | ----> | IXsdValidatorPort         | -+-> Local SUNAT
-|  | (Conditional GRE Gate)    |       | (CONDITIONAL)           |       | (CONDITIONAL)             |  |  XSD Schemas
-|  +---------------------------+       +-------------------------+       +---------------------------+  |
-|                                                                                                       |
-+-------------------------------------------------------------------------------------------------------+
++-------------------------------------------------------------------------------------------------------------+
+|                                         FUTURE HEXAGONAL ARCHITECTURE                                      |
+|                                                                                                             |
+| DRIVING ADAPTERS                     APPLICATION CORE                         DRIVEN ADAPTERS              |
+|                                                                                                             |
+| +----------------------+    +---------------------------+    +-----------------------------+               |
+| | MVC Controllers       |--->| Inbound Use-Case Ports    |    | Repository Ports            |               |
+| | (initial interface)   |    | IRecordInboundPort       |    | IProductRepositoryPort      |---> RDBMS    |
+| +----------------------+    | IRecordOutboundPort      |    | IMovementRepositoryPort     |               |
+|                             | IIssueInvoicePort         |    | IInvoiceRepositoryPort     |               |
+| +----------------------+    | IValidateRucPort          |    +-----------------------------+               |
+| | Future REST Adapter  |--->|                           |                                                   |
+| +----------------------+    | Use Cases + Domain        |----> IUblGeneratorPort -----> UblInvoiceXmlAdapter |
+|                             | IssueInvoiceUseCase       |                         (FR-009, NFR-010)       |
+| +----------------------+    | GenerateInvoiceXmlUseCase |                         /            |           |
+| | Future client        |--->|                           |                UBL 2.1 XSD-generated classes    |
+| | adapters             |    +---------------------------+                + official-schema serialization |
+| +----------------------+                 |                               (PHP tool to confirm)             |
+|                                          +----> ISunatDeliveryPort -----> SUNAT/PSE delivery adapters     |
+|                                          +----> ILegacyExtractionPort --> VFP read-only adapter           |
+|                                                                                                             |
++-------------------------------------------------------------------------------------------------------------+
 ```
+
+The XML boundary is the same as in the initial MVC design: `GenerateInvoiceXmlUseCase` depends on the outbound `IUblGeneratorPort`; infrastructure supplies the replaceable `UblInvoiceXmlAdapter`. That adapter is proposed to serialize UBL Invoice 2.1 objects using classes generated from the official OASIS Invoice XSD. Confirm a compatible PHP tool before implementation; neither a tool nor exact package/runtime versions are selected (`FR-009`, `AC-009`, `NFR-002`, `NFR-010`; [ADR-007](file:///c:/Users/LOQ/Documents/GitHub/Examen/specs/architecture/architecture-decisions.md#adr-007-ubl-invoice-xml-generation-behind-an-output-port)).
 
 ---
 
@@ -56,7 +52,7 @@ In strict adherence to the assessment directives:
 - **Contents**:
   - **Domain Entities & Value Objects**: `Product`, `WarehouseMovement`, `ElectronicDocument`, `TaxBreakdown`, `RucNumber`, `Money` ([specs/domain/domain-model.md](file:///c:/Users/LOQ/Documents/GitHub/Examen/specs/domain/domain-model.md)).
   - **Domain Invariants**: Modulo 11 check digit verification (`INV-004`), arbitrary-precision tax balance rules (`INV-005`), and stock decrement rules (`INV-003`).
-  - **Use Case Interactors**: Classes implementing specific operational use cases (`RecordInboundUseCase`, `IssueInvoiceUseCase`, `ValidateRucUseCase`, `MigrateLegacyDataUseCase`).
+  - **Use Case Interactors**: Classes implementing assessed operational use cases (`RecordInboundUseCase`, `IssueInvoiceUseCase`, `GenerateInvoiceXmlUseCase`, `ValidateRucUseCase`, `MigrateLegacyDataUseCase`).
 
 ---
 
@@ -69,11 +65,10 @@ Driver ports expose the application core's capabilities to the outside world; dr
 - `IIssueInvoicePort` (`FR-006`, `FR-008`, `FR-009`, `UC-005`): Computes taxes, verifies RUC, and orchestrates UBL generation.
 - `IValidateRucPort` (`FR-007`, `UC-003`): Evaluates RUC structure and Modulo 11 check digits.
 - `IExtractLegacyPort` (`FR-015`, `FR-016`, `UC-008`): Launches non-destructive legacy migration pipeline.
-- `IDispatchGrePort` *(Conditional)* (`FR-018`, `FR-019`, `UC-009`): Generates and validates Electronic Remission Guides.
 
 #### Driving Adapters:
-1. **MVC Controller Adapter (Current)**:
-   - Existing MVC controllers act as driving adapters, binding HTTP form posts or action invocations to Inbound Ports.
+1. **MVC Controller Adapter (Initial)**:
+   - Existing Laravel MVC controllers remain the initial driving adapters; they delegate application behavior to use cases. This is the intended evolution path, not a replacement of the initial MVC architecture.
 2. **Windows Desktop MSI Client Adapter**:
    - Desktop view models invoking driver ports via in-process service boundaries or local IPC (`NFR-004`).
 3. **Android Mobile APK Adapter**:
@@ -92,7 +87,7 @@ Driven ports represent external services, persistence mechanisms, and third-part
 - `IInvoiceRepositoryPort` (`FR-008`, `FR-009`, `FR-012`): Persists electronic invoices and updates document lifecycle status.
 - `ISunatDeliveryPort` (`FR-010`, `UC-006`): Transmits signed UBL XML payloads to tax authority endpoints and retrieves CDR responses.
 - `ILegacyExtractionPort` (`FR-015`, `UC-008`): Read-only streaming extractor for legacy Visual FoxPro `.DBF` files.
-- `IXsdValidatorPort` *(Conditional)* (`FR-020`, `UC-010`): Validates XML payloads against official SUNAT XSD schemas.
+- `IUblGeneratorPort` (`FR-009`, `AC-009`, `NFR-010`): Generates UBL Invoice 2.1 XML from the application invoice model. The use case depends on this port, never on a generator library or schema-generated classes.
 
 #### Driven Adapters:
 1. **RDBMS Persistence Adapter**:
@@ -102,15 +97,16 @@ Driven ports represent external services, persistence mechanisms, and third-part
 3. **SUNAT Delivery Adapters (Pluggable)**:
    - `SunatBetaServiceAdapter`: Connects directly to official SUNAT Beta SOAP/REST web services.
    - `OseProviderAdapter`: Connects to an authorized Electronic Service Provider (PSE/OSE).
-   - `LocalSimulatorDeliveryAdapter`: Implements `ISunatDeliveryPort` locally to return simulated CDR acceptance/rejection payloads for testing and the DEMO user (`FR-014`, `NFR-011`).
-4. **Local XSD Schema Validator Adapter *(Conditional)***:
-   - Implements `IXsdValidatorPort` using local XML schema validating parsers against official OASIS/SUNAT XSD files (`AC-021`).
+   - No local simulator or sandbox adapter is specified; sandbox behavior is deferred and out of assessed scope.
+4. **UBL Invoice XML Adapter (Proposed)**:
+   - `UblInvoiceXmlAdapter` implements `IUblGeneratorPort` in infrastructure. Proposed approach: use classes generated from the official [OASIS UBL 2.1 Invoice XSD](https://docs.oasis-open.org/ubl/os-UBL-2.1/xsd/maindoc/UBL-Invoice-2.1.xsd) and serialize them to produce the required XML (`FR-009`, `AC-009`, `NFR-010`).
+   - Confirm a PHP-compatible XSD code-generation/serialization tool before implementation. Keep the adapter replaceable; the port contract and application use case must not depend on the selected tool or generated classes.
 
 ---
 
 ## 4. Progressive Migration Strategy (MVC to Hexagonal)
 
-The transition from the current MVC modular monolith to Hexagonal Architecture is achieved through a **5-step non-breaking evolutionary process**:
+The transition from the current MVC modular monolith toward Hexagonal Architecture is achieved through a **6-step non-breaking evolutionary process**:
 
 ```
 Step 1: Extract Use Cases from Controllers
@@ -119,13 +115,16 @@ Step 1: Extract Use Cases from Controllers
 Step 2: Formalize Driven Ports (Interfaces)
         Convert all direct database access and external calls into Outbound Port interfaces.
 
-Step 3: Implement Dependency Injection (IoC Container)
-        Inject driven adapters (repositories, SUNAT delivery gateways) into application interactors.
+Step 3: Implement Dependency Injection (Laravel Service Container)
+        Inject driven adapters (repositories, SUNAT delivery, and UBL XML generation) into application interactors.
 
-Step 4: Expose Alternative Driving Adapters (REST API)
+Step 4: Implement the UBL XML adapter behind IUblGeneratorPort
+        Confirm a compatible PHP tool, generate classes from official UBL 2.1 XSD, and keep tool-specific code in infrastructure.
+
+Step 5: Expose Alternative Driving Adapters (REST API)
         Mount future REST controllers alongside existing MVC views, sharing identical Driver Ports.
 
-Step 5: Externalize Session State for Horizontal Scaling
+Step 6: Externalize Session State for Horizontal Scaling
         Eliminate in-memory session persistence, enabling multiple stateless application instances.
 ```
 
