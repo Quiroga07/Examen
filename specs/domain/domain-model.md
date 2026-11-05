@@ -3,18 +3,20 @@
 ## 1. Document Overview
 This document specifies the core domain model for ABC Software Corp.'s enterprise software modernization. Designed following Domain-Driven Design (DDD) principles, the domain model encapsulates business entities, value objects, domain aggregates, lifecycle state machines, and business invariants.
 
+**Instructor-feedback note:** This revision clarifies the three ISC systems and their UBL data, completes the requested invoice traceability, and records the applicable CDR and format contracts. Business-specific tax applicability remains open.
+
 In accordance with the spec-first methodology:
 - Every domain concept is explicitly linked to its governing **Requirement IDs** (`FR-xxx`, `NFR-xxx`, `UC-xxx`, `AC-xxx`).
-- Every concept is classified by certainty status: **Confirmed**, **Proposed**, or **Conditional / Pending Confirmation**.
-- Concepts related to the **Electronic Remission Guide (GRE - Guía de Remisión Electrónica)** derive from the delegate's supplementary case and remain strictly **Conditional** pending formal confirmation of the core assessment scope.
+- Every concept is classified by certainty status: **Confirmed**, **Proposed**, or **Business-Specific / Pending Confirmation**.
+- GRE, DispatchAdvice, transport, and demo-sandbox behavior are deferred and out of the assessed scope for this phase ([Q-01](file:///c:/Users/LOQ/Documents/GitHub/Examen/docs/01-open-questions.md#category-a-scope-and-functional-boundaries)). The assessed DEMO user profile remains distinct from sandbox behavior.
 - No speculative implementation technology or unverified legacy database structures are assumed.
 
 ---
 
 ## 2. Domain Concept Classification Legend
-- **Confirmed**: Explicitly mandated by the assessment context (e.g., products, warehouse movements, RUC validation, tax calculations, DEMO mode).
+- **Confirmed**: Explicitly mandated by the assessment context (e.g., products, warehouse movements, RUC validation, and tax calculations).
 - **Proposed**: Architectural structural pattern (e.g., standard DDD Value Objects or Aggregates) designed to satisfy confirmed requirements without violating neutrality.
-- **Conditional / Pending Confirmation**: Concepts originating exclusively from the Delegate's Supplementary Case (GRE, vehicles, drivers, transport dispatches).
+- **Business-Specific / Pending Confirmation**: Product tax applicability, rates, reference prices, and other rules not stated in the assessment.
 
 ---
 
@@ -32,10 +34,9 @@ In accordance with the spec-first methodology:
 |  +--------------------+        +---------------------+        | - RucNumber (VO)   |  |
 |                                                               +--------------------+  |
 |  +--------------------------------+           +------------------------------------+  |
-|  | User & Sandbox Aggregate       |           | Transport Aggregate (CONDITIONAL)  |  |
-|  | - User (Root)                  |           | - RemissionGuide / GRE (Root)      |  |
-|  | - DemoSandboxSession (Entity)  |           | - Vehicle & Driver (Entities)      |  |
-|  +--------------------------------+           | - DispatchAdviceXml (VO)           |  |
+|  | User Profile                   |           | Supplementary Scope (Deferred)     |  |
+|  | - User / DEMO role             |           | - GRE / DispatchAdvice             |  |
+|  +--------------------------------+           | - Transport                         |  |
 |                                               +------------------------------------+  |
 +---------------------------------------------------------------------------------------+
 ```
@@ -56,7 +57,8 @@ In accordance with the spec-first methodology:
   - `Description`: Official commercial name/description of the item (*Confirmed*, `FR-001`).
   - `UnitOfMeasure`: Standard measurement unit (e.g., NIU for goods, KGM for weight) (*Proposed / SUNAT Cat. 03*, `FR-011`).
   - `UnitPrice`: Base commercial sales value expressed as `Money` (*Confirmed*, `FR-006`, `FR-008`).
-  - `TaxCategory`: Applicable tax regime classification (`TaxCategory` Enum) (*Confirmed*, `FR-008`, `FR-011`).
+  - `TaxCategory`: IGV affectation classification from SUNAT Catalog 07 (*Confirmed*, `FR-008`, `FR-011`).
+  - `IscTaxConfiguration`: Optional effective-dated system code and the legally applicable calculation parameters; populated only when product applicability and the applicable official schedule are established (*Proposed*, `FR-008`, `REG-03`).
   - `IsActive`: Operational availability status (*Proposed*).
 - **Domain Invariants**:
   - `UnitPrice` must be non-negative ($\ge 0.00$).
@@ -81,8 +83,16 @@ In accordance with the spec-first methodology:
   - `GRAVADO_OPERACION_ONEROSA`: Standard commercial sale subject to IGV (18%).
   - `EXONERADO`: Goods legally exempt from IGV (e.g., certain agricultural/basic groceries under Ley del IGV Apéndice I).
   - `INAFECTO`: Transactions outside the legal scope of IGV.
-  - `SUJETO_A_ISC`: Items incurring Selective Consumption Tax (e.g., alcoholic beverages, tobacco, sugary drinks).
-- **Open Questions**: [Q-11](file:///c:/Users/LOQ/Documents/GitHub/Examen/docs/01-open-questions.md#category-d-peruvian-tax-compliance--sunat-integration) (Complete list of applicable tax rates and exemptions for ABC Software Corp.).
+  - Catalog 07 affectation code (exact code selected per transaction and applicable SUNAT catalog rules).
+- ISC is a separate tax, not a Catalog 07 IGV affectation category. Its system is represented by `IscTaxSystemCode` (Catalog 08: `01`, `02`, `03`).
+- **Open Questions**: [Q-11](file:///c:/Users/LOQ/Documents/GitHub/Examen/docs/01-open-questions.md#category-d-peruvian-tax-compliance--sunat-integration) (product applicability, rates, units, and reference-price inputs).
+
+#### Concept: `IscTaxSystemCode` and `IscCalculation` (Value Objects)
+- **Status**: Catalog 08 systems confirmed; product-specific configuration business-specific.
+- **Traces to**: `FR-008`, `UC-004`, `AC-008`, `REG-03`
+- **Enumerations**: `01` Sistema al Valor; `02` Sistema Específico; `03` Sistema al Precio de Venta al Público (Catalog 08).
+- **Calculation data**: Carry the system code, line taxable base or quantity and unit as appropriate, the effective rate or amount from the applicable official schedule, computed ISC amount, and `TierRange`. Current SUNAT validation requires `TierRange` when the line has ISC scheme `2000` and a positive base, and disallows it for non-ISC lines. System 03 additionally requires the legally defined public-sale-price basis. These are inputs/data contracts, not defaults; rates, product assignments, units, and exact calculation parameters remain unresolved under `REG-03`.
+- **Invariant**: Never infer a product's ISC system, rate, or `TierRange` from its description alone.
 
 ---
 
@@ -140,9 +150,12 @@ In accordance with the spec-first methodology:
   - `SeriesNumber`: Legal series and sequential correlative (`DocumentSeriesNumber` Value Object) (*Confirmed*, `FR-011`, `Q-14`).
   - `IssueDate`: Date of tax document emission (*Confirmed*, `FR-002`).
   - `Issuer`: Legal entity details of ABC Software Corp. (RUC, Business Name, Fiscal Address) (*Confirmed*, `FR-007`).
-  - `Customer`: Legal recipient entity (`Customer` Entity with `RucNumber` or identity document) (*Confirmed*, `FR-006`, `FR-007`).
+  - `Customer`: Legal recipient entity (`Customer` Entity with `RucNumber` or identity document); the identity maps to buyer `PartyIdentification/ID`, and the legal name maps to `PartyLegalEntity/RegistrationName` (*Confirmed*, `FR-006`, `FR-007`, `FR-009`).
+  - `OperationTypeCode`: SUNAT Catalog 51 type of operation, mapped to UBL `cbc:ProfileID` where the applicable invoice profile requires it (`FR-009`, `Q-22`). Catalog 51 is not mapped to `InvoiceTypeCode/@listID`.
+  - `PaymentTerms`: Payment condition and, for credit, the applicable due-date/installment data (`FR-009`, `REG-08`).
+  - `Legend1000`: Amount-in-words legend from Catalog 52 code `1000`, mapped to `cbc:Note/@languageLocaleID="1000"` where required by the SUNAT invoice profile (`FR-009`).
   - `Currency`: Document currency (`PEN` or `USD`) (*Confirmed*, `FR-011`).
-  - `Lines`: Ordered collection of `DocumentLineItem` entities (*Confirmed*, `FR-008`).
+  - `Lines`: Ordered collection of `DocumentLineItem` entities (*Confirmed*, `FR-008`); each retains Catalog 07 tax affectation, applicable ISC details, pricing reference, and unit price for UBL traceability.
   - `TaxSummary`: Aggregated tax bases and amounts (`TaxBreakdown` Value Object) (*Confirmed*, `FR-008`, `NFR-009`).
   - `TotalPayable`: Final payable monetary amount (`Money`) (*Confirmed*, `FR-008`).
   - `LifecycleStatus`: Current electronic billing state (`DocumentLifecycleStatus` Enum) (*Confirmed / Inferred*, `FR-012`).
@@ -153,6 +166,16 @@ In accordance with the spec-first methodology:
   - Total payable must equal: $\text{Taxable Base} + \text{IGV} + \text{ISC} + \text{Exempted} - \text{Discounts}$ with 0.00 discrepancy.
   - For `DocumentType = 01 (Factura)`, `Customer` must possess a valid, checksum-verified `RucNumber`.
   - Once `LifecycleStatus` is `SIGNED` or `ACCEPTED`, the entity is strictly immutable. No amendments, line additions, or recomputations are permitted.
+
+#### Concept: `DocumentLineItem` (Entity)
+- **Status**: Confirmed
+- **Traces to**: `FR-008`, `FR-009`, `UC-004`, `AC-008`, `REG-03`, `REG-09`
+- **Attributes**:
+  - `ProductId`, `Quantity`, `UnitOfMeasure`, `UnitPrice`, and the line extension amount.
+  - `TaxExemptionReasonCode`: SUNAT Catalog 07 affectation code mapped to UBL `ClassifiedTaxCategory/cbc:TaxExemptionReasonCode`.
+  - `PricingReference`: optional alternative price and Catalog 16 price type code, included only where required by the applicable profile.
+  - `IscCalculation`: optional Catalog 08 system, system-appropriate calculation inputs, effective scheduled rate/amount, required applicable `TierRange` for positive-base ISC lines, and resulting ISC amount.
+- **Invariant**: Tax category, price reference, and ISC data are distinct; an ISC system code must not be used as a Catalog 07 affectation code.
 
 #### Concept: `RucNumber` (Value Object)
 - **Status**: Confirmed
@@ -176,6 +199,7 @@ In accordance with the spec-first methodology:
   - `InafectOperations`: Monetary sum of goods not subject to IGV.
   - `IgvAmount`: Total calculated IGV (standard rate verified against official sources, baseline 18%).
   - `IscAmount`: Total calculated Selective Consumption Tax.
+  - `IscLines`: Per-line ISC calculation results keyed by Catalog 08 system where applicable.
   - `TotalDiscounts`: Optional commercial discounts applied before tax.
 - **Domain Invariants**:
   - All amounts must share the same currency.
@@ -189,58 +213,23 @@ In accordance with the spec-first methodology:
   - `GENERATED`: UBL 2.1 XML generated, awaiting digital signing.
   - `SIGNED`: Digital signature (XMLDSig) applied; ready for dispatch.
   - `TRANSMITTED`: Sent to SUNAT/PSE/OSE, awaiting response.
-  - `ACCEPTED`: Successfully accepted by tax authority with valid CDR (status code 0).
-  - `REJECTED`: Rejected by tax authority (contains specific SUNAT error code).
+  - `ACCEPTED`: Successfully accepted by tax authority with CDR `cbc:ResponseCode` `0`.
+  - `REJECTED`: Rejected by tax authority with a nonzero response code identifying the rejection; no numeric range is assumed.
   - `CANCELLED`: Legally cancelled via official communication (*Comunicación de Baja*).
 
 ---
 
-### 4.4 Aggregate 4: System User & Evaluation Sandbox
+### 4.4 Aggregate 4: User Profiles
 
-#### Concept: `User` (Aggregate Root Entity)
+#### Concept: `UserProfile` (Entity)
 - **Status**: Confirmed
-- **Traces to**: `FR-013`, `FR-014`, `UC-007`, `AC-012`
-- **Description**: Represents an authenticated human operator interacting with the modular monolith.
-- **Attributes**:
-  - `UserId`: Unique user identifier.
-  - `Username`: Login name.
-  - `Role`: Operating role (`BILLING_CLERK`, `WAREHOUSE_OPERATOR`, `ADMINISTRATOR`, `DEMO_USER`).
-  - `IsActive`: Account status.
+- **Traces to**: `FR-013`, `FR-014`, `Q-03`
+- **Description**: Represents an operator profile, including the requested DEMO profile. Credentials, assigned access rights, and the formal role matrix remain open.
+- **Scope boundary**: A DEMO profile does not imply isolated storage, simulated billing, mock CDRs, or blocking live emissions. Those sandbox behaviors are deferred.
 
-#### Concept: `DemoSandboxSession` (Entity / Execution Context)
-- **Status**: Confirmed
-- **Traces to**: `FR-014`, `NFR-011`, `UC-007`, `AC-013`, `Q-03`
-- **Description**: Enforces isolation guarantees when an operator interacts as `DEMO_USER`.
-- **Domain Invariants**:
-  - Any transaction executed in this session must route persistence to an isolated sandbox data store (or in-memory mock).
-  - Live external HTTP/SOAP dispatches to production SUNAT endpoints are structurally forbidden.
-  - All generated documents and reports must bear the immutable attribute `IsDemo = true`.
+### 4.5 Deferred Concepts
 
----
-
-### 4.5 Aggregate 5: Goods Transport & Electronic Remission Guide (GRE)
-
-> **Important Scope Notice**: This aggregate originates exclusively from the **Delegate's Supplementary Case**. It remains **Conditional / Pending Confirmation** regarding whether it forms part of the evaluated core assessment ([Q-01](file:///c:/Users/LOQ/Documents/GitHub/Examen/docs/01-open-questions.md#category-a-scope-and-functional-boundaries)).
-
-#### Concept: `ElectronicRemissionGuide` (Aggregate Root Entity - CONDITIONAL)
-- **Status**: Conditional / Pending Confirmation
-- **Traces to**: `FR-018`, `FR-019`, `FR-020`, `UC-009`, `UC-010`, `AC-019`, `AC-020`, `AC-021`
-- **Description**: Represents an Electronic Remission Guide (*Guía de Remisión Electrónica - GRE*) legally required before transport vehicles leave with merchandise.
-- **Attributes**:
-  - `GreId`: Unique remission guide identifier.
-  - `SeriesNumber`: Legal GRE series (e.g., `T001-00000001` under SUNAT Cat. 01 Code 09) (*Proposed*, `FR-018`).
-  - `TransferReason`: Code defining reason for transport (e.g., Sale, Transfer between warehouses) (*Proposed / SUNAT Cat. 20*, `FR-018`).
-  - `TransportMode`: Mode of transport (`PUBLIC` via commercial carrier or `PRIVATE` via ABC Software Corp. fleet) (*Proposed / SUNAT Cat. 18*, `FR-018`).
-  - `OriginAddress`: Physical address of warehouse departure (*Conditional*, `FR-018`).
-  - `DeliveryAddress`: Physical destination address of the customer (*Conditional*, `FR-018`).
-  - `Carrier`: Transport company details (if `PUBLIC`) or driver/vehicle details (if `PRIVATE`) (*Conditional*, `FR-018`).
-  - `ShippedItems`: Collection of merchandise items, gross weight, and quantities (*Conditional*, `FR-018`).
-  - `XmlPayload`: UBL 2.1 Dispatch Advice XML payload (`<DespatchAdvice>`) (*Conditional*, `FR-019`).
-  - `XsdValidationStatus`: Result of local XSD schema verification (`VALID`, `INVALID`) (*Conditional*, `FR-020`, `AC-021`).
-  - `DepartureCleared`: Boolean authorization gate allowing vehicle physical exit (*Conditional*, `FR-018`, `AC-019`).
-- **Domain Invariants**:
-  - A transport vehicle cannot be cleared for physical departure (`DepartureCleared = true`) unless the associated GRE has achieved verified XSD validity and approved tax status (`AC-019`).
-  - Gross weight must be strictly positive ($> 0.00$).
+GRE, DispatchAdvice, and transport aggregates are outside the active assessed scope. No domain requirements, operations, or data contracts for them are defined here.
 
 ---
 
@@ -254,5 +243,5 @@ In accordance with the spec-first methodology:
 | `INV-004` | Billing | Customer RUC must satisfy validated statutory criteria without unverified endpoints (per Q-13) | `FR-007`, `AC-007` |
 | `INV-005` | Billing | Total payable must equal sum of line taxable bases + taxes with 0.00 drift | `FR-008`, `NFR-009`, `AC-008` |
 | `INV-006` | Billing | Signed or accepted electronic invoices are permanently immutable | `FR-012`, `NFR-012` |
-| `INV-007` | Sandbox | DEMO user actions must execute in isolation without live tax emissions | `FR-014`, `NFR-011`, `AC-013` |
-| `INV-008` | Transport *(Conditional)* | Vehicle departure requires valid, XSD-verified GRE document | `FR-018`, `FR-020`, `AC-019` |
+| `INV-007` | Sandbox *(Deferred)* | Demo-sandbox isolation is outside the active assessed scope | `FR-014`, `NFR-011`, `AC-013` (deferred behavior) |
+| `INV-008` | Transport *(Deferred)* | GRE departure gate is outside the active assessed scope | `FR-018`, `FR-020`, `AC-019` (deferred requirements) |

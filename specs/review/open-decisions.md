@@ -4,9 +4,11 @@
 
 This register consolidates all open architectural, functional, technological, and regulatory decisions identified across the analytical specifications of the ABC Software Corp. project.
 
+**Instructor-feedback note:** This register now distinguishes confirmed SUNAT/UBL structures from business-specific choices and records GRE/transport and demo-sandbox behavior as deferred.
+
 In accordance with the project's **spec-first** and **non-assumption** principles:
-- **Ready for Academic Review**: The analytical baseline, domain models, architectural patterns, and API contracts are 100% complete.
-- **Pending Before Implementation**: The open decisions cataloged below represent unstated inputs or policy choices that must be resolved by the course instructor, evaluation committee, or product owner before physical coding, schema creation, or deployment can begin.
+- **Specification status**: The relevant domain, DTO, and compliance specifications have been updated; the API contract and architecture are unchanged in this phase.
+- **Pending before implementation**: The decisions below represent unstated inputs or policy choices that require clarification before implementation or deployment.
 
 ---
 
@@ -14,15 +16,11 @@ In accordance with the project's **spec-first** and **non-assumption** principle
 
 ### Category A: Scope and Functional Boundaries
 
-#### `OD-01`: Inclusion of Electronic Remission Guide (GRE) in Evaluated Scope
+#### `OD-01`: GRE / DispatchAdvice / Transport Scope
 - **Source Question**: [`Q-01 in docs/01-open-questions.md`](file:///c:/Users/LOQ/Documents/GitHub/Examen/docs/01-open-questions.md#category-a-scope-and-functional-boundaries).
-- **Affected Artifacts**: [`FR-018` to `FR-020`](file:///c:/Users/LOQ/Documents/GitHub/Examen/specs/requirements/functional-requirements.md#35-module-5-conditional--goods-transport-and-electronic-remission-guide-gre), [`UC-009`, `UC-010`](file:///c:/Users/LOQ/Documents/GitHub/Examen/specs/requirements/use-cases.md#35-goods-transport-and-remission-guides-conditional), [`specs/api/api-design.md Section 6`](file:///c:/Users/LOQ/Documents/GitHub/Examen/specs/api/api-design.md#6-conditional--proposed-api-operations-goods-transport-and-gre), `specs/compliance/sunat-ubl-traceability.md Section 5`.
-- **Current Baseline**: GRE is classified as **Conditional / Pending Confirmation** and excluded from the confirmed `openapi.yaml` contract.
-- **Options for Resolution**:
-  - *Option A*: Confirm GRE as a mandatory evaluated deliverable $\rightarrow$ Promotes conditional DTOs and API operations to the confirmed core scope.
-  - *Option B*: Clarify that GRE is an optional/bonus scenario or out of scope $\rightarrow$ Keeps GRE archived as a reference extension.
-- **Implementation Impact**: Blocks creation of the transport gate database tables and UBL Despatch Advice XSD parser.
-- **Status**: **Pending Academic Confirmation**
+- **Affected Artifacts**: `FR-018` to `FR-020`, `UC-009`/`UC-010`, `AC-019` to `AC-021`, and related traceability references.
+- **Current Baseline**: GRE, DispatchAdvice, and transport are deferred and out of the assessed scope. Their existing identifiers are retained as deferred references; no active requirements or operations are defined.
+- **Status**: **Resolved for this phase — Deferred / Out of scope**
 
 #### `OD-02`: Exhaustive List of Required Electronic Payment Receipts (CPE)
 - **Source Question**: [`Q-02 in docs/01-open-questions.md`](file:///c:/Users/LOQ/Documents/GitHub/Examen/docs/01-open-questions.md#category-a-scope-and-functional-boundaries), [`REG-01 in regulatory-open-questions.md`](file:///c:/Users/LOQ/Documents/GitHub/Examen/specs/compliance/regulatory-open-questions.md#item-reg-01-cpe-document-types-in-mandatory-scope).
@@ -34,15 +32,12 @@ In accordance with the project's **spec-first** and **non-assumption** principle
 - **Implementation Impact**: Dictates whether credit note adjustment workflows, reversal invariants, and additional UBL templates must be coded.
 - **Status**: **Pending Academic Confirmation**
 
-#### `OD-03`: DEMO User Profile Configuration and Sandbox Boundaries
+#### `OD-03`: DEMO User Profile and Sandbox Boundary
 - **Source Question**: [`Q-03 in docs/01-open-questions.md`](file:///c:/Users/LOQ/Documents/GitHub/Examen/docs/01-open-questions.md#category-a-scope-and-functional-boundaries).
-- **Affected Artifacts**: [`FR-014`](file:///c:/Users/LOQ/Documents/GitHub/Examen/specs/requirements/functional-requirements.md#fr-014-dedicated-demo-user-profile-and-safe-demonstration-operation), [`NFR-011`](file:///c:/Users/LOQ/Documents/GitHub/Examen/specs/requirements/non-functional-requirements.md#nfr-011-complete-isolation-of-demo-user-sandbox), [`UC-007`](file:///c:/Users/LOQ/Documents/GitHub/Examen/specs/requirements/use-cases.md#uc-007-perform-invoicing-and-warehouse-simulation-as-demo-user), [`AC-013`](file:///c:/Users/LOQ/Documents/GitHub/Examen/specs/requirements/acceptance-criteria.md#ac-013-safe-demo-user-sandbox-execution), [`ADR-005`](file:///c:/Users/LOQ/Documents/GitHub/Examen/specs/architecture/architecture-decisions.md#adr-005-multi-environment-sandbox-isolation-for-demo-user), `POST /api/v1/demo/sessions`.
-- **Current Baseline**: Generic sandbox simulation endpoint implemented without inventing usernames, passwords, personal data, or permissions. Live network calls are blocked.
-- **Options for Resolution**:
-  - *Option A*: Hardcoded demo credentials (e.g., `demo` / `demo123`) with bypass authentication for evaluators.
-  - *Option B*: In-memory database container preloaded with a standardized grocery seed catalog.
-- **Implementation Impact**: Dictates database seeder scripts and authentication bypass filters.
-- **Status**: **Pending Academic Confirmation**
+- **Affected Artifacts**: `FR-014`, `UC-007`, and `Q-03`; sandbox-specific `NFR-011`/`AC-013` are deferred.
+- **Current Baseline**: The DEMO user profile is in scope. Sandbox isolation, simulated transactions/CDRs, and production-emission blocking are not implied and remain deferred.
+- **Open Decision**: Profile credentials and access rights still require clarification under `Q-03`.
+- **Status**: **Partially resolved — Profile in scope; sandbox out of scope**
 
 ---
 
@@ -142,12 +137,12 @@ In accordance with the project's **spec-first** and **non-assumption** principle
 - **Implementation Impact**: Dictates PKI keystore loading and SOAP client configuration.
 - **Status**: **Pending Regulatory Clarification**
 
-#### `OD-13`: Verified ISC Product List and Calculation Modes
-- **Source Question**: [`Q-11 in docs/01-open-questions.md`](file:///c:/Users/LOQ/Documents/GitHub/Examen/docs/01-open-questions.md#category-d-peruvian-tax-compliance--sunat-integration), [`REG-04 in regulatory-open-questions.md`](file:///c:/Users/LOQ/Documents/GitHub/Examen/specs/compliance/regulatory-open-questions.md#item-reg-04-isc-calculation-modes-and-affected-goods).
+#### `OD-13`: Product-Specific ISC Applicability and Inputs
+- **Source Question**: [`Q-11 in docs/01-open-questions.md`](file:///c:/Users/LOQ/Documents/GitHub/Examen/docs/01-open-questions.md#category-d-peruvian-tax-compliance--sunat-integration), [`REG-03 in regulatory-open-questions.md`](file:///c:/Users/LOQ/Documents/GitHub/Examen/specs/compliance/regulatory-open-questions.md#item-reg-03-product-specific-isc-applicability-and-inputs).
 - **Affected Artifacts**: `FR-008`, `UC-004`, `AC-008`, `TaxBreakdown`.
-- **Current Baseline**: 18% IGV formula is confirmed; ISC calculation hook is architected but rates default to zero unless specified.
-- **Options for Resolution**: Clarification of specific grocery goods incurring ISC (e.g., sugary beverages, alcohol) and whether *Sistema Al Valor* or *Sistema Específico* applies.
-- **Implementation Impact**: Shapes the ISC tax table calculation formula.
+- **Current Baseline**: Catalog 08 systems `01`, `02`, and `03` are identified and modeled. Product applicability and effective rates/amounts are not assumed and do not default to zero.
+- **Options for Resolution**: Provide the assessed products and, for each applicable product, its effective official schedule, calculation inputs, measurement unit, and applicable public-sale-price/`TierRange` data.
+- **Specification Impact**: Completes business-specific product configuration and representative tax cases without changing the catalogued system set.
 - **Status**: **Pending Regulatory Clarification**
 
 #### `OD-14`: Dual Series Numbering Strategy vs. Internal Numbers

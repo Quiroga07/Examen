@@ -69,9 +69,9 @@ This document formalizes the verifiable acceptance criteria for ABC Software Cor
 - **Source**: Teacher Assessment
 - **Status**: Confirmed
 - **Verification Method**: Automated Test
-- **Criterion**: Given test invoice payloads containing mixed taxable lines:
-  1. Line taxes (IGV, ISC) and subtotals must calculate to 2 decimal places using half-up rounding.
-  2. The sum of line amounts must equal the document total with 0.00 currency discrepancy (zero floating-point drift).
+- **Criterion**: Given invoice payloads with verified tax configuration:
+  1. Line taxes (IGV and, when applicable, ISC) and subtotals are calculated using the selected applicable system and official inputs; ISC configurations cover Catalog 08 systems `01`, `02`, and `03` without assuming product applicability or rates.
+  2. Tax and monetary amounts follow the applicable SUNAT precision/rounding requirements, and line amounts reconcile with document totals with no unsupported business defaults.
 
 #### `AC-009`: Formal UBL XML Generation and Well-Formedness
 - **Target Requirement**: `FR-009`, `NFR-010`, `UC-005`
@@ -94,7 +94,7 @@ This document formalizes the verifiable acceptance criteria for ABC Software Cor
 - **Source**: Teacher Assessment
 - **Status**: Confirmed
 - **Verification Method**: Automated Test / Code Inspection
-- **Criterion**: In database storage and generated XML nodes, document types, statuses, and currencies must strictly match verified SUNAT catalog codes, rejecting unmapped or arbitrary string values.
+- **Criterion**: In stored data and generated XML, catalog-backed document, currency, unit, identity, tax-affectation, ISC-system, pricing-reference, and invoice-operation fields use the applicable official SUNAT code and required UBL location. Catalog 07 tax affectation codes are not conflated with Catalog 08 ISC system codes.
 
 ---
 

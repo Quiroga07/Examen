@@ -93,15 +93,15 @@ Every use case links to its functional (`FR-xxx`) and non-functional (`NFR-xxx`)
 - **Preconditions**: Line items, quantities, and unit values have been specified.
 - **Trigger**: The actor requests subtotal/total calculation for a sale.
 - **Main Success Scenario**:
-  1. For each line item, the system determines applicable tax classification codes from SUNAT catalogs.
-  2. If applicable, the system calculates ISC according to the verified rate and tax base.
+  1. For each line item, the system determines applicable tax classification codes from SUNAT catalogs, keeping Catalog 07 IGV affectation separate from Catalog 08 ISC system.
+  2. If ISC applies, the system selects the verified Catalog 08 system (`01` al valor, `02` específico, or `03` al precio de venta al público) and uses only the corresponding verified calculation inputs and effective official schedule.
   3. The system calculates IGV on the taxable base (including ISC if prescribed by law) using arbitrary-precision math.
   4. The system rounds line amounts using standard half-up rounding to 2 decimal places.
   5. The system sums taxable bases, tax amounts, and payable totals, ensuring the sum of line amounts equals the document total.
 - **Alternative / Exception Flows**:
   - *1a. Tax category missing/unverified*: The system halts calculation and raises a configuration alert.
 - **Postconditions**: Accurate, mathematically consistent tax totals are established for the document.
-- **Open Questions**: [Q-11](file:///c:/Users/LOQ/Documents/GitHub/Examen/docs/01-open-questions.md#category-d-peruvian-tax-compliance--sunat-integration).
+- **Open Questions**: [Q-11](file:///c:/Users/LOQ/Documents/GitHub/Examen/docs/01-open-questions.md#category-d-peruvian-tax-compliance--sunat-integration) (product applicability, rates, units, and public-sale-price basis remain business-specific).
 
 ---
 

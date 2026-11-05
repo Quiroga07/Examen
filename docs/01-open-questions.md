@@ -83,18 +83,18 @@ To maintain architectural integrity, **no assumptions** will be made on any of t
 
 ### Category D: Peruvian Tax Compliance & SUNAT Integration
 
-- **Q-10: Which official SUNAT regulatory resolutions and UBL specifications apply to assessed electronic invoices?**
-  - *Context*: Peruvian electronic invoicing has evolved across multiple resolutions (e.g., RS 097-2012, RS 117-2017, and RS 193-2020).
-  - *Question*: Is the system expected to comply strictly with **UBL 2.1** under the current SUNAT rules for assessed electronic invoices, or is an earlier standard acceptable for evaluation?
-  - *Impact*: Dictates invoice UBL namespace definitions, XML node structures, and applicable schema requirements. GRE-specific rules are deferred under Q-01.
+- **Q-10: Are additional current SUNAT technical requirements applicable beyond the verified invoice baseline?**
+  - *Context*: The specification uses UBL 2.1 for assessed invoices, with RS 097-2012/SUNAT, RS 117-2017/SUNAT, and RS 193-2020/SUNAT as relevant references. Catalog and format mappings are cited separately in the compliance matrix.
+  - *Question*: Does the instructor or the currently applicable SUNAT technical profile require any additional amendment, annex version, or invoice-specific validation beyond the sources cited in the matrix?
+  - *Impact*: Could alter the assessed invoice profile or validations; does not make the already-verified UBL 2.1 baseline unknown. GRE-specific rules remain deferred under Q-01.
 
-- **Q-11: What are the verified tax rates, algorithms, and exemptions for ABC Software Corp.?**
-  - *Context*: The assessment mentions an 18% IGV rate, but cautions that tax rates, codes, and rules must be verified against official sources. Grocery distribution often involves exempt agricultural goods (*Bienes Exonerados* - Apéndice I Ley del IGV), ISC on alcoholic/sugary beverages, and ICBPER for plastic bags.
+- **Q-11: Which assessed products and effective tax schedules apply?**
+  - *Context*: The applicable SUNAT Catalog 07 affectation values and the three SUNAT Catalog 08 ISC systems are documented. Catalog 08 identifies `01` Sistema al Valor, `02` Sistema Específico, and `03` Sistema al Precio de Venta al Público; it does not identify ABC Software Corp.'s product applicability or rate inputs.
   - *Question*:
-    - Must the system support multiple tax regimes (Gravado, Exonerado, Inafecto, Exportación)?
-    - Which specific products incur ISC, and what calculation method applies (Sistema Al Valor, Sistema Específico, or Precio de Venta al Público)?
-    - Is the ICBPER tax (*Impuesto al Consumo de Bolsas de Plástico*) required for retail grocery sales?
-  - *Impact*: Shapes the tax calculation engine, rounding algorithms (half-up to 2 decimals), and line-item tax breakdown structures.
+    - Which assessed products use each applicable Catalog 07 affectation code or incur ISC?
+    - For applicable ISC products, which effective official schedule, rate or specific amount, measurement unit, public-sale-price basis, and any `TierRange` apply?
+    - Is ICBPER support required for the assessed retail operations?
+  - *Impact*: Determines business-specific product configuration and representative tax cases; the system must not infer applicability or rates from product descriptions.
 
 - **Q-12: Which external integration pathway is authorized and required for testing?**
   - *Context*: The legacy system has no adequate electronic integration with SUNAT or a PSE/OSE.
@@ -140,10 +140,10 @@ To maintain architectural integrity, **no assumptions** will be made on any of t
   - *Question*: Is inventory tracking limited strictly to physical quantities, or must the system maintain inventory cost accounting and valuation?
   - *Impact*: Influences warehouse movement line attributes, stock balance aggregates, and accounting integration models.
 
-- **Q-19: Are commercial payment terms (Contado vs. Crédito under RS 193-2020) required?**
-  - *Context*: SUNAT Resolution RS 193-2020/SUNAT mandates that invoices declare payment terms (*Contado* or *Crédito*). For credit sales, installment amounts, due dates, and net pending amounts must be reported.
-  - *Question*: Does the evaluated scope require installment schedule management for credit sales, or is single-payment *Contado* sufficient for evaluation?
-  - *Impact*: Governs invoice header attributes, payment term DTOs, and UBL `<cac:PaymentTerms>` nodes.
+- **Q-19: Which payment policies and credit examples apply?**
+  - *Context*: The invoice specification carries the payment condition and the applicable credit amount/installment details in UBL `cac:PaymentTerms` as required by RS 193-2020/SUNAT.
+  - *Question*: Does the assessed business issue credit invoices, and what installment policy or representative credit cases should be specified?
+  - *Impact*: Determines business defaults and validation/test cases; it does not leave the normative payment-term data contract unknown.
 
 - **Q-20: Is the Plastic Bag Consumption Tax (ICBPER) required for retail operations?**
   - *Context*: Peruvian retail merchandise sales commonly incur the Single-Use Plastic Bag Tax (*ICBPER* under Ley 30884 and SUNAT Cat. 05 Code 7152).
@@ -158,6 +158,16 @@ To maintain architectural integrity, **no assumptions** will be made on any of t
     - Basic authentication with TLS for evaluation?
   - *Impact*: Dictates the `components.securitySchemes` configuration in `specs/api/openapi.yaml` and client authorization headers.
 
+- **Q-22: Which Catalog 51 invoice operation type and profile scheme apply?**
+  - *Context*: Catalog 51 is for type of operation (`tipOperacion`) and is distinct from Catalog 01 `InvoiceTypeCode`; the cited SUNAT guide/structure maps operation type to UBL `cbc:ProfileID`. The 2017 guide's scheme URI conflicts with its Catalog 51 label.
+  - *Question*: Which Catalog 51 operation type applies to assessed transactions, and which current SUNAT profile scheme URI should be used? Do not infer either from the sales channel alone.
+  - *Impact*: Determines the business-selected `cbc:ProfileID` content and scheme metadata; `InvoiceTypeCode` remains Catalog 01.
+
+- **Q-23: Formats 12.1 and 14.1 — Resolved**
+  - *Resolution*: SUNAT RS 234-2006/SUNAT, Article 13 and Annex 2, identifies Format 12.1 as the *Registro del Inventario Permanente en Unidades Físicas* and Format 14.1 as the *Registro de Ventas e Ingresos*. The minimum data fields supported by assessed inventory and sales processes are mapped in `specs/compliance/sunat-ubl-traceability.md`, Section 6.
+  - *Scope*: These are tax-register formats, not invoice XML formats. Their mapping does not add API operations, GRE/transport, or CPE document types outside the assessed scope.
+  - *Remaining limitation*: The case still does not provide the legacy database schema, so physical source table/column mappings remain unknown.
+
 ---
 
 ## 3. Summary of Blocking Items
@@ -167,5 +177,4 @@ Before initiating technical implementation or detailed code architecture, resolu
 3. **Target Technology Stack**: Confirmation of the programming language, runtime, and RDBMS (Q-07, Q-08).
 4. **Distribution Architecture**: Clarification of the MSI/APK architectural topology, mobile connectivity, and API authentication (Q-09, Q-15, Q-21).
 5. **Evaluation Environment**: DEMO user profile details, digital certificates, and authorized integration test pathway (Q-03, Q-12).
-6. **Regulatory Clarifications**: Confirmation of ISC calculation modes (Q-11), payment terms (Q-19), and ICBPER applicability (Q-20).
-
+6. **Regulatory Clarifications**: Product-specific ISC applicability and inputs (Q-11), payment policy (Q-19), ICBPER applicability (Q-20), and Catalog 51 operation type/profile (Q-22). CDR/error categories are documented in REG-10; Formats 12.1/14.1 are identified and mapped under resolved Q-23/REG-11.

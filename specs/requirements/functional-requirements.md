@@ -84,9 +84,9 @@ No visual FoxPro schemas, tax rates, codes, or technology decisions are invented
 - **Source**: Teacher Assessment
 - **Status**: Confirmed
 - **Evidence from Context**: `docs/00-context-and-scope.md` Section 2.1, Items 3 & 5: *"Calculation errors in applicable taxes, specifically IGV ... and ISC... The case notes an 18% IGV rate, but tax rates, codes, and calculation rules must be verified against official SUNAT regulations before being treated as definitive."*
-- **Description**: The system shall calculate applicable Peruvian taxes, including Value Added Tax (IGV) and Selective Consumption Tax (ISC), on line items and document totals using verified mathematical formulas and rounding rules.
-- **Acceptance Criterion**: For any given taxable base, tax amounts and totals equal the verified formula results to 2 decimal places with half-up rounding, with zero discrepancy between line-item aggregates and document totals.
-- **Open Questions**: [Q-11](file:///c:/Users/LOQ/Documents/GitHub/Examen/docs/01-open-questions.md#category-d-peruvian-tax-compliance--sunat-integration) (Applicable ISC product lists and specific calculation modes).
+- **Description**: The system shall calculate applicable Peruvian taxes, including IGV and ISC, using the applicable tax classification and, for ISC, the selected SUNAT Catalog 08 system (`01` al valor, `02` específico, or `03` al precio de venta al público) with verified calculation inputs and rounding rules.
+- **Acceptance Criterion**: For configured and verified tax inputs, tax amounts and totals equal the applicable formula results to 2 decimal places with the required rounding, and line-item aggregates reconcile with document totals. No product applicability or rate is inferred.
+- **Open Questions**: [Q-11](file:///c:/Users/LOQ/Documents/GitHub/Examen/docs/01-open-questions.md#category-d-peruvian-tax-compliance--sunat-integration) (Product applicability and business-specific ISC schedule inputs).
 
 #### `FR-009`: Generate Standardized Electronic Document XML
 - **Source**: Teacher Assessment
@@ -109,11 +109,11 @@ No visual FoxPro schemas, tax rates, codes, or technology decisions are invented
 - **Status**: Confirmed
 - **Evidence from Context**: `docs/00-context-and-scope.md` Section 2.1, Item 5: *"The new system must consider Peruvian tax rules and SUNAT catalogs, including document types, statuses, and currencies."*
 - **Description**: The system shall maintain and utilize verified SUNAT catalog codes for:
-  - Document Types (e.g., Catalogo 01).
-  - Document Statuses.
-  - Currencies (e.g., Catalogo 02 - PEN, USD).
-- **Acceptance Criterion**: All stored transactions and generated XML documents use verified codes from the official SUNAT catalogs without arbitrary string values.
-- **Open Questions**: [Q-10](file:///c:/Users/LOQ/Documents/GitHub/Examen/docs/01-open-questions.md#category-d-peruvian-tax-compliance--sunat-integration) (Complete list of active catalogs applicable to the company).
+  - Document types and currencies (Catalogs 01 and 02).
+  - Measurement units and identity types (Catalogs 03 and 06).
+  - IGV affectation, ISC system, tax, alternative-price, and invoice operation codes (Catalogs 05, 07, 08, 16, and 51 as applicable).
+- **Acceptance Criterion**: Each catalog-backed field uses the relevant official code and UBL location; ISC system codes are distinct from IGV affectation codes.
+- **Open Questions**: [Q-10](file:///c:/Users/LOQ/Documents/GitHub/Examen/docs/01-open-questions.md#category-d-peruvian-tax-compliance--sunat-integration) (Other catalog profiles applicable to the company's assessed documents).
 
 #### `FR-012`: Electronic Document Lifecycle and Status Tracking
 - **Source**: Teacher Assessment

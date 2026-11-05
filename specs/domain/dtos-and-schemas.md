@@ -1,11 +1,13 @@
 # DTOs and Validation Schemas Specification (`specs/domain/dtos-and-schemas.md`)
 
 ## 1. Document Overview
-This document specifies the Data Transfer Objects (DTOs) and formal contract schemas for ABC Software Corp.'s enterprise system modernization. These DTOs define the input, output, and inter-module communication payloads across warehouse operations, tax calculation, electronic invoicing, demonstration sandbox, migration staging, and conditional merchandise transport.
+This document specifies the Data Transfer Objects (DTOs) and formal contract schemas for ABC Software Corp.'s enterprise system modernization. These DTOs define the input, output, and inter-module communication payloads across warehouse operations, tax calculation, electronic invoicing, and migration staging.
+
+**Instructor-feedback note:** This revision adds the three Catalog 08 ISC systems, the requested SUNAT–UBL invoice fields, and verified CDR/format data contracts. Business-specific tax applicability remains open.
 
 In accordance with the spec-first methodology:
 - Every DTO and schema field is tied directly to its governing **Requirement IDs** (`FR-xxx`, `NFR-xxx`, `UC-xxx`, `AC-xxx`).
-- DTOs are classified as **Confirmed**, **Proposed**, or **Conditional / Pending Confirmation** (for GRE transport).
+- DTOs are classified as **Confirmed**, **Proposed**, or **Business-Specific / Pending Confirmation**.
 - Specifications are technology-agnostic (using language-neutral types: `String`, `Integer`, `Decimal`, `Boolean`, `DateTime`, `Enum`).
 - No arbitrary external endpoints, uninspected Visual FoxPro tables, or speculative frameworks are assumed.
 
@@ -14,7 +16,7 @@ In accordance with the spec-first methodology:
 ## 2. Classification Legend
 - **Confirmed**: Payload structures mandated by core assessment requirements.
 - **Proposed**: Clean architectural contracts designed to support confirmed requirements without coupling to concrete frameworks.
-- **Conditional / Pending Confirmation**: Payload structures originating exclusively from the Delegate's Supplementary Case (GRE).
+- **Business-Specific / Pending Confirmation**: Product tax applicability, rates, units, and payment policies not stated in the assessment.
 
 ---
 
@@ -86,7 +88,18 @@ In accordance with the spec-first methodology:
 | `unitPrice` | `Decimal` | Mandatory | $\ge 0.00$; scale 2 | Base sales price (`FR-006`) |
 | `currency` | `String` | Mandatory | `PEN` or `USD` | ISO currency code (`FR-011`) |
 | `taxCategory` | `String` | Mandatory | Valid SUNAT Cat. 07 code | Tax regime code (`FR-008`, `FR-011`) |
+| `iscTaxConfiguration` | `IscTaxConfigurationDto` | Optional | Only for a product confirmed as ISC-applicable; Catalog 08 code `01`, `02`, or `03` | Effective-dated ISC system and configured statutory inputs; no default applicability or rate |
 | `isActive` | `Boolean` | Mandatory | Default `true` | Operational availability |
+
+#### Sub-DTO: `IscTaxConfigurationDto`
+| Field Name | Type | Multiplicity | Constraints / Rules | Description |
+|---|---|---|---|---|
+| `systemCode` | `String` | Conditional | SUNAT Catalog 08: `01`, `02`, or `03` | `01` al valor; `02` específico; `03` al precio de venta al público |
+| `effectiveFrom` / `effectiveTo` | `Date` | Conditional | Date-bounded where the official schedule changes | Effective period of the selected official schedule |
+| `ratePercent` | `Decimal` | Conditional | Use only where the applicable system and official schedule define a percentage | Scheduled rate input; value remains business-specific |
+| `amountPerUnit` | `Decimal` | Conditional | Use only for applicable specific-system schedules | Scheduled amount and its measurement unit |
+| `publicSalePrice` | `Decimal` | Conditional | Use only where the applicable system requires it | Legally defined public-sale-price basis for system 03 |
+| `tierRange` | `String` | Conditional | Required for positive-base ISC invoice lines per current SUNAT validation; do not set on non-ISC lines | UBL `TierRange` value; do not infer a code |
 
 ---
 
@@ -125,16 +138,33 @@ In accordance with the spec-first methodology:
 | `series` | `String` | Mandatory | Formats: `F###` (Factura) or `B###` (Boleta) | Legal series code (`Q-14`) |
 | `issueDate` | `DateTime` | Mandatory | Current date (or max 2 days past per SUNAT) | Date of tax emission (`FR-002`) |
 | `currency` | `String` | Mandatory | `PEN` or `USD` (SUNAT Cat. 02) | Transaction currency (`FR-011`) |
+| `operationTypeCode` | `String` | Conditional | SUNAT Catalog 51 where applicable | Operation type serialized in UBL `cbc:ProfileID`; not `InvoiceTypeCode/@listID` |
+| `paymentTerms` | `PaymentTermsDto` | Conditional | Required where the applicable SUNAT document profile requires payment condition/detail | `cac:PaymentTerms` data; see `REG-08` |
+| `legend1000` | `String` | Conditional | SUNAT Catalog 52 legend code `1000` where required | Amount in words, serialized as `cbc:Note/@languageLocaleID="1000"` |
 | `customer` | `CustomerIdentityDto`| Mandatory | Requires valid RUC if `documentType = 01` | Customer tax identification |
 | `lines` | `List<InvoiceLineItemDto>`| Mandatory | At least 1 line item required | Billed merchandise lines |
 
 #### Sub-DTO: `CustomerIdentityDto`
 | Field Name | Type | Multiplicity | Constraints / Rules | Description |
 |---|---|---|---|---|
-| `identityType` | `String` | Mandatory | SUNAT Cat. 06 (`6` RUC, `1` DNI, etc.) | Identity document type code |
-| `identityNumber` | `String` | Mandatory | Validated format (11 digits for RUC) | Legal document number (`FR-007`) |
-| `legalName` | `String` | Mandatory | Non-blank, max 200 chars | Registered commercial name |
+| `identityType` | `String` | Mandatory | SUNAT Cat. 06 (`6` RUC, `1` DNI, etc.) | Identity document type code; used as the relevant UBL identifier scheme |
+| `identityNumber` | `String` | Mandatory | Validated format (11 digits for RUC) | Legal document number (`FR-007`); maps to buyer `PartyIdentification/ID` with its identity scheme |
+| `legalName` | `String` | Mandatory | Non-blank, max 200 chars | Registered legal name; maps to buyer `PartyLegalEntity/RegistrationName` |
 | `fiscalAddress` | `String` | Optional | Mandatory for wholesale Facturas | Legal tax address |
+
+#### Sub-DTO: `PaymentTermsDto`
+| Field Name | Type | Multiplicity | Constraints / Rules | Description |
+|---|---|---|---|---|
+| `paymentCondition` | `Enum` | Conditional | `CONTADO` or `CREDITO` as applicable | Payment condition represented in `cac:PaymentTerms` |
+| `netPendingAmount` | `Decimal` | Conditional | Credit condition only | Net amount pending payment |
+| `installments` | `List<PaymentInstallmentDto>` | Conditional | Credit condition only | Due-date and amount details when required |
+
+#### Sub-DTO: `PaymentInstallmentDto`
+| Field Name | Type | Multiplicity | Constraints / Rules | Description |
+|---|---|---|---|---|
+| `installmentNumber` | `String` | Conditional | Preserve the applicable SUNAT/UBL representation | Installment identifier |
+| `dueDate` | `Date` | Conditional | Credit condition only | Installment due date |
+| `amount` | `Decimal` | Conditional | Non-negative monetary amount | Installment amount |
 
 #### Sub-DTO: `InvoiceLineItemDto`
 | Field Name | Type | Multiplicity | Constraints / Rules | Description |
@@ -145,6 +175,27 @@ In accordance with the spec-first methodology:
 | `quantity` | `Decimal` | Mandatory | Strictly $> 0.00$; scale 2 | Billed quantity |
 | `unitPrice` | `Decimal` | Mandatory | $\ge 0.00$; scale 2 | Base price per unit (excluding or including tax per mode) |
 | `taxCategory` | `String` | Mandatory | SUNAT Cat. 07 code | Tax affectation code (`FR-008`, `FR-011`) |
+| `taxExemptionReasonCode` | `String` | Conditional | SUNAT Catalog 07 value, consistent with the line tax category | UBL classified tax category affectation reason |
+| `iscCalculation` | `IscCalculationDto` | Optional | Only for an ISC-applicable line; Catalog 08 code `01`/`02`/`03` | Calculation inputs and result for this invoice line |
+| `pricingReference` | `PricingReferenceDto` | Optional | Include where applicable under Catalog 16 | Alternative price and SUNAT price type code |
+
+#### Sub-DTO: `IscCalculationDto`
+| Field Name | Type | Multiplicity | Constraints / Rules | Description |
+|---|---|---|---|---|
+| `systemCode` | `String` | Mandatory | SUNAT Catalog 08: `01`, `02`, or `03` | ISC system used for this line |
+| `taxableBase` | `Decimal` | Conditional | As defined by the applicable system and official schedule | Calculation base |
+| `quantity` / `unitOfMeasure` | `Decimal` / `String` | Conditional | Required for applicable specific-system calculations | Quantity and statutory measurement unit |
+| `ratePercent` | `Decimal` | Conditional | Only if defined by the applicable official schedule | Percentage input |
+| `amountPerUnit` | `Decimal` | Conditional | Only if defined by the applicable official schedule | Specific amount input |
+| `publicSalePrice` | `Decimal` | Conditional | Only for applicable system 03 calculation | Public-sale-price input |
+| `tierRange` | `String` | Conditional | Required by current SUNAT validation when ISC scheme `2000` has a positive base; prohibited on non-ISC lines | UBL `TaxCategory/cbc:TierRange` value; no code inferred |
+| `iscAmount` | `Decimal` | Mandatory | Scale and rounding per applicable regulation/profile | Calculated ISC amount |
+
+#### Sub-DTO: `PricingReferenceDto`
+| Field Name | Type | Multiplicity | Constraints / Rules | Description |
+|---|---|---|---|---|
+| `alternativePriceAmount` | `Decimal` | Conditional | Monetary value | UBL alternative condition price |
+| `priceTypeCode` | `String` | Conditional | SUNAT Catalog 16 (`01`, `02`, `03`) | Price type serialized as `AlternativeConditionPrice/cbc:PriceTypeCode`; not the actual unit price |
 
 ---
 
@@ -171,6 +222,7 @@ In accordance with the spec-first methodology:
 | `taxableAmount` | `Decimal` | Mandatory | Scale 2; $\ge 0.00$ | Total base subject to IGV (`FR-008`) |
 | `igvAmount` | `Decimal` | Mandatory | Scale 2; exactly 18% of taxable base | Value Added Tax calculated amount |
 | `iscAmount` | `Decimal` | Mandatory | Scale 2; $\ge 0.00$ | Selective Consumption Tax calculated amount |
+| `iscLineDetails` | `List<IscCalculationDto>` | Optional | Empty when no line incurs ISC | Line-level system, inputs, and results |
 | `exoneratedAmount` | `Decimal` | Mandatory | Scale 2; $\ge 0.00$ | Total value of exempt goods (`Ley IGV Ap. I`) |
 | `inafectAmount` | `Decimal` | Mandatory | Scale 2; $\ge 0.00$ | Total value of inafecto goods |
 | `totalDiscounts` | `Decimal` | Mandatory | Scale 2; $\ge 0.00$ | Applied commercial discounts |
@@ -184,39 +236,17 @@ In accordance with the spec-first methodology:
 
 | Field Name | Type | Multiplicity | Description |
 |---|---|---|---|
-| `cdrCode` | `String` | Mandatory | Response code (`0` = Accepted; `2000-3999` = Rejection error) |
+| `cdrCode` | `String` | Mandatory | Raw authority CDR `ResponseCode`; `0` indicates acceptance, a nonzero code indicates rejection. No numeric ranges are assumed. |
 | `cdrDescription` | `String` | Mandatory | Official response description from authority |
 | `receivedTimestamp` | `DateTime` | Mandatory | Date and time the CDR was returned and registered |
 | `cdrFileHash` | `String` | Optional | SHA-256 hash of the received CDR ZIP/XML file |
-| `notes` | `List<String>` | Optional | Informational observations returned by SUNAT |
+| `notes` | `List<String>` | Optional | Informational observation codes/text returned separately from `ResponseCode`; not a status range |
 
 ---
 
-## 5. Demonstration Mode DTOs
+## 5. Deferred DTO Scope
 
-### 5.1 `DemoSessionInitDto` and `DemoSimulationResultDto`
-- **Status**: Confirmed
-- **Traces to**: `FR-014`, `NFR-011`, `UC-007`, `AC-013`, `Q-03`
-- **Purpose**: Payloads managing isolated evaluation sandbox sessions for the DEMO user.
-- **Specification Constraint**: In accordance with the teacher's assessment, no credentials, roles, permissions, personal data, or specific demonstration workflows are invented. All operational parameters are subject to confirmation under [Q-03](file:///c:/Users/LOQ/Documents/GitHub/Examen/docs/01-open-questions.md#category-a-scope-and-functional-boundaries).
-
-#### `DemoSessionInitDto`
-| Field Name | Type | Multiplicity | Description |
-|---|---|---|---|
-| `requestedBy` | `String` | Mandatory | Name/identifier of evaluator |
-| `seedCatalogType` | `String` | Optional | Preset dataset to load (`GROCERY_DEFAULT`) |
-
-#### `DemoSimulationResultDto`
-| Field Name | Type | Multiplicity | Description |
-|---|---|---|---|
-| `sessionId` | `String` | Mandatory | Unique sandbox session token |
-| `isDemo` | `Boolean` | Mandatory | Permanently `true` |
-| `watermarkText` | `String` | Mandatory | Fixed text: `"DEMO / NOT VALID FOR TAX"` |
-| `simulatedXml` | `String` | Mandatory | Mock UBL 2.1 XML generated for inspection |
-| `simulatedCdr` | `CdrResultDto` | Mandatory | Mock accepted CDR with simulated acceptance code `0` |
-| `productionEmissionsBlocked` | `Boolean` | Mandatory | Fixed `true`; confirms live network calls were blocked |
-
----
+Demo-sandbox, GRE, DispatchAdvice, and transport DTOs are outside the active assessed scope and are not defined by this specification.
 
 ## 6. Migration Staging & Reconciliation DTOs
 
@@ -253,68 +283,7 @@ In accordance with the spec-first methodology:
 
 ---
 
-## 7. Goods Transport and Electronic Remission Guide (GRE) DTOs
-
-> **Important Scope Notice**: The following DTOs originate exclusively from the **Delegate's Supplementary Case**. They remain **Conditional / Pending Confirmation** regarding whether they form part of the evaluated core assessment ([Q-01](file:///c:/Users/LOQ/Documents/GitHub/Examen/docs/01-open-questions.md#category-a-scope-and-functional-boundaries)).
-
-### 7.1 `CreateGreRequestDto` (CONDITIONAL)
-- **Status**: Conditional / Pending Confirmation
-- **Traces to**: `FR-018`, `FR-019`, `UC-009`, `AC-020`
-- **Purpose**: Input payload for generating an Electronic Remission Guide (*Guía de Remisión Electrónica - GRE*) for customer transport.
-
-| Field Name | Type | Multiplicity | Constraints / Rules | Description |
-|---|---|---|---|---|
-| `transferReason` | `String` | Mandatory | SUNAT Cat. 20 code (e.g., `01` Sale) | Reason for merchandise transfer |
-| `transportMode` | `String` | Mandatory | SUNAT Cat. 18 (`01` Public, `02` Private) | Transport modality (`FR-018`) |
-| `totalGrossWeight` | `Decimal` | Mandatory | Strictly $> 0.00$; scale 3 | Total shipment weight in Kilograms |
-| `weightUnit` | `String` | Mandatory | Default `KGM` (SUNAT Cat. 03) | Weight unit code |
-| `origin` | `AddressDto` | Mandatory | Origin address and Peruvian UBIGEO code | Warehouse departure location |
-| `destination` | `AddressDto` | Mandatory | Destination address and UBIGEO code | Customer delivery location |
-| `carrier` | `GreCarrierDto` | Conditional | Mandatory if `transportMode = 01` | Commercial transport company details |
-| `vehicleAndDriver` | `GreVehicleDto` | Conditional | Mandatory if `transportMode = 02` | Private fleet vehicle and driver details |
-| `items` | `List<GreItemDto>`| Mandatory | At least 1 item required | Merchandise items transported |
-
-#### Sub-DTO: `GreVehicleDto` (CONDITIONAL)
-| Field Name | Type | Multiplicity | Constraints / Rules | Description |
-|---|---|---|---|---|
-| `vehicleLicensePlate`| `String` | Mandatory | Alphanumeric, valid Peruvian plate format | Transport vehicle license plate |
-| `driverIdentityType` | `String` | Mandatory | SUNAT Cat. 06 (`1` DNI, `4` Carnet) | Driver identity document type |
-| `driverIdentityNumber`| `String` | Mandatory | Validated format (8 digits for DNI) | Driver identification number |
-| `driverLicenseNumber`| `String` | Mandatory | Valid Peruvian driver license format | Driver official license number |
-
----
-
-### 7.2 `GreValidationResultDto` (CONDITIONAL)
-- **Status**: Conditional / Pending Confirmation
-- **Traces to**: `FR-020`, `UC-010`, `AC-021`
-- **Purpose**: Output payload returning the results of local XSD schema verification for GRE UBL Dispatch Advice XML.
-
-| Field Name | Type | Multiplicity | Description |
-|---|---|---|---|
-| `greId` | `String` | Mandatory | Remission guide identifier |
-| `isXsdValid` | `Boolean` | Mandatory | `true` if local XSD schema validation passed without errors |
-| `xmlPayloadHash` | `String` | Mandatory | SHA-256 hash of verified XML payload |
-| `validationTimestamp`| `DateTime` | Mandatory | Exact timestamp of schema verification |
-| `schemaErrors` | `List<String>`| Mandatory | Empty if valid; contains line numbers and violation details if invalid |
-
----
-
-### 7.3 `GreDepartureClearanceDto` (CONDITIONAL)
-- **Status**: Conditional / Pending Confirmation
-- **Traces to**: `FR-018`, `UC-009`, `AC-019`
-- **Purpose**: Output payload verifying whether the transport vehicle is legally cleared to exit the warehouse facility.
-
-| Field Name | Type | Multiplicity | Constraints / Rules | Description |
-|---|---|---|---|---|
-| `transportOrderId` | `String` | Mandatory | Dispatch order reference | Warehouse dispatch order ID |
-| `greNumber` | `String` | Mandatory | Legal series and correlative (e.g., `T001-00000012`) | Assigned GRE legal number |
-| `departureCleared` | `Boolean` | Mandatory | `true` ONLY if GRE is XSD-valid and accepted by tax authority | Physical departure release flag |
-| `clearanceTimestamp`| `DateTime` | Optional | Null if not cleared | Timestamp clearance was granted |
-| `gateMessage` | `String` | Mandatory | Authorization message or blocking rationale | Message displayed to gate operator |
-
----
-
-## 8. Standardized Error Payload Schema
+## 7. Standardized Error Payload Schema
 
 ### `ErrorResponseDto`
 - **Status**: Proposed
