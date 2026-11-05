@@ -16,12 +16,12 @@ This document formalizes the verifiable acceptance criteria for ABC Software Cor
 - **Verification Method**: Demonstration / Automated Test
 - **Criterion**: Given a valid product description and identifier, when submitted by an authorized operator, then the product is persisted in the database and is immediately selectable in warehouse reception and sales workflows.
 
-#### `AC-002`: Transaction Timestamp Immutability
+#### `AC-002`: Transaction Date Preservation
 - **Target Requirement**: `FR-002`, `UC-001`, `UC-002`
 - **Source**: Teacher Assessment
 - **Status**: Confirmed
 - **Verification Method**: Automated Test / Inspection
-- **Criterion**: Given any warehouse movement or commercial transaction, when recorded by the system, then an immutable UTC/local timestamp is assigned, and any subsequent attempt to modify this timestamp is rejected with a data integrity exception.
+- **Criterion**: Given an incoming or outgoing movement, its transaction date is retained. The legacy case establishes a date, not a time of day or timezone.
 
 #### `AC-003`: Inbound Stock Increment
 - **Target Requirement**: `FR-003`, `UC-001`
@@ -39,12 +39,12 @@ This document formalizes the verifiable acceptance criteria for ABC Software Cor
   1. If $Q \le S$, stock decrements to $S - Q$.
   2. If $Q > S$, the transaction is blocked, displaying an insufficient inventory alert, preventing negative stock unless explicit legacy override rules are confirmed.
 
-#### `AC-005`: Internal Tracking Number Uniqueness and Sequencing
+#### `AC-005`: Internal Document Number Preservation
 - **Target Requirement**: `FR-005`, `UC-001`, `UC-002`
 - **Source**: Teacher Assessment
 - **Status**: Confirmed
 - **Verification Method**: Automated Test
-- **Criterion**: Given concurrent inbound or outbound transactions, each generated internal tracking number must increment sequentially according to configured series rules without collisions, gaps, or duplicates.
+- **Criterion**: When a legacy record is migrated, its internal document number is retained as an internal identifier and is not converted to a SUNAT series or correlative. Format and numbering rules await schema discovery.
 
 #### `AC-006`: Dual-Mode Support for Wholesale and Retail Operations
 - **Target Requirement**: `FR-006`, `UC-002`
@@ -98,7 +98,7 @@ This document formalizes the verifiable acceptance criteria for ABC Software Cor
 
 ---
 
-### 2.3 Roles, Usability, and DEMO Sandbox
+### 2.3 Roles, Usability, and DEMO User
 
 #### `AC-012`: Role-Based Access Enforcement
 - **Target Requirement**: `FR-013`, `NFR-001`
@@ -107,16 +107,12 @@ This document formalizes the verifiable acceptance criteria for ABC Software Cor
 - **Verification Method**: Automated Test
 - **Criterion**: An operator authenticated as a warehouse worker is restricted from issuing legal invoices or modifying tax configurations; an invoicing clerk is restricted from modifying inventory adjustments outside sales.
 
-#### `AC-013`: Safe DEMO User Sandbox Execution
+#### `AC-013`: DEMO User Sandbox Execution (Deferred)
 - **Target Requirement**: `FR-014`, `NFR-011`, `UC-007`
-- **Source**: Teacher Assessment
-- **Status**: Confirmed
-- **Verification Method**: Demonstration / Test
-- **Criterion**: When operating under the requested DEMO user profile:
-  1. Operations execute within a demonstration environment without altering production records or legacy files.
-  2. External network calls to live production tax endpoints are blocked or resolved locally.
-  3. No official tax liabilities are generated.
-  4. No credentials, permissions, personal data, or demo workflows are assumed beyond the explicit DEMO context requested ([Q-03](file:///c:/Users/LOQ/Documents/GitHub/Examen/docs/01-open-questions.md#category-a-scope-and-functional-boundaries)).
+- **Source**: Derived from an interpretation of the DEMO user mention
+- **Status**: Deferred / Out of assessed scope
+- **Verification Method**: Not applicable while deferred
+- **Criterion**: Sandbox execution, isolation from production, and simulated outputs are not acceptance criteria in this phase. The in-scope DEMO user profile is covered by `FR-014`.
 
 
 ---
@@ -166,27 +162,27 @@ This document formalizes the verifiable acceptance criteria for ABC Software Cor
 
 ---
 
-### 2.6 Supplementary Case: Goods Transport and GRE
+### 2.6 Deferred Supplementary Case: Goods Transport and GRE
 
-> **Scope Notice**: The following criteria originate exclusively from the **Delegate's Supplementary Case** and are **Pending Confirmation** regarding whether they are part of the evaluated core assessment.
+> **Scope Notice**: The following IDs are retained for traceability only. The supplementary transport/GRE scenario is **deferred and out of the assessed scope** for this phase; no acceptance tests are active.
 
 #### `AC-019`: Mandatory Electronic Remission Guide (GRE) Gate for Vehicle Departure
 - **Target Requirement**: `FR-018`, `UC-009`
 - **Source**: Delegate's Supplementary Case
-- **Status**: Pending Confirmation (Conditional on evaluated scope)
-- **Verification Method**: Demonstration / Automated Test
-- **Criterion**: For customer merchandise transport dispatches, the departure authorization gate returns `BLOCKED` if an associated GRE document does not have `VALID` / `ACCEPTED` status.
+- **Status**: Deferred / Out of assessed scope
+- **Verification Method**: Not applicable while deferred
+- **Criterion**: No GRE departure-gate acceptance criterion is established in this phase.
 
 #### `AC-020`: UBL Dispatch Advice XML Schema Validity
 - **Target Requirement**: `FR-019`, `UC-009`
 - **Source**: Delegate's Supplementary Case
-- **Status**: Pending Confirmation (Conditional on evaluated scope)
-- **Verification Method**: Automated Test
-- **Criterion**: The XML generated for an Electronic Remission Guide uses the `<DespatchAdvice>` UBL 2.1 root element and populates all mandatory transport, carrier, driver, and destination nodes.
+- **Status**: Deferred / Out of assessed scope
+- **Verification Method**: Not applicable while deferred
+- **Criterion**: No UBL Dispatch Advice generation acceptance criterion is established in this phase.
 
 #### `AC-021`: Strict XSD Schema Validation Pass
 - **Target Requirement**: `FR-020`, `NFR-010`, `UC-010`
 - **Source**: Delegate's Supplementary Case
-- **Status**: Pending Confirmation (Conditional on evaluated scope)
-- **Verification Method**: Automated Test
-- **Criterion**: 100% of generated GRE XML documents pass local validation against official SUNAT XSD schemas without warnings; artificially injected schema violations (e.g., missing mandatory tag) are caught locally and prevent document issuance.
+- **Status**: Deferred / Out of assessed scope
+- **Verification Method**: Not applicable while deferred
+- **Criterion**: No GRE-specific XSD validation acceptance criterion is established in this phase.

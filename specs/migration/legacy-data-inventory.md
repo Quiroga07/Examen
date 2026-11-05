@@ -13,22 +13,15 @@ In strict compliance with project governance:
 
 ## 2. Inventory of Known Legacy Information
 
-The following items are confirmed facts explicitly stated in the assessment baseline:
+The assessment establishes exactly five legacy business facts. They are known at the conceptual level and are not unknown; their physical tables, columns, data types, and relationships remain unknown until the schema is available.
 
-| # | Known Concept | Evidence from Context | Governing Requirement |
+| # | Known Legacy Fact | Conceptual Mapping | Governing Requirement |
 |---|---|---|---|
-| 1 | **Legacy Platform** | System is built and operating on **Visual FoxPro 9**. | `docs/00-context-and-scope.md` Section 2.1 |
-| 2 | **Business Domain** | Wholesale and retail sales of groceries and general merchandise. | `FR-006`, `docs/00-context-and-scope.md` Section 2.1 |
-| 3 | **Transaction Dates** | Records the calendar dates/timestamps of operations. | `FR-002`, `UC-001`, `UC-002` |
-| 4 | **Incoming Goods** | Records inbound warehouse receipts (supplier purchases, inventory arrivals). | `FR-003`, `UC-001`, `AC-003` |
-| 5 | **Outgoing Goods** | Records outbound warehouse departures (wholesale deliveries, retail sales dispatches). | `FR-004`, `UC-002`, `AC-004` |
-| 6 | **Product Catalog Entries** | Maintains records of products, descriptions, and basic merchandise data. | `FR-001`, `AC-001` |
-| 7 | **Internal Tracking Numbers** | Assigns internal tracking numbers to vouchers and warehouse movements. | `FR-005`, `AC-005`, `Q-14` |
-| 8 | **RUC Handling Deficiencies**| Legacy system exhibits difficulty validating customer RUC numbers. | `FR-007`, `AC-007` |
-| 9 | **Tax Calculation Errors** | Generates calculation errors in applicable taxes, specifically IGV and ISC. | `FR-008`, `NFR-009`, `AC-008` |
-| 10| **Absence of XML Generation**| Completely lacks formal, standardized UBL/XML document generation. | `FR-009`, `NFR-010`, `AC-009` |
-| 11| **Lack of Electronic Integration**| Possesses no electronic integration with SUNAT or an authorized PSE/OSE. | `FR-010`, `AC-010` |
-| 12| **Data Immutability Mandate** | The existing Visual FoxPro database must **not be damaged, modified, or deleted**. | `NFR-007`, `AC-014` |
+| 1 | **Date** | Map the known date concept to the target movement date; do not infer a time or timezone. | `FR-002`, `UC-001`, `UC-002` |
+| 2 | **Incoming movement** | Map the known incoming-movement concept to the target inbound movement concept. | `FR-003`, `UC-001`, `AC-003` |
+| 3 | **Outgoing movement** | Map the known outgoing-movement concept to the target outbound movement concept. | `FR-004`, `UC-002`, `AC-004` |
+| 4 | **Product** | Map the known product concept to the target product concept; specific attributes are not established by this fact. | `FR-001`, `AC-001` |
+| 5 | **Internal document number** | Preserve as an internal document identifier; do not map it to a SUNAT series or correlative. | `FR-005`, `AC-005`, `Q-14` |
 
 ---
 
@@ -55,8 +48,8 @@ To prevent speculative architecture, the following technical and architectural p
 ### 3.2 Logical Schema and Relational Structure
 - **Unknown 4: Exact Table and Column Names**:
   - *Status*: Unknown.
-  - *Inspection Need*: Enumerate all `.DBF` filenames, field names (limited to 10 characters in free DBFs), data types (`Character`, `Numeric`, `Float`, `Currency`, `Date`, `DateTime`, `Logical`, `Memo`, `Integer`), field lengths, and decimal precisions.
-  - *Constraint*: **Do not invent table names** such as `ARTICULOS`, `KARDEX`, or `MOVIMIENTOS` until verified against the legacy files.
+  - *Inspection Need*: Enumerate verified `.DBF` filenames, field names, data types, field lengths, and decimal precisions when the legacy schema is available.
+  - *Constraint*: Actual legacy table and column names are unknown. Do not assign or imply names before inspecting the schema.
 
 - **Unknown 5: Primary Keys and Relationships**:
   - *Status*: Unknown.
@@ -74,9 +67,9 @@ To prevent speculative architecture, the following technical and architectural p
   - *Status*: Unknown.
   - *Inspection Need*: Legacy VFP tables often substitute null values with spaces in character fields or zeros in numeric fields, or use a hidden `_NullFlags` byte. Sanitization routines must inspect these patterns.
 
-- **Unknown 8: Numbering Format and Series Structure**:
+- **Unknown 8: Internal Document Number Format and Uniqueness**:
   - *Status*: Unknown.
-  - *Inspection Need*: Inspect how internal document numbers (`FR-005`) are formatted (e.g., numeric integer vs. prefixed string `ING-001245`) and identify whether collisions or duplicate numbers exist in historical data.
+  - *Inspection Need*: Inspect the actual format and uniqueness of internal document numbers (`FR-005`) after the schema and records are available. Do not infer a SUNAT series or correlative.
 
 ---
 

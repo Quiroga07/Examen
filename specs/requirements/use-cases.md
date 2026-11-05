@@ -1,7 +1,7 @@
 # Use Case Specifications (`specs/requirements/use-cases.md`)
 
 ## 1. Document Overview
-This document specifies the primary use cases for ABC Software Corp.'s enterprise software modernization. The use cases reflect the operational needs of electronic invoicing users, warehouse staff, the evaluation DEMO user, legacy migration administrators, and the specific merchandise transport dispatch scenario.
+This document specifies the primary use cases for ABC Software Corp.'s enterprise software modernization. The use cases reflect the operational needs of electronic invoicing users, warehouse staff, the DEMO user profile, and legacy migration administrators. The supplementary transport/GRE scenario is deferred and out of the assessed scope.
 
 Every use case links to its functional (`FR-xxx`) and non-functional (`NFR-xxx`) requirements, specifies its source attribution, identifies its certainty status, and references open questions in [docs/01-open-questions.md](file:///c:/Users/LOQ/Documents/GitHub/Examen/docs/01-open-questions.md).
 
@@ -10,7 +10,7 @@ Every use case links to its functional (`FR-xxx`) and non-functional (`NFR-xxx`)
 ## 2. Actor Catalog
 - **Billing Clerk / Invoicing Operator**: Issues sales documents, inputs customer tax data, initiates document signing and external transmission.
 - **Warehouse Operator / Dispatcher**: Records inbound merchandise receipts, oversees stock movements, prepares outbound goods, and initiates dispatch documentation.
-- **DEMO User**: Evaluator, instructor, or trainee testing system capabilities within an isolated sandbox environment.
+- **DEMO User**: Designated evaluator, instructor, or trainee user profile; sandbox behavior is not specified in this phase.
 - **Migration Specialist / System Administrator**: Executes non-destructive data extraction from Visual FoxPro 9 and reviews reconciliation audits.
 - **Tax Authority / Service Provider (External System)**: SUNAT or an authorized PSE/OSE receiving XML documents and returning CDR responses.
 
@@ -31,7 +31,7 @@ Every use case links to its functional (`FR-xxx`) and non-functional (`NFR-xxx`)
 - **Trigger**: Physical goods arrive at the warehouse from a supplier or transfer.
 - **Main Success Scenario**:
   1. The operator initiates a new Inbound Warehouse Receipt.
-  2. The system auto-generates a unique, sequential internal tracking number and sets the current timestamp.
+  2. The system records the transaction date and associates an internal document number according to confirmed numbering rules.
   3. The operator enters line items specifying product identifier, batch/description (if available), and received quantity.
   4. The operator confirms the receipt.
   5. The system validates quantities, increments stock balances, and records an immutable inventory movement.
@@ -48,7 +48,7 @@ Every use case links to its functional (`FR-xxx`) and non-functional (`NFR-xxx`)
 - **Source**: Teacher Assessment
 - **Status**: Confirmed
 - **Traces to**: `FR-001`, `FR-002`, `FR-004`, `FR-005`, `FR-006`, `NFR-001`
-- **Primary Actor**: Billing Clerk / Warehouse Dispatcher
+- **Primary Actor**: Billing Clerk / Warehouse Operator
 - **Preconditions**:
   - Requested products exist in catalog with sufficient stock.
 - **Trigger**: A wholesale sales order or retail counter purchase is initiated.
@@ -57,7 +57,7 @@ Every use case links to its functional (`FR-xxx`) and non-functional (`NFR-xxx`)
   2. The actor adds product items and requested quantities.
   3. The system checks available inventory for each line item.
   4. The actor confirms the outbound order.
-  5. The system decrements stock balances, generates an internal document tracking number, and transitions the order to billing/dispatch readiness.
+  5. The system decrements stock balances, records the internal document number according to confirmed numbering rules, and transitions the order to billing readiness.
 - **Alternative / Exception Flows**:
   - *3a. Insufficient stock*: The system blocks the line item and displays available quantity, preventing negative inventory.
 - **Postconditions**: Stock balances are decremented, and an outbound transaction record is logged.
@@ -148,25 +148,20 @@ Every use case links to its functional (`FR-xxx`) and non-functional (`NFR-xxx`)
 
 ---
 
-### 3.3 Evaluation & Demonstration
+### 3.3 DEMO User Profile
 
-#### `UC-007`: Perform Invoicing and Warehouse Simulation as DEMO User
+#### `UC-007`: Use the DEMO User Profile
 - **Source**: Teacher Assessment
 - **Status**: Confirmed
-- **Traces to**: `FR-013`, `FR-014`, `NFR-011`
+- **Traces to**: `FR-014`
 - **Primary Actor**: DEMO User (as requested in the assessment)
-- **Preconditions**: The application is accessed in demonstration mode under the requested DEMO user profile without assuming unstated credentials, personal data, or arbitrary roles ([Q-03](file:///c:/Users/LOQ/Documents/GitHub/Examen/docs/01-open-questions.md#category-a-scope-and-functional-boundaries)).
-- **Trigger**: Evaluator initiates a demonstration session as the DEMO user.
+- **Preconditions**: A DEMO user profile is configured; its credentials and access rights are clarified under Q-03.
+- **Trigger**: An evaluator selects or authenticates as the designated DEMO user.
 - **Main Success Scenario**:
-  1. The system activates the demonstration mode, ensuring complete isolation from production records and live external endpoints.
-  2. The system displays a visual indicator signifying that operations are running in demonstration mode.
-  3. The DEMO user executes demonstration workflows for warehouse and electronic invoicing features.
-  4. Simulated document generation or dispatch outputs are resolved locally without sending real traffic to live SUNAT endpoints or creating tax obligations.
-  5. The DEMO user inspects the demonstration outputs.
-- **Alternative / Exception Flows**:
-  - *3a. DEMO user attempts to access production database*: The system explicitly blocks access and enforces sandbox boundaries.
-- **Postconditions**: Real historical records, production databases, and external tax authorities remain completely unaltered.
-- **Open Questions**: [Q-03](file:///c:/Users/LOQ/Documents/GitHub/Examen/docs/01-open-questions.md#category-a-scope-and-functional-boundaries) (Confirmation of credentials, roles, permissions, personal/mock data, and expected demonstration workflows).
+  1. The system recognizes the designated DEMO user profile.
+  2. The system grants the access rights assigned to that profile.
+- **Postconditions**: The user is recognized under the DEMO profile. No sandbox or isolation behavior is implied.
+- **Open Questions**: [Q-03](file:///c:/Users/LOQ/Documents/GitHub/Examen/docs/01-open-questions.md#q-03-what-profile-and-permissions-should-be-assigned-to-the-demo-user) (Credentials and access rights).
 
 
 ---
@@ -197,47 +192,18 @@ Every use case links to its functional (`FR-xxx`) and non-functional (`NFR-xxx`)
 
 ---
 
-### 3.5 Supplementary Case: Merchandise Transport & GRE
+### 3.5 Deferred Supplementary Case: Transport and GRE
 
-> **Scope Note**: Use cases in this section derive exclusively from the **Delegate's Supplementary Case** and are **Pending Confirmation** regarding whether they are part of the evaluated core assessment.
+> **Scope Note**: The IDs below are retained for traceability only. Transport, GRE, UBL Dispatch Advice, and GRE-specific XSD validation are deferred and out of the assessed scope for this phase. No active use-case behavior is specified.
 
 #### `UC-009`: Issue and Validate Electronic Remission Guide (GRE) for Transport
 - **Source**: Delegate's Supplementary Case
-- **Status**: Pending Confirmation (Conditional on evaluated scope)
-- **Traces to**: `FR-018`, `FR-019`, `NFR-010`
-- **Primary Actor**: Warehouse Dispatcher
-- **Preconditions**:
-  - A customer transport order exists with prepared merchandise.
-  - Transport vehicle and driver/carrier details are registered.
-- **Trigger**: Merchandise is loaded and vehicle is scheduled for departure.
-- **Main Success Scenario**:
-  1. The dispatcher initiates GRE generation for the transport order.
-  2. The dispatcher enters/confirms transfer reason, transport mode (Private or Public), carrier/vehicle data, and destination address.
-  3. The system generates the UBL Dispatch Advice XML payload (`FR-019`).
-  4. The system invokes XSD validation (`UC-010`).
-  5. Upon successful validation and signing, the GRE receives `VALID` status.
-  6. The system clears the vehicle for physical departure and prints/displays the official dispatch QR/representation.
-- **Alternative / Exception Flows**:
-  - *4a. XSD validation fails*: System blocks vehicle departure, displays schema errors, and flags GRE as `VALIDATION_FAILED`.
-  - *6a. Vehicle attempts departure without valid GRE*: Gate workflow prevents dispatch release.
-- **Postconditions**: Vehicle departs legally with an authenticated Electronic Remission Guide.
-- **Open Questions**: [Q-01](file:///c:/Users/LOQ/Documents/GitHub/Examen/docs/01-open-questions.md#category-a-scope-and-functional-boundaries).
+- **Status**: Deferred / Out of assessed scope (Q-01 resolved)
+- **Description**: No transport or GRE workflow is specified for this phase.
 
 ---
 
 #### `UC-010`: Validate GRE XML against Official XSD Schema
 - **Source**: Delegate's Supplementary Case
-- **Status**: Pending Confirmation (Conditional on evaluated scope)
-- **Traces to**: `FR-020`, `NFR-010`
-- **Primary Actor**: System (Validation Component)
-- **Preconditions**: GRE UBL Dispatch Advice XML has been generated.
-- **Trigger**: Automatic validation triggered before document signing and vehicle clearance.
-- **Main Success Scenario**:
-  1. The validation component loads the generated GRE XML.
-  2. The component parses the XML against the official SUNAT UBL Dispatch Advice XSD schema files.
-  3. The document satisfies all schema constraints (element hierarchy, mandatory fields, code list enumerations).
-  4. The component returns a `SCHEMA_VALID` confirmation.
-- **Alternative / Exception Flows**:
-  - *3a. Schema error detected*: The component halts execution, logs exact line number, invalid element name, and schema violation rule, and returns a `SCHEMA_INVALID` status.
-- **Postconditions**: Only 100% XSD-compliant XMLs proceed to external transmission.
-- **Open Questions**: [Q-01](file:///c:/Users/LOQ/Documents/GitHub/Examen/docs/01-open-questions.md#category-a-scope-and-functional-boundaries), [Q-10](file:///c:/Users/LOQ/Documents/GitHub/Examen/docs/01-open-questions.md#category-d-peruvian-tax-compliance--sunat-integration).
+- **Status**: Deferred / Out of assessed scope (Q-01 resolved)
+- **Description**: No GRE-specific XSD validation use case is specified for this phase.

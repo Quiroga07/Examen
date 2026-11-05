@@ -110,26 +110,26 @@ This document specifies the quality attributes, architectural constraints, packa
 - **Open Questions**: [Q-11](file:///c:/Users/LOQ/Documents/GitHub/Examen/docs/01-open-questions.md#category-d-peruvian-tax-compliance--sunat-integration).
 
 #### `NFR-010`: Standardized UBL and XSD Syntactic Strictness
-- **Source**: Delegate's Case & Teacher Assessment
+- **Source**: Teacher Assessment
 - **Status**: Confirmed
-- **Evidence from Context**: `docs/00-context-and-scope.md` Section 2.1 Item 3 and Section 2.2 Item 3: *"no formal XML generation... mentions UBL Dispatch Advice and XML validation using XSD."*
+- **Evidence from Context**: `docs/00-context-and-scope.md` Section 2.1, Item 3: the legacy system lacks formal, standardized XML generation.
 - **Quality Attribute**: Interoperability, Syntactic Validity
-- **Description**: All generated electronic documents (invoices, remission guides) must strictly adhere to the designated OASIS UBL standard and pass local validation against official SUNAT XSD schemas without schema warnings or errors.
-- **Acceptance Criterion**: 100% of generated XML documents pass validation against official XSD schemas prior to digital signature and external transmission.
+- **Description**: Assessed electronic invoice XML must adhere to the applicable OASIS UBL standard and pass applicable local schema validation.
+- **Acceptance Criterion**: Generated assessed invoice XML passes applicable schema validation before signing or external transmission. GRE-specific validation is deferred.
 - **Open Questions**: [Q-10](file:///c:/Users/LOQ/Documents/GitHub/Examen/docs/01-open-questions.md#category-d-peruvian-tax-compliance--sunat-integration).
 
 ---
 
-### 3.5 Category 5: Usability, Security, and Demonstration Safety
+### 3.5 Category 5: Usability, Security, and Deferred Demonstration Safety
 
 #### `NFR-011`: DEMO User Isolation and Sandbox Safety
-- **Source**: Teacher Assessment
-- **Status**: Inferred / Pending Confirmation
-- **Evidence from Context**: `docs/00-context-and-scope.md` Section 2.1, Item 6: *"It also requests use cases based on the needs of electronic invoicing users and mentions a DEMO user."*
+- **Source**: Derived from an interpretation of the DEMO user mention
+- **Status**: Deferred / Out of assessed scope
+- **Evidence from Context**: The assessment requests a DEMO user but does not specify sandbox or isolation behavior.
 - **Quality Attribute**: Security, Data Protection
-- **Description**: Transactions executed under the DEMO user account must be fully segregated from production ledgers, preventing accidental submission of test invoices to SUNAT production endpoints and preventing data corruption.
-- **Acceptance Criterion**: When running under the DEMO profile, the system disallows external production network transmission and clearly marks generated documents as "DEMO / NON-VALUED".
-- **Open Questions**: [Q-03](file:///c:/Users/LOQ/Documents/GitHub/Examen/docs/01-open-questions.md#category-a-scope-and-functional-boundaries).
+- **Description**: Deferred. No sandbox, isolation, simulation, or live-endpoint blocking behavior is established for this phase.
+- **Acceptance Criterion**: Not applicable while deferred.
+- **Open Questions**: None for the deferred behavior. The DEMO profile itself is covered by `FR-014` and `Q-03`.
 
 #### `NFR-012`: Immutable Audit Trail for Electronic Billing Transactions
 - **Source**: Teacher Assessment
@@ -155,6 +155,6 @@ This document specifies the quality attributes, architectural constraints, packa
 | `NFR-007` | Data Safety | Assessment | Confirmed | Identical SHA-256 hashes of legacy DB files |
 | `NFR-008` | Zero Data Loss | Assessment | Confirmed | 100% reconciliation of source vs. migrated/rejected rows |
 | `NFR-009` | Calculation Accuracy | Assessment | Confirmed | Arbitrary-precision tax math with zero penny rounding drift |
-| `NFR-010` | XML Strictness | Del. & Ass. | Confirmed | 100% pass rate on local XSD schema validation |
-| `NFR-011` | Sandbox Safety | Assessment | Inferred | Zero transmission of DEMO transactions to live SUNAT |
+| `NFR-010` | Invoice XML Strictness | Assessment | Confirmed | Assessed invoice XML passes applicable schema validation |
+| `NFR-011` | DEMO Sandbox Safety | Derived | Deferred | Out of assessed scope |
 | `NFR-012` | Auditability | Assessment | Inferred | Immutable audit log for all document lifecycle transitions |

@@ -3,16 +3,16 @@
 ## 1. Document Overview
 This document specifies the functional requirements for the modernization of ABC Software Corp.'s enterprise system. In accordance with the spec-first methodology, every requirement is traced directly to its authoritative source:
 - **Teacher Assessment**: Broad enterprise modernization, warehouse operations, tax compliance, and legacy migration.
-- **Delegate's Supplementary Case**: Customer merchandise transport, Electronic Remission Guide (*Guía de Remisión Electrónica* - GRE), UBL Dispatch Advice, and XSD validation.
+- The delegate's supplementary transport/GRE scenario is deferred and is not part of the active assessed requirements.
 
 No visual FoxPro schemas, tax rates, codes, or technology decisions are invented. Unresolved parameters are linked directly to [docs/01-open-questions.md](file:///c:/Users/LOQ/Documents/GitHub/Examen/docs/01-open-questions.md).
 
 ---
 
 ## 2. Requirement Classification Legend
-- **Confirmed**: Explicitly mandated by the assessment context or delegate's scenario narrative.
+- **Confirmed**: Explicitly mandated by the assessment context.
 - **Inferred**: Derived strictly through necessary logical implication from confirmed facts.
-- **Pending Confirmation**: Conditional upon unresolved scope boundaries or stakeholder answers.
+- **Deferred / Out of Scope**: Retained for traceability, but not part of the active assessed scope.
 
 ---
 
@@ -23,7 +23,7 @@ No visual FoxPro schemas, tax rates, codes, or technology decisions are invented
 #### `FR-001`: Record Product Catalog Entries
 - **Source**: Teacher Assessment
 - **Status**: Confirmed
-- **Evidence from Context**: `docs/00-context-and-scope.md` Section 2.1, Item 2: *"The legacy system records basic warehouse data, specifically: ... Product catalog entries."*
+- **Evidence from Context**: `docs/00-context-and-scope.md` Section 2.1, Item 2: Product is one of the five stated legacy facts.
 - **Description**: The system shall record and maintain product items handled in wholesale and retail grocery and merchandise operations.
 - **Acceptance Criterion**: The system successfully persists product entries with identifiers and descriptive data without relying on legacy Visual FoxPro runtime.
 - **Open Questions**: [Q-04](file:///c:/Users/LOQ/Documents/GitHub/Examen/docs/01-open-questions.md#category-b-legacy-visual-foxpro-9-database--migration) (Exact legacy product fields and classifications).
@@ -31,15 +31,15 @@ No visual FoxPro schemas, tax rates, codes, or technology decisions are invented
 #### `FR-002`: Record Transaction Dates
 - **Source**: Teacher Assessment
 - **Status**: Confirmed
-- **Evidence from Context**: `docs/00-context-and-scope.md` Section 2.1, Item 2: *"The legacy system records basic warehouse data, specifically: Dates of transactions."*
-- **Description**: The system shall record the exact timestamp/date for every incoming, outgoing, or inventory adjustment transaction.
-- **Acceptance Criterion**: Every transaction record contains a validated, immutable transaction date and time that passes chronological integrity checks.
+- **Evidence from Context**: `docs/00-context-and-scope.md` Section 2.1, Item 2: Date is one of the five stated legacy facts.
+- **Description**: The system shall record the transaction date for incoming and outgoing movements.
+- **Acceptance Criterion**: Each recorded movement retains its transaction date; no time-of-day value is inferred from the legacy case.
 - **Open Questions**: None.
 
 #### `FR-003`: Record Incoming Goods (Inbound Stock Movements)
 - **Source**: Teacher Assessment
 - **Status**: Confirmed
-- **Evidence from Context**: `docs/00-context-and-scope.md` Section 2.1, Item 2: *"The legacy system records ... Incoming goods (receptions/purchases)..."*
+- **Evidence from Context**: `docs/00-context-and-scope.md` Section 2.1, Item 2: Incoming movement is one of the five stated legacy facts.
 - **Description**: The system shall record incoming goods into the warehouse, reflecting supplier receptions or internal inventory entries, updating stock balances accordingly.
 - **Acceptance Criterion**: When an inbound receipt is confirmed, the product inventory balance increments by the exact received quantity and an audit movement is registered.
 - **Open Questions**: [Q-05](file:///c:/Users/LOQ/Documents/GitHub/Examen/docs/01-open-questions.md#category-b-legacy-visual-foxpro-9-database--migration) (Legacy inventory valuation or balance update logic).
@@ -47,18 +47,18 @@ No visual FoxPro schemas, tax rates, codes, or technology decisions are invented
 #### `FR-004`: Record Outgoing Goods (Outbound Dispatches and Sales)
 - **Source**: Teacher Assessment
 - **Status**: Confirmed
-- **Evidence from Context**: `docs/00-context-and-scope.md` Section 2.1, Item 2: *"The legacy system records ... outgoing goods (dispatches/sales)..."*
+- **Evidence from Context**: `docs/00-context-and-scope.md` Section 2.1, Item 2: Outgoing movement is one of the five stated legacy facts.
 - **Description**: The system shall record outgoing merchandise movements representing wholesale deliveries, retail sales dispatches, or inventory write-offs.
 - **Acceptance Criterion**: When an outbound dispatch is processed, stock availability is verified, inventory decrements by the dispatched quantity, and negative stock is prevented unless permitted by validated business rules.
 - **Open Questions**: [Q-05](file:///c:/Users/LOQ/Documents/GitHub/Examen/docs/01-open-questions.md#category-b-legacy-visual-foxpro-9-database--migration) (Legacy negative stock rules).
 
-#### `FR-005`: Track Internal Document Tracking Numbers
+#### `FR-005`: Record Internal Document Numbers
 - **Source**: Teacher Assessment
 - **Status**: Confirmed
-- **Evidence from Context**: `docs/00-context-and-scope.md` Section 2.1, Item 2: *"The legacy system records ... Internal document tracking numbers."*
-- **Description**: The system shall preserve and continue generating sequential internal document numbers for warehouse receipts, dispatch orders, and internal transfer vouchers.
-- **Acceptance Criterion**: Generated internal document numbers maintain sequence integrity, uniqueness, and cross-reference legacy historical document numbers without collisions.
-- **Open Questions**: [Q-04](file:///c:/Users/LOQ/Documents/GitHub/Examen/docs/01-open-questions.md#category-b-legacy-visual-foxpro-9-database--migration), [Q-06](file:///c:/Users/LOQ/Documents/GitHub/Examen/docs/01-open-questions.md#category-b-legacy-visual-foxpro-9-database--migration) (Legacy numbering format and gap management).
+- **Evidence from Context**: `docs/00-context-and-scope.md` Section 2.1, Item 2: Internal document number is one of the five stated legacy facts.
+- **Description**: The system shall record internal document numbers and preserve legacy values during migration, distinguishing them from any separately governed external numbering.
+- **Acceptance Criterion**: Each migrated internal document number is retained as an internal identifier without conversion to a SUNAT series or correlative; generation, format, and numbering rules remain subject to schema discovery.
+- **Open Questions**: [Q-04](file:///c:/Users/LOQ/Documents/GitHub/Examen/docs/01-open-questions.md#category-b-legacy-visual-foxpro-9-database--migration), [Q-06](file:///c:/Users/LOQ/Documents/GitHub/Examen/docs/01-open-questions.md#category-b-legacy-visual-foxpro-9-database--migration), and [Q-14](file:///c:/Users/LOQ/Documents/GitHub/Examen/docs/01-open-questions.md#q-14-what-is-the-format-and-business-meaning-of-legacy-internal-document-numbers).
 
 #### `FR-006`: Support Wholesale and Retail Operations
 - **Source**: Teacher Assessment
@@ -125,23 +125,23 @@ No visual FoxPro schemas, tax rates, codes, or technology decisions are invented
 
 ---
 
-### 3.3 Module 3: Users, Invoicing Roles, and Demonstration Mode
+### 3.3 Module 3: Users and Invoicing Roles
 
 #### `FR-013`: Role-Based Electronic Invoicing Workflows
 - **Source**: Teacher Assessment
 - **Status**: Confirmed
 - **Evidence from Context**: `docs/00-context-and-scope.md` Section 2.1, Item 6: *"It also requests use cases based on the needs of electronic invoicing users..."*
-- **Description**: The system shall support role-based user workflows tailored to billing clerks, warehouse dispatchers, and accounting administrators.
+- **Description**: The system shall support role-based user workflows tailored to billing clerks, warehouse operators, and accounting administrators.
 - **Acceptance Criterion**: Users cannot access or execute operations outside their designated invoicing and warehouse roles.
 - **Open Questions**: [Q-03](file:///c:/Users/LOQ/Documents/GitHub/Examen/docs/01-open-questions.md#category-a-scope-and-functional-boundaries) (Formal matrix of user roles).
 
-#### `FR-014`: Dedicated DEMO User Profile and Safe Demonstration Operation
+#### `FR-014`: DEMO User Profile
 - **Source**: Teacher Assessment
 - **Status**: Confirmed
 - **Evidence from Context**: `docs/00-context-and-scope.md` Section 2.1, Item 6: *"It also requests use cases based on the needs of electronic invoicing users and mentions a DEMO user."*
-- **Description**: The system shall provide an explicit DEMO user profile allowing evaluators or trainees to execute invoicing and warehouse workflows in a safe demonstration mode without creating official tax liabilities, mutating production data, or transmitting live data to tax authorities.
-- **Acceptance Criterion**: A user operating under the DEMO user profile can execute demonstration workflows with simulated outputs, without issuing legally binding tax documents or altering real historical records. No credentials, permissions, personal data, or arbitrary workflows are assumed beyond the explicit DEMO context requested.
-- **Open Questions**: [Q-03](file:///c:/Users/LOQ/Documents/GitHub/Examen/docs/01-open-questions.md#category-a-scope-and-functional-boundaries) (Confirmation of credentials, roles, permissions, test data, and expected demonstration workflows).
+- **Description**: The system shall provide a designated DEMO user profile. This requirement does not specify sandboxing, isolation, simulated transactions, or other demonstration-mode behavior.
+- **Acceptance Criterion**: The designated DEMO user profile is available; credentials and access rights are determined after clarification.
+- **Open Questions**: [Q-03](file:///c:/Users/LOQ/Documents/GitHub/Examen/docs/01-open-questions.md#q-03-what-profile-and-permissions-should-be-assigned-to-the-demo-user) (Profile credentials and access rights).
 
 
 ---
@@ -174,33 +174,24 @@ No visual FoxPro schemas, tax rates, codes, or technology decisions are invented
 
 ---
 
-### 3.5 Module 5: Supplementary Case — Goods Transport & Electronic Remission Guide (GRE)
+### 3.5 Deferred Items: Supplementary Transport and GRE Scenario
 
-> **Important Scope Notice**: Requirements in this section originate exclusively from the **Delegate's Supplementary Case**. They represent a specific transport scenario and must **not** be assumed to represent the entire system. Their status is **Pending Confirmation** regarding whether they form part of the evaluated core assessment.
+> **Scope Notice**: The items below are retained only to preserve existing IDs. They are **deferred and out of the assessed scope** for this phase; no active behavior or acceptance criterion is established.
 
 #### `FR-018`: Electronic Remission Guide (GRE) Mandatory Dispatch Validation
 - **Source**: Delegate's Supplementary Case
-- **Status**: Pending Confirmation (Conditional on evaluated scope)
-- **Evidence from Context**: `docs/00-context-and-scope.md` Section 2.2, Items 1 & 2: *"The narrative describes transporting merchandise to customers and requiring a valid Electronic Remission Guide (GRE) before the vehicle leaves."*
-- **Description**: For customer merchandise transport orders, the system shall require and verify a valid, issued Electronic Remission Guide (*Guía de Remisión Electrónica* - GRE) before the transport vehicle is authorized for departure.
-- **Acceptance Criterion**: The dispatch workflow blocks vehicle departure authorization until a GRE is in valid/approved status.
-- **Open Questions**: [Q-01](file:///c:/Users/LOQ/Documents/GitHub/Examen/docs/01-open-questions.md#category-a-scope-and-functional-boundaries) (Core vs. supplementary scope status of GRE).
+- **Status**: Deferred / Out of assessed scope (Q-01 resolved)
+- **Description**: Deferred; no transport or GRE departure behavior is specified for this phase.
 
 #### `FR-019`: UBL Dispatch Advice XML Generation
 - **Source**: Delegate's Supplementary Case
-- **Status**: Pending Confirmation (Conditional on evaluated scope)
-- **Evidence from Context**: `docs/00-context-and-scope.md` Section 2.2, Item 3: *"It mentions UBL Dispatch Advice and XML validation using XSD."*
-- **Description**: The system shall generate an XML document for the Electronic Remission Guide strictly conforming to the OASIS UBL Dispatch Advice schema (UBL 2.1).
-- **Acceptance Criterion**: Generated GRE XML files contain the mandatory UBL Dispatch Advice root element (`<DespatchAdvice>`) and required transport/carrier/goods child nodes.
-- **Open Questions**: [Q-01](file:///c:/Users/LOQ/Documents/GitHub/Examen/docs/01-open-questions.md#category-a-scope-and-functional-boundaries), [Q-10](file:///c:/Users/LOQ/Documents/GitHub/Examen/docs/01-open-questions.md#category-d-peruvian-tax-compliance--sunat-integration).
+- **Status**: Deferred / Out of assessed scope (Q-01 resolved)
+- **Description**: Deferred; no UBL Dispatch Advice generation behavior is specified for this phase.
 
 #### `FR-020`: XSD Schema Validation for Electronic Remission Guide
 - **Source**: Delegate's Supplementary Case
-- **Status**: Pending Confirmation (Conditional on evaluated scope)
-- **Evidence from Context**: `docs/00-context-and-scope.md` Section 2.2, Item 3: *"It mentions UBL Dispatch Advice and XML validation using XSD."*
-- **Description**: The system shall validate the generated GRE XML against the official SUNAT XSD schemas prior to signing or transmitting to external endpoints.
-- **Acceptance Criterion**: Any GRE XML payload containing missing mandatory tags, invalid formats, or illegal enumerations is caught by local XSD validation with explicit error diagnostics, preventing transmission.
-- **Open Questions**: [Q-01](file:///c:/Users/LOQ/Documents/GitHub/Examen/docs/01-open-questions.md#category-a-scope-and-functional-boundaries), [Q-10](file:///c:/Users/LOQ/Documents/GitHub/Examen/docs/01-open-questions.md#category-d-peruvian-tax-compliance--sunat-integration).
+- **Status**: Deferred / Out of assessed scope (Q-01 resolved)
+- **Description**: Deferred; no GRE-specific XSD validation behavior is specified for this phase.
 
 ---
 
@@ -209,10 +200,10 @@ No visual FoxPro schemas, tax rates, codes, or technology decisions are invented
 | Requirement ID | Module / Focus | Source | Status | Verifiable Criterion Summary |
 |---|---|---|---|---|
 | `FR-001` | Product Catalog | Assessment | Confirmed | Product data persisted in new system |
-| `FR-002` | Transaction Dates | Assessment | Confirmed | Immutable timestamp recorded on all transactions |
+| `FR-002` | Transaction Dates | Assessment | Confirmed | Transaction date recorded for incoming and outgoing movements |
 | `FR-003` | Inbound Stock | Assessment | Confirmed | Stock balance increments upon receipt |
 | `FR-004` | Outbound Dispatches | Assessment | Confirmed | Stock decrements, negative stock prevented |
-| `FR-005` | Internal Tracking | Assessment | Confirmed | Unique, sequential internal document numbers |
+| `FR-005` | Internal Tracking | Assessment | Confirmed | Legacy internal document numbers preserved as internal identifiers |
 | `FR-006` | Wholesale & Retail | Assessment | Confirmed | Dual-mode support for B2B and B2C flows |
 | `FR-007` | RUC Validation | Assessment | Confirmed | Rejection of invalid tax identity numbers without unverified endpoints (subject to Q-13) |
 | `FR-008` | Tax Math (IGV/ISC) | Assessment | Confirmed | 2-decimal rounded tax calculation equals formula |
@@ -221,10 +212,10 @@ No visual FoxPro schemas, tax rates, codes, or technology decisions are invented
 | `FR-011` | SUNAT Catalogs | Assessment | Confirmed | Validated SUNAT codes used across all docs |
 | `FR-012` | Document Lifecycle | Assessment | Inferred | State machine enforces immutable transitions |
 | `FR-013` | Invoicing Roles | Assessment | Confirmed | Access control for billing/warehouse roles |
-| `FR-014` | DEMO User Mode | Assessment | Confirmed | Isolated sandbox operation without tax liabilities |
+| `FR-014` | DEMO User Profile | Assessment | Confirmed | Designated DEMO user profile is available |
 | `FR-015` | Read-Only Extract | Assessment | Confirmed | Hash-verified zero modification of legacy DB |
 | `FR-016` | Data Ingestion | Assessment | Confirmed | 100% valid legacy records mapped and logged |
 | `FR-017` | Logic Preservation| Assessment | Confirmed | Stock calculations match legacy outcomes |
-| `FR-018` | GRE Departure Gate| Delegate Case| Pending Conf. | Vehicle dispatch blocked without valid GRE |
-| `FR-019` | UBL Dispatch XML | Delegate Case| Pending Conf. | GRE generates valid UBL Dispatch Advice XML |
-| `FR-020` | XSD Validation | Delegate Case| Pending Conf. | XML validated against XSD before sending |
+| `FR-018` | GRE Departure Gate| Delegate Case| Deferred | Out of assessed scope |
+| `FR-019` | UBL Dispatch XML | Delegate Case| Deferred | Out of assessed scope |
+| `FR-020` | GRE XSD Validation | Delegate Case| Deferred | Out of assessed scope |

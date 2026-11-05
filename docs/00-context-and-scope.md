@@ -1,7 +1,9 @@
 # Context and Scope Specification (`docs/00-context-and-scope.md`)
 
 ## 1. Document Overview
-This document establishes the official context, baseline boundaries, and source provenance for the modernization of ABC Software Corp.'s enterprise systems. Following a strict **spec-first approach**, this document consolidates all factual parameters provided for the assessment, clearly segregating primary assessment directives from the delegate's supplementary narrative, and categorizing every element as a **Fact**, **Inference**, or **Open Question**.
+This document establishes the official context, baseline boundaries, and source provenance for the modernization of ABC Software Corp.'s enterprise systems. Following a strict **spec-first approach**, this document consolidates the assessment facts, inferences, open questions, and deferred scope decisions, clearly distinguishing the primary assessment from the delegate's supplementary narrative.
+
+> **Instructor feedback addressed:** The assessed scope is limited to the primary case, the five stated legacy facts are mapped explicitly, and unsupported schema details remain unknown.
 
 ---
 
@@ -18,10 +20,11 @@ The core assessment defines the overarching corporate scenario, legacy constrain
    - **Origin**: Assessment Context.
    - **Detail**: The company relies on a legacy **Visual FoxPro 9** system.
    - **Functional Scope in Legacy**: Records basic warehouse data, specifically:
-     - Dates of transactions.
-     - Incoming goods (receptions/purchases) and outgoing goods (dispatches/sales).
-     - Product catalog entries.
-     - Internal document tracking numbers.
+     - Date.
+     - Incoming movement.
+     - Outgoing movement.
+     - Product.
+     - Internal document number.
 
 3. **Current Deficiencies and Operational Pain Points**:
    - **Origin**: Assessment Context.
@@ -54,7 +57,7 @@ The core assessment defines the overarching corporate scenario, legacy constrain
      - **Deployment and Distribution**:
        - Windows desktop environment distributed via an **MSI installer**.
        - Android mobile environment distributed via an **APK package**.
-     - **Users and Use Cases**: Use cases must address electronic invoicing user workflows, with an explicit requirement for a **DEMO user**.
+     - **Users and Use Cases**: Use cases must address electronic invoicing user workflows and provide a **DEMO user**. A separate demo sandbox or isolation behavior is not established by this requirement.
      - **Technology Choice Rule**: Unclear or unstated implementation technologies must not be assumed; they must be formally logged as open questions.
 
 7. **Expected Assessment Deliverables**:
@@ -67,8 +70,8 @@ The core assessment defines the overarching corporate scenario, legacy constrain
 
 ---
 
-### 2.2 Context Provided by the Delegate's Supplementary Case (Secondary Source)
-The delegate provides a specific operational narrative illustrating goods transportation and tax dispatch requirements:
+### 2.2 Delegate's Supplementary Case (Secondary Source; Deferred)
+The delegate's narrative mentions goods transportation, GRE, UBL Dispatch Advice, and XSD validation. These are supplementary material only and are **out of the assessed scope for this phase**. They do not establish active requirements, use cases, or API operations.
 
 1. **Merchandise Transport Scenario**:
    - **Origin**: Delegate's Supplementary Case.
@@ -82,20 +85,20 @@ The delegate provides a specific operational narrative illustrating goods transp
    - **Origin**: Delegate's Supplementary Case.
    - **Detail**: The GRE must conform to the **UBL Dispatch Advice** standard and undergo formal XML schema validation using **XSD** (*XML Schema Definition*).
 
-4. **Scope Boundary Constraint**:
-   - **Origin**: Case Guidance.
-   - **Detail**: This dispatch scenario supplements the assessment but must **not** be assumed to constitute the entire system.
+4. **Scope Decision**:
+   - **Origin**: Instructor feedback.
+   - **Detail**: Defer the supplementary transportation and GRE scenario; do not include it in the active assessed baseline.
 
 ---
 
-## 3. Epistemological Classification Matrix (Facts, Inferences, Open Questions)
+## 3. Context Classification Matrix (Facts, Inferences, Open Questions, and Scope Decisions)
 
-To preserve analytical rigor and avoid unverified assumptions, every element of the project context is classified below:
+To preserve analytical rigor and avoid unverified assumptions, the project context is classified below:
 
 | # | Item Description | Classification | Source | Rationale / Architectural Impact |
 |---|---|---|---|---|
 | 1 | ABC Software Corp. is a medium grocery & merchandise distributor (wholesale & retail). | **Fact** | Assessment Context | Defines domain multi-modality (both B2B wholesale and B2C retail operations). |
-| 2 | Legacy system is Visual FoxPro 9 recording basic warehouse dates, ins/outs, products, document numbers. | **Fact** | Assessment Context | Identifies legacy technology and minimum known data concepts. |
+| 2 | Legacy Visual FoxPro 9 system records date, incoming movement, outgoing movement, product, and internal document number. | **Fact** | Assessment Context | These five business facts are known; their physical representation is not. |
 | 3 | Visual FoxPro database structure (tables, fields, relations) is currently unknown. | **Fact** | Assessment Context | Prohibits inventing DB schemas; mandates schema discovery before migration specification. |
 | 4 | Legacy database must not be modified or deleted. | **Fact** | Assessment Context | Requires strictly read-only legacy extraction pipelines (e.g., staging dump or read-only ODBC/OLEDB). |
 | 5 | Legacy system fails at RUC validation, IGV/ISC tax math, XML generation, and SUNAT/OSE/PSE integration. | **Fact** | Assessment Context | Outlines key functional domains requiring re-engineering in the new system. |
@@ -103,12 +106,12 @@ To preserve analytical rigor and avoid unverified assumptions, every element of 
 | 7 | Initial architecture must be a modular monolith using MVC. | **Fact** | Assessment Context | Establishes Phase 1 structural boundary; forbids microservices as an initial pattern. |
 | 8 | Architecture must be prepared to transition to Hexagonal / Clean Architecture and support REST services. | **Fact** | Assessment Context | Requires internal domain logic to remain decoupled from MVC web/desktop controllers and UI layers. |
 | 9 | Target distribution requires a Windows MSI installer and an Android APK. | **Fact** | Assessment Context | Dictates multi-client or cross-platform deployment considerations. |
-| 10 | Use cases must address electronic invoicing users and provide a DEMO user. | **Fact** | Assessment Context | Mandates role-based workflows and an isolated demonstration profile/sandbox dataset. |
-| 11 | Vehicles transporting customer goods require a valid GRE before departure. | **Fact** | Delegate's Case | Introduces GRE generation and validation into the operational shipping workflow. |
-| 12 | GRE uses UBL Dispatch Advice and requires XSD validation. | **Fact** | Delegate's Case | Establishes XML validation standards for transport documents. |
+| 10 | Use cases must address electronic invoicing users and provide a DEMO user. | **Fact** | Assessment Context | Requires a DEMO user; sandbox behavior, isolation, credentials, and workflows are not specified. |
+| 11 | The supplementary narrative mentions goods transport and a GRE prerequisite. | **Deferred** | Delegate's Case | Out of the assessed scope for this phase; not an active requirement. |
+| 12 | The supplementary narrative mentions UBL Dispatch Advice and XSD validation for GRE. | **Deferred** | Delegate's Case | Out of the assessed scope for this phase; not an active requirement. |
 | 13 | Specific programming language, runtime, and database engine for the new monolith. | **Open Question** | Assessment Context | Assessment does not name a tech stack (.NET, Java, TypeScript, Python, etc.). Assumptions prohibited. |
-| 14 | Whether GRE is a mandatory core deliverable of the graded assessment or an illustrative supplementary case. | **Open Question** | Boundary Analysis | Crucial to determine whether GRE is in primary scope, secondary scope, or an optional module. |
-| 15 | Scope of electronic invoice types beyond GRE (Factura 01, Boleta 03, Nota de Crédito 07, Nota de Débito 08). | **Inference** | Regulatory Context | Standard wholesale/retail invoicing in Peru typically requires Facturas and Boletas, but explicit scope must be confirmed. |
+| 14 | GRE and related transport features are outside the assessed scope for this phase. | **Decision** | Instructor feedback | Retain only as deferred supplementary material; do not specify active behavior. |
+| 15 | Scope of electronic invoice types (Factura 01, Boleta 03, Nota de Crédito 07, Nota de Débito 08). | **Open Question** | Regulatory Context | The exact assessed CPE types must be confirmed; GRE is excluded from this question. |
 | 16 | The exact mechanism of interaction between the Windows desktop client, Android APK, and the modular monolith. | **Open Question** | Architectural Analysis | Whether the monolith is a desktop app (e.g., WPF/.NET MAUI) or a web-hosted server with thin desktop/mobile clients. |
 | 17 | SUNAT integration pathway: Direct to SUNAT Beta/SOL, or through an authorized PSE/OSE. | **Open Question** | Compliance Analysis | Integration protocols, authentication endpoints, and certificate requirements depend on this decision. |
 | 18 | Availability of digital signature certificate (.pfx/.p12) and SUNAT test credentials. | **Open Question** | Compliance Analysis | Needed for generating valid signed UBL XML payloads. |
@@ -125,10 +128,12 @@ To preserve analytical rigor and avoid unverified assumptions, every element of 
 5. **Traceability Matrix**: Complete mapping linking Peruvian legal requirements to UBL XML nodes.
 6. **Non-Destructive Migration Strategy**: Methodology for extracting legacy data and business logic without modifying or deleting legacy Visual FoxPro files.
 
-### 4.2 Conditional / Supplementary Scope (Subject to Confirmation)
-1. **Electronic Remission Guide (GRE - Dispatch Advice)**: Modeling goods transport, carrier/vehicle details, and XSD schema validation for GRE dispatches as introduced by the delegate's case.
+### 4.2 Deferred / Out of Assessed Scope
+1. **Goods transport and dispatch logistics** introduced only by the supplementary narrative.
+2. **GRE, UBL Dispatch Advice, and GRE-specific XSD validation**; no active requirements or API operations are defined for these features.
+3. **Demo sandbox/isolation behavior**; the assessed requirement is limited to providing a DEMO user profile.
 
-### 4.3 Explicitly Out of Scope for Current Phase
+### 4.3 Other Explicitly Out-of-Scope Items for Current Phase
 1. **Code Implementation**: Writing backend code, frontend UI, database scripts, or packaging scripts.
 2. **Database Modifications**: Executing DDL/DML, connecting to databases, or modifying legacy Visual FoxPro files.
 3. **Live External Network Calls**: Connecting to SUNAT production or test endpoints, RUC consultation APIs, or external web services.

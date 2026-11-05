@@ -95,24 +95,24 @@ This specification fulfills the following approved requirements:
   1. **Character Encoding Conversion**: Convert extracted strings from legacy source encoding (e.g., CP1252) to standard UTF-8, preserving accented characters and `ñ`.
   2. **Space Stripping**: Visual FoxPro stores character fields with fixed-width space padding; strip all trailing spaces (`RTRIM`).
   3. **Null Representation Normalization**: Convert Visual FoxPro space strings in numeric fields and `_NullFlags` to strict SQL `NULL` or default zeros where mandated by domain invariants.
-  4. **Date Parsing**: Convert Visual FoxPro `Date` (`YYYYMMDD`) and `DateTime` (Julian day + milliseconds) to standard ISO-8601 UTC timestamps.
+  4. **Date Parsing**: After schema discovery, parse the known date according to its verified physical type and preserve the date value. Do not infer a time of day or timezone.
   5. **Soft-Delete Handling**: Records flagged with the VFP delete byte (`0x2A` / `*`) are segregated based on stakeholder decision ([Q-06](file:///c:/Users/LOQ/Documents/GitHub/Examen/docs/01-open-questions.md#category-b-legacy-visual-foxpro-9-database--migration)).
 
 ### Stage 5: Target Ingestion into Modern Domain Aggregates
 - **Ingestion Order**:
-  1. **Product Catalog**: Ingest products and unit prices (`FR-001`, `FR-006`).
-  2. **Warehouse Movements (Header)**: Ingest movement metadata, transaction timestamps, and internal tracking numbers (`FR-002`, `FR-005`).
-  3. **Movement Line Items**: Ingest quantities and product references, validating referential integrity against the product catalog (`FR-003`, `FR-004`).
+  1. **Product**: Ingest the known product concept (`FR-001`).
+  2. **Movement**: Ingest the known date and distinguish incoming from outgoing movements (`FR-002`, `FR-003`, `FR-004`).
+  3. **Internal Document Number**: Preserve the known number as an internal identifier (`FR-005`), without converting it to a SUNAT series or correlative.
 - **Domain Invariant Enforcement**:
   - Ingestion occurs through domain factories enforcing invariants (`INV-001`, `INV-002`, `INV-003`).
-  - If a record violates an invariant (e.g., non-existent product reference or negative quantity without legacy override), it is routed to the Rejection Log.
+  - Apply only invariants supported by the inspected source fields and relationships. Do not assume quantity fields or product references exist; any such rules require schema discovery.
 
 ### Stage 6: Mathematical Reconciliation and Audit Proof
 - **Reconciliation Formula**:
   $$\text{Total Legacy Records} = \text{Successfully Migrated Records} + \text{Rejected Records in Log}$$
 - **Verification Audits**:
   - **Count Audit**: Compare raw count in DBF header (bytes 4-7) against total staging records.
-  - **Quantity Balance Audit**: $\sum \text{Quantity}_{\text{source}} = \sum \text{Quantity}_{\text{target}} + \sum \text{Quantity}_{\text{rejected}}$.
+  - **Conditional Quantity Audit**: Reconcile quantities only if quantity data is present and confirmed by the inspected schema.
   - **Chronological Boundary Audit**: Minimum and maximum transaction dates in the new database match legacy extremes.
   - **Integrity Sign-Off**: Emit a signed `reconciliation_certificate.json` detailing run statistics.
 
@@ -142,17 +142,15 @@ This specification fulfills the following approved requirements:
 
 ## 5. Conceptual Mapping Blueprint
 
-The following blueprint maps known functional concepts from the legacy system to target domain entities. Physical Visual FoxPro column and table names will be populated once physical database inspection is authorized:
+The following blueprint maps all five legacy facts stated in the case to target concepts. These conceptual facts are known now; physical Visual FoxPro table and column names, data types, and relationships remain unknown until the schema is available. The placeholder is not a proposed legacy identifier.
 
-| Functional Concept | Legacy Source Concept | Pending Physical VFP Column | Target Domain Aggregate | Target Entity / Value Object | Mapping & Transformation Rule |
+| Case Fact | Legacy Source Concept | Physical VFP Table / Column (unknown until schema inspection) | Target Domain Concept | Mapping Rule |
 |---|---|---|---|---|---|
-| **Product Item** | Product catalog record (`FR-001`) | *[To be inspected]* | Product Aggregate | `Product.ProductId` / `Product.ProductCode` | Map SKU/code; trim whitespace; assign unique UUID |
-| **Product Name** | Product description (`FR-001`) | *[To be inspected]* | Product Aggregate | `Product.Description` | Convert charset to UTF-8; trim trailing spaces |
-| **Product Price** | Commercial sales price (`FR-006`) | *[To be inspected]* | Product Aggregate | `Product.UnitPrice` (`Money`) | Convert VFP numeric to arbitrary-precision `Decimal(12,2)` |
-| **Movement Date** | Transaction date (`FR-002`) | *[To be inspected]* | Inventory Aggregate | `WarehouseMovement.TransactionTimestamp` | Parse VFP Date (`YYYYMMDD`) to ISO-8601 UTC DateTime |
-| **Movement Type** | Inbound vs. Outbound (`FR-003`, `FR-004`) | *[To be inspected]* | Inventory Aggregate | `WarehouseMovement.MovementType` | Map legacy movement code to `INBOUND_PURCHASE` or `OUTBOUND_SALE` |
-| **Voucher Number**| Internal document number (`FR-005`) | *[To be inspected]* | Inventory Aggregate | `InternalTrackingNumber` (`Series` + `Correlative`) | Parse legacy internal series and sequence number (`Q-14`) |
-| **Movement Line** | Movement detail / item row | *[To be inspected]* | Inventory Aggregate | `MovementLineItem.Quantity` | Validate quantity $> 0.00$; verify product exists in catalog |
+| **Date** | Legacy date fact (`FR-002`) | Unknown | Movement date | Preserve the date value using the verified source type; do not infer a time or timezone. |
+| **Incoming movement** | Legacy incoming-movement fact (`FR-003`) | Unknown | Inbound movement | Map as an inbound movement; physical encoding and attributes await schema inspection. |
+| **Outgoing movement** | Legacy outgoing-movement fact (`FR-004`) | Unknown | Outbound movement | Map as an outbound movement; physical encoding and attributes await schema inspection. |
+| **Product** | Legacy product fact (`FR-001`) | Unknown | Product | Map to the target product concept; do not assume identifiers, descriptions, prices, or other attributes from this fact alone. |
+| **Internal document number** | Legacy internal-number fact (`FR-005`) | Unknown | Internal document identifier | Preserve as an internal number; do not interpret or convert it as a SUNAT series or correlative. |
 
 ---
 

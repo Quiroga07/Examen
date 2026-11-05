@@ -11,10 +11,8 @@ To maintain architectural integrity, **no assumptions** will be made on any of t
 
 ### Category A: Scope and Functional Boundaries
 
-- **Q-01: Is the Electronic Remission Guide (GRE) part of the mandatory evaluated scope?**
-  - *Context*: The primary assessment specifies wholesale and retail grocery sales and warehouse ins/outs, while the delegate's supplementary narrative introduces customer transport and a mandatory Electronic Remission Guide (*Guía de Remisión Electrónica* - GRE) using UBL Dispatch Advice and XSD validation.
-  - *Question*: Is the GRE module a required deliverable for the core assessment evaluation, a supplementary/bonus module, or merely an illustrative scenario?
-  - *Impact*: Affects domain aggregates, UBL document schemas, XSD validations, and workflow state machines.
+- **Q-01: GRE scope — resolved for this phase (deferred/out of assessed scope).**
+  - *Decision*: Goods transport, GRE, UBL Dispatch Advice, and GRE-specific XSD validation from the delegate's supplementary narrative are not part of the active assessed scope. No active requirement or API operation is in scope for them.
 
 - **Q-02: Which specific Electronic Payment Receipts (CPE) must be supported?**
   - *Context*: The assessment cites errors in IGV and ISC calculation and lack of formal XML generation for wholesale and retail operations.
@@ -22,30 +20,26 @@ To maintain architectural integrity, **no assumptions** will be made on any of t
     - *Factura Electrónica* (Code 01) - mandatory for B2B wholesale?
     - *Boleta de Venta Electrónica* (Code 03) - mandatory for B2C retail?
     - *Nota de Crédito Electrónica* (Code 07) and *Nota de Débito Electrónica* (Code 08)?
-    - *Guía de Remisión Remitente* (Code 09) and/or *Guía de Remisión Transportista* (Code 31)?
+  - *Scope*: GRE document types are excluded from this CPE scope question; see the Q-01 scope decision.
   - *Impact*: Governs document entity schemas, UBL 2.1 templates, and tax catalog mappings.
 
-- **Q-03: What are the exact credentials, roles, permissions, and test workflows for the DEMO user?**
-  - *Context*: The assessment explicitly requests use cases based on the needs of electronic invoicing users and specifically mentions a DEMO user. However, the assessment specifies zero credentials, roles, permissions, personal data, or test workflows.
+- **Q-03: What profile and permissions should be assigned to the DEMO user?**
+  - *Context*: The assessment explicitly requests a DEMO user but specifies no credentials, role, or permissions.
   - *Question*:
-    - What credentials (e.g., username, password, or direct login bypass) should be assigned to the DEMO user?
-    - What specific role(s) and permission set should the DEMO user possess (e.g., read-only inspection, mock warehouse movements, or simulated invoice generation)?
-    - What test data or personal data (if any) should be associated with the DEMO user, or should generic mock data be preloaded?
-    - What exact demonstration workflows (e.g., end-to-end invoice simulation, warehouse dispatch simulation) are expected during evaluation?
-    - Should the DEMO user operate in a completely isolated sandbox database with external dispatches mocked/blocked to prevent any live tax emission?
-  - *Impact*: Determines authentication design, permission matrix, sandbox data segregation, and demonstration state management.
+    - What credentials and role/permission set should be assigned to the DEMO user?
+  - *Impact*: Determines only the DEMO user's profile and access rights. Demo sandbox, isolation, and simulation behavior are deferred and are not open design requirements in this phase.
 
 ---
 
 ### Category B: Legacy Visual FoxPro 9 Database & Migration
 
 - **Q-04: What is the physical and logical structure of the legacy Visual FoxPro 9 database?**
-  - *Context*: The existing database contains warehouse movements, products, dates, and internal document numbers, but the database structure is undisclosed. Schemas cannot be invented.
+  - *Context*: The case establishes five legacy facts—date, incoming movement, outgoing movement, product, and internal document number—but does not disclose their physical representation. Schemas cannot be invented.
   - *Question*:
     - Is the legacy data stored in a Visual FoxPro Database Container (`.DBC`) or as free table files (`.DBF` / `.FPT` memo / `.CDX` index)?
     - What are the exact table names, column names, data types, primary/foreign keys, and character encodings (e.g., Windows-1252, CP850)?
     - Will an export file, a DDL schema dump, or sample anonymized `.DBF` files be provided for mapping analysis?
-  - *Impact*: Blocks the creation of the legacy-to-target field mapping manifesto (`specs/migration/legacy-mapping-manifesto.md`).
+  - *Impact*: Blocks finalizing the physical source-to-target mapping in [specs/migration/mapping-and-reconciliation.md](../specs/migration/mapping-and-reconciliation.md); the five known conceptual mappings can be stated now.
 
 - **Q-05: Where is the valid legacy business logic located and how will it be accessed?**
   - *Context*: The assessment mandates preserving historical data and existing valid business logic without damaging the database.
@@ -89,10 +83,10 @@ To maintain architectural integrity, **no assumptions** will be made on any of t
 
 ### Category D: Peruvian Tax Compliance & SUNAT Integration
 
-- **Q-10: Which official SUNAT regulatory resolutions and UBL specifications apply?**
-  - *Context*: Peruvian electronic invoicing has evolved across multiple resolutions (e.g., RS 097-2012, RS 117-2017, RS 193-2020, and recent GRE resolutions RS 123-2022/SUNAT).
-  - *Question*: Is the system expected to comply strictly with **UBL 2.1** under current SUNAT Annexes (e.g., Resolucion de Superintendencia 193-2020 and 123-2022 for GRE), or is an earlier standard acceptable for evaluation?
-  - *Impact*: Dictates UBL namespace definitions, XML node structures, and mandatory XSD schemas.
+- **Q-10: Which official SUNAT regulatory resolutions and UBL specifications apply to assessed electronic invoices?**
+  - *Context*: Peruvian electronic invoicing has evolved across multiple resolutions (e.g., RS 097-2012, RS 117-2017, and RS 193-2020).
+  - *Question*: Is the system expected to comply strictly with **UBL 2.1** under the current SUNAT rules for assessed electronic invoices, or is an earlier standard acceptable for evaluation?
+  - *Impact*: Dictates invoice UBL namespace definitions, XML node structures, and applicable schema requirements. GRE-specific rules are deferred under Q-01.
 
 - **Q-11: What are the verified tax rates, algorithms, and exemptions for ABC Software Corp.?**
   - *Context*: The assessment mentions an 18% IGV rate, but cautions that tax rates, codes, and rules must be verified against official sources. Grocery distribution often involves exempt agricultural goods (*Bienes Exonerados* - Apéndice I Ley del IGV), ISC on alcoholic/sugary beverages, and ICBPER for plastic bags.
@@ -121,10 +115,10 @@ To maintain architectural integrity, **no assumptions** will be made on any of t
     - How should validation handle offline network conditions or temporary SUNAT service unavailability?
   - *Impact*: Governs whether RUC validation is encapsulated as an offline domain Value Object rule or implemented via an asynchronous external network adapter.
 
-- **Q-14: How should legacy internal document numbers relate to legal SUNAT series numbering?**
-  - *Context*: The legacy system tracks "internal document numbers", while SUNAT electronic invoicing requires standardized series (e.g., F### for Facturas, B### for Boletas, T### for Remission Guides) with an 8-digit sequential correlative.
-  - *Question*: Should the modernized system maintain a dual numbering scheme (preserving legacy internal voucher numbers alongside legal SUNAT series/correlatives), or will the SUNAT series completely replace internal numbers?
-  - *Impact*: Affects document aggregate identifiers, invoice headers, and audit cross-referencing.
+- **Q-14: What is the format and business meaning of legacy internal document numbers?**
+  - *Context*: The case confirms internal document numbers exist but provides no format or numbering rules.
+  - *Question*: What are the verified format, scope, and preservation rules for these internal numbers once the legacy schema and business logic are available?
+  - *Impact*: Affects faithful migration and internal audit cross-referencing. These numbers are not assumed to be, or mapped to, SUNAT series or correlatives.
 
 - **Q-15: Does the Android APK require offline operational capabilities?**
   - *Context*: The system requires an Android APK distribution, which may be operated in warehouse environments or during customer delivery dispatches.
@@ -168,12 +162,10 @@ To maintain architectural integrity, **no assumptions** will be made on any of t
 
 ## 3. Summary of Blocking Items
 Before initiating technical implementation or detailed code architecture, resolutions are strictly required for:
-1. **Core Scope Boundaries**: Clarification of Q-01 (GRE requirement) and Q-02 (CPE document types).
+1. **Core Scope Boundaries**: Q-01 is resolved (GRE deferred); confirm Q-02 (assessed CPE document types).
 2. **Legacy Inputs**: Provision of the VFP 9 schema (Q-04), legacy business rules (Q-05), soft-delete policy (Q-06, Q-16), and encoding (Q-17).
 3. **Target Technology Stack**: Confirmation of the programming language, runtime, and RDBMS (Q-07, Q-08).
 4. **Distribution Architecture**: Clarification of the MSI/APK architectural topology, mobile connectivity, and API authentication (Q-09, Q-15, Q-21).
-5. **Evaluation Environment**: Testing credentials, digital certificates, and simulation mode authorization (Q-03, Q-12).
+5. **Evaluation Environment**: DEMO user profile details, digital certificates, and authorized integration test pathway (Q-03, Q-12).
 6. **Regulatory Clarifications**: Confirmation of ISC calculation modes (Q-11), payment terms (Q-19), and ICBPER applicability (Q-20).
-
-
 
