@@ -58,7 +58,7 @@ This document provides a rigorous quality, architectural, and regulatory consist
 
 ### 3.4 Item 4: Deferred GRE / DispatchAdvice and Transport
 - **Scope Decision**: GRE, DispatchAdvice, and transport are outside the active assessed scope. Legacy identifiers for related requirements, use cases, and criteria are retained only as deferred traceability references.
-- **Current Specifications**: No domain or DTO contracts for these concepts are defined. The API contract and architecture were not modified in this phase.
+- **Current Specifications**: No active domain or DTO contracts or operations for these concepts are defined; their IDs remain deferred.
 
 ---
 
@@ -69,9 +69,9 @@ This document provides a rigorous quality, architectural, and regulatory consist
 | **Requirements vs. Use Cases** | `functional-requirements.md` $\leftrightarrow$ `use-cases.md` | Active use cases map to active requirements; `UC-009`/`UC-010` are retained as deferred references only. | **Consistent** |
 | **Requirements vs. Criteria** | `functional-requirements.md` $\leftrightarrow$ `acceptance-criteria.md` | Active requirements map to applicable criteria. GRE/DispatchAdvice criteria and demo-sandbox behavior are explicitly deferred. | **Consistent** |
 | **Domain Model vs. DTOs** | `domain-model.md` $\leftrightarrow$ `dtos-and-schemas.md` | ISC system, input, and line-result concepts align; `INV-007`/`INV-008` are deferred, not active invariants. | **Consistent** |
-| **DTOs vs. OpenAPI 3.0.3** | `dtos-and-schemas.md` $\leftrightarrow$ `openapi.yaml` | The API contract was intentionally not revised in this phase; newly documented Catalog 08, payment, catalog-path, CDR, and format data are specification-level and are not represented as API changes. | **Not revalidated / API unchanged** |
-| **Architecture vs. API** | `future-hexagonal.md` $\leftrightarrow$ `openapi.yaml` | Every driving REST adapter corresponds to a documented Inbound Port (`IRecordInboundPort`, `IIssueInvoicePort`, `IValidateRucPort`, `IExtractLegacyPort`). | **Consistent** |
-| **Compliance vs. Contracts** | `sunat-ubl-traceability.md` $\leftrightarrow$ `openapi.yaml` | The compliance matrix is updated at the specification level; the API contract was not changed and requires a separate future alignment phase. | **Not revalidated / API unchanged** |
+| **DTOs vs. OpenAPI 3.0.3** | `dtos-and-schemas.md` $\leftrightarrow$ `openapi.yaml` | Credit/debit notes use Catalog 01 codes `07`/`08` and existing invoice lines; baja uses the document resource without inventing a body; catalog queries return code/description pairs. Structural references and operation security/status coverage were checked. | **Structurally consistent; detailed business fields remain open under Q-02/Q-24/Q-25** |
+| **Architecture vs. API** | `future-hexagonal.md` $\leftrightarrow$ `openapi.yaml` | Existing operations remain mapped to documented ports. The new note, baja, and catalog-query operations are application API contracts; explicit architecture-port detail is not changed in this API phase. | **API specified; architecture detail unchanged** |
+| **Compliance vs. Contracts** | `sunat-ubl-traceability.md` $\leftrightarrow$ `openapi.yaml` | The application contract includes note issuance, baja request, and catalog lookup without adding external provider URLs or GRE/transport/sandbox operations. | **Scope-aligned; note/baja and catalog details remain open as specified** |
 
 ---
 

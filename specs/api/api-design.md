@@ -24,7 +24,7 @@ The response body for these errors, and for documented JSON errors, uses the exi
 |---|---|
 | `200 OK` | Synchronous retrieval, validation, or transmission result |
 | `201 Created` | Resource or movement created synchronously |
-| `202 Accepted` | Invoice or migration request accepted for pending/asynchronous processing; `Location` identifies the resource to query |
+| `202 Accepted` | Invoice, baja, or migration request accepted for pending/asynchronous processing; `Location` identifies the resource to query |
 | `400 Bad Request` | Malformed request or missing required input |
 | `401 Unauthorized` | Missing or invalid bearer credentials |
 | `403 Forbidden` | Caller lacks authorization |
@@ -32,9 +32,9 @@ The response body for these errors, and for documented JSON errors, uses the exi
 | `409 Conflict` | State or uniqueness conflict, including duplicate invoice numbering |
 | `422 Unprocessable Entity` | Semantically invalid request |
 | `500 Internal Server Error` | Internal processing failure |
-| `502 Bad Gateway` | Failure communicating with the configured provider during transmission |
+| `502 Bad Gateway` | Failure communicating with the configured provider during transmission or baja submission |
 
-Invoice creation can return `201` when issuance completes synchronously or `202` when accepted but still pending. The `202` response uses a `Location` header to the invoice resource; it adds no processing-state field. Migration submission returns `202` with a `Location` header to the existing migration-run resource; the completed reconciliation summary is retrieved from that resource.
+Invoice creation can return `201` when issuance completes synchronously or `202` when accepted but still pending. The `202` response uses a `Location` header to the invoice resource; it adds no processing-state field. Baja submission and migration submission return `202` with a `Location` header to their existing document/run resources; the resulting lifecycle or completed reconciliation summary is retrieved from those resources.
 
 ## 4. Operations and traceability
 
@@ -45,10 +45,13 @@ Invoice creation can return `201` when issuance completes synchronously or `202`
 | `GET /api/v1/products` | `listProducts` | FR-001, FR-006 |
 | `POST /api/v1/products` | `createProduct` | FR-001, FR-006, FR-011 |
 | `GET /api/v1/products/{productId}` | `getProductById` | FR-001 |
+| `GET /api/v1/catalogs/{catalogNumber}` | `getSunatCatalog` | FR-011, FR-023; UC-013 |
 | `POST /api/v1/tax/ruc/validate` | `validateRucNumber` | FR-007; UC-003 |
 | `POST /api/v1/invoices` | `issueElectronicInvoice` | FR-006–FR-009, FR-011–FR-012; UC-004, UC-005 |
 | `GET /api/v1/invoices/{documentId}` | `getInvoiceById` | FR-012 |
 | `GET /api/v1/invoices/{documentId}/xml` | `getInvoiceXml` | FR-009; UC-005 |
+| `POST /api/v1/invoices/{documentId}/notes` | `issueCreditDebitNote` | FR-021, FR-009, FR-011, FR-012; UC-011 |
+| `POST /api/v1/invoices/{documentId}/baja` | `requestInvoiceBaja` | FR-022, FR-012; UC-012 |
 | `GET /api/v1/invoices/{documentId}/cdr` | `getInvoiceCdr` | FR-010, FR-012; UC-006, AC-010 |
 | `POST /api/v1/invoices/{documentId}/transmit` | `transmitInvoice` | FR-010, FR-012; UC-006 |
 | `POST /api/v1/migration/runs` | `executeMigrationRun` | FR-015, FR-016; UC-008 |
@@ -58,20 +61,23 @@ Invoice creation can return `201` when issuance completes synchronously or `202`
 
 - Invoice creation, retrieval, and transmission use `IssueElectronicInvoiceRequest` and `ElectronicInvoiceResponse`. Duplicate invoice numbering returns `409`; request validation and tax/domain validation use the documented `400`/`422` responses.
 - Invoice XML download returns the generated XML as `application/xml`.
+- Credit/debit note issuance uses `CreateCreditDebitNoteRequest` with Catalog 01 document type `07` or `08` and existing invoice-line data; the path identifies the original Factura or Boleta. It returns an `ElectronicInvoiceResponse`.
+- Baja submission takes the document ID in the path and no body because no additional request fields are established. It returns `202 Accepted` with a `Location` header to the existing document resource; `CANCELLED` is returned by that resource only after confirmation.
+- SUNAT catalog lookup is read-only and returns `SunatCatalogEntry` code/description pairs for the requested supported `catalogNumber`.
 - CDR download returns the archived artifact as `application/zip`, consistent with CDR archival in UC-006. It does not introduce a new JSON payload.
 - `CdrResult` retains the raw response code and description. Code `0` indicates acceptance; `2000–3999` are rejection errors; `4000+` are observations. `0100–0999` SUNAT exceptions and `1000–1999` taxpayer format/structure exceptions are service/submission exceptions rather than CDR acceptance or rejection outcomes.
 - Migration completion uses the existing `MigrationReconciliationSummary`; the actual legacy database table and column names remain unknown until its schema is available.
 
 ## 6. Contract questions that remain open
 
-These are gaps in the approved use cases or DTOs, not additional API operations:
+The capabilities and minimum API contracts below are confirmed by instructor grading feedback. The following specific business or regulatory details remain unresolved:
 
 | Topic | Current contract treatment | Open detail |
 |---|---|---|
-| Credit/debit notes | No creation operations or note-specific payloads | Scope, workflow, and DTO remain unresolved under [Q-02](../../docs/01-open-questions.md). |
-| Voiding/cancellation | No void operation | The lifecycle refers to cancellation through official communication, but no approved request, workflow, or use case defines the API contract. |
-| SUNAT catalog queries | Catalog-backed values are used by approved product/invoice contracts; no generic catalog-query operation is defined | A query use case and response DTO/selection model have not been approved under FR-011. |
-| Invoice lifecycle representation | The existing `ElectronicInvoiceResponse` status values are retained; `202` identifies the invoice resource without a new status field | The DTO does not represent every lifecycle state in the domain/use cases (including pending retry and cancellation); status mapping and asynchronous persistence semantics need approval. |
+| Credit/debit notes | `POST /invoices/{documentId}/notes` distinguishes Catalog 01 document types `07` and `08` and accepts existing invoice-line data | Reason codes, other mandatory note fields, eligibility, and adjustment semantics remain open under [Q-02](../../docs/01-open-questions.md). |
+| Baja | `POST /invoices/{documentId}/baja` accepts the request and identifies the existing lifecycle resource | Eligibility, provider response/pending semantics, and any provider reference remain open under [Q-24](../../docs/01-open-questions.md). |
+| SUNAT catalog queries | `GET /catalogs/{catalogNumber}` returns code/description pairs | Supported catalog numbers, versions/effective dates, and filtering needs remain open under [Q-25](../../docs/01-open-questions.md). |
+| Invoice lifecycle representation | `ElectronicInvoiceResponse` includes `CANCELLED`; `202` identifies the invoice resource without a new status field | The DTO does not represent every lifecycle state in the domain/use cases (including pending retry); mapping and asynchronous persistence semantics need approval. |
 | Bearer authentication | `bearerAuth`, `401`, and `403` are specified | Token issuance/claims and the role-permission matrix remain open under Q-03/Q-21. |
 | Provider pathway | Transmission uses the internal provider adapter; `502` describes upstream communication failure | The authorized provider and test pathway remain open under [Q-12](../../docs/01-open-questions.md). |
 | RUC verification | No external SUNAT URL is specified | Offline versus online validation scope remains open under [Q-13](../../docs/01-open-questions.md). |

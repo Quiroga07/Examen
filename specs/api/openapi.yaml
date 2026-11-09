@@ -4,8 +4,8 @@ info:
   description: |
     Formal REST API contract for ABC Software Corp.'s modernized enterprise system.
     This specification establishes the interface boundaries for warehouse inventory movements,
-    product catalog management, taxpayer RUC verification, Peruvian electronic invoice generation (Facturas and Boletas),
-    electronic document lifecycle/CDR retrieval, and non-destructive legacy data migration reconciliation.
+    product catalog management, SUNAT catalog queries, taxpayer RUC verification, electronic invoice and credit/debit note issuance,
+    document baja/lifecycle/CDR retrieval, and non-destructive legacy data migration reconciliation.
 
     ### Architectural & Compliance Rules:
     1. **Project Standard**: OpenAPI 3.0.3 is selected as the baseline contract standard unless the course evaluation committee specifies otherwise.
@@ -247,6 +247,43 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
 
+  /catalogs/{catalogNumber}:
+    get:
+      summary: Query SUNAT catalog entries
+      description: Returns code and description entries for the requested supported SUNAT catalog.
+      operationId: getSunatCatalog
+      x-requirement-ids:
+        - FR-011
+        - FR-023
+        - UC-013
+        - AC-024
+      parameters:
+        - name: catalogNumber
+          in: path
+          required: true
+          schema:
+            type: string
+          description: SUNAT catalog number supported by the application
+      responses:
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '200':
+          description: Catalog entries
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SunatCatalogEntry'
+        '404':
+          description: Catalog is not supported
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
   # =========================================================================
   # 3. Tax Identity & RUC Validation
   # =========================================================================
@@ -436,6 +473,111 @@ paths:
                 type: string
         '404':
           description: Invoice or XML payload not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /invoices/{documentId}/notes:
+    post:
+      summary: Issue a credit or debit note
+      description: Creates an electronic credit or debit note associated with the identified original Factura or Boleta.
+      operationId: issueCreditDebitNote
+      x-requirement-ids:
+        - FR-021
+        - FR-009
+        - FR-011
+        - FR-012
+        - UC-011
+        - AC-022
+      parameters:
+        - name: documentId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Identifier of the original Factura or Boleta resource
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCreditDebitNoteRequest'
+      responses:
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '201':
+          description: Credit or debit note created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ElectronicInvoiceResponse'
+        '400':
+          description: Malformed note request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Original invoice not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Note numbering conflicts with an existing document
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Note request cannot be processed with the supplied line data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /invoices/{documentId}/baja:
+    post:
+      summary: Request electronic document baja
+      description: Submits a baja request for the identified electronic document through the configured provider integration boundary.
+      operationId: requestInvoiceBaja
+      x-requirement-ids:
+        - FR-022
+        - FR-012
+        - UC-012
+        - AC-023
+      parameters:
+        - name: documentId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Identifier of the electronic document for which baja is requested
+      responses:
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '202':
+          description: Baja request accepted for processing; retrieve the document at Location for its subsequent lifecycle state.
+          headers:
+            Location:
+              description: URI of the electronic document resource
+              required: true
+              schema:
+                type: string
+                format: uri-reference
+        '404':
+          description: Electronic document not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '502':
+          description: Communication failure with the configured provider
           content:
             application/json:
               schema:
@@ -786,6 +928,19 @@ components:
           type: boolean
           example: true
 
+    SunatCatalogEntry:
+      type: object
+      required:
+        - code
+        - description
+      properties:
+        code:
+          type: string
+          description: SUNAT catalog entry code
+        description:
+          type: string
+          description: Catalog-provided entry description
+
     # -----------------------------------------------------------------------
     # Tax Identity Schemas
     # -----------------------------------------------------------------------
@@ -941,6 +1096,24 @@ components:
           items:
             $ref: '#/components/schemas/InvoiceLineItem'
 
+    CreateCreditDebitNoteRequest:
+      type: object
+      required:
+        - documentType
+        - lines
+      properties:
+        documentType:
+          type: string
+          enum:
+            - '07'
+            - '08'
+          description: SUNAT Catalog 01 code for credit note or debit note
+        lines:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/InvoiceLineItem'
+
     TaxBreakdown:
       type: object
       required:
@@ -1040,6 +1213,8 @@ components:
           enum:
             - '01'
             - '03'
+            - '07'
+            - '08'
           example: '01'
         taxSummary:
           $ref: '#/components/schemas/TaxBreakdown'
@@ -1062,6 +1237,7 @@ components:
             - SIGNED
             - ACCEPTED
             - REJECTED
+            - CANCELLED
           example: SIGNED
         xmlDigest:
           type: string

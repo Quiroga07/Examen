@@ -146,6 +146,50 @@ Every use case links to its functional (`FR-xxx`) and non-functional (`NFR-xxx`)
 - **Postconditions**: Document has an updated status and archived CDR response.
 - **Open Questions**: [Q-12](file:///c:/Users/LOQ/Documents/GitHub/Examen/docs/01-open-questions.md#category-d-peruvian-tax-compliance--sunat-integration).
 
+#### `UC-011`: Issue a Credit or Debit Note
+- **Source**: Instructor Grading Feedback
+- **Status**: Confirmed
+- **Traces to**: `FR-021`, `FR-009`, `FR-011`, `FR-012`
+- **Primary Actor**: Billing Clerk / Invoicing Operator
+- **Preconditions**: The original electronic document (Factura or Boleta) is identified and available.
+- **Trigger**: The actor requests a credit or debit note for that invoice.
+- **Main Success Scenario**:
+  1. The actor identifies the original electronic document and chooses the applicable Catalog 01 note document type (`07` credit note or `08` debit note).
+  2. The actor submits note line data using the established invoice-line data contract.
+  3. The system issues the note and returns its electronic-document representation linked to the original invoice.
+- **Postconditions**: The note is retrievable as an electronic document associated with its original invoice.
+- **Open Questions**: [Q-02](file:///c:/Users/LOQ/Documents/GitHub/Examen/docs/01-open-questions.md#category-a-scope-and-functional-boundaries) (Reason codes, mandatory note-specific data, note eligibility, and adjustment semantics).
+
+#### `UC-012`: Request Electronic Document Baja
+- **Source**: Instructor Grading Feedback
+- **Status**: Confirmed
+- **Traces to**: `FR-022`, `FR-012`, `UC-006`
+- **Primary Actor**: Invoicing Operator / Integration Service
+- **Preconditions**: The electronic document is identified.
+- **Trigger**: The actor requests baja for the document.
+- **Main Success Scenario**:
+  1. The actor requests baja for the identified document.
+  2. The system submits the request through the configured provider integration boundary.
+  3. The system records the resulting lifecycle outcome; it marks the document cancelled only after confirmation.
+  4. The actor retrieves the updated document lifecycle through the existing document resource.
+- **Alternative / Exception Flows**:
+  - Provider rejection or pending response is recorded without representing the document as cancelled.
+- **Postconditions**: The baja request and any confirmed lifecycle outcome are associated with the document.
+- **Open Questions**: [Q-24](file:///c:/Users/LOQ/Documents/GitHub/Examen/docs/01-open-questions.md#q-24-what-are-the-baja-eligibility-and-provider-response-details) (Eligibility, provider response/pending semantics, and provider reference).
+
+#### `UC-013`: Query SUNAT Catalog Entries
+- **Source**: Instructor Grading Feedback
+- **Status**: Confirmed
+- **Traces to**: `FR-023`, `FR-011`
+- **Primary Actor**: Authorized Application Client
+- **Preconditions**: The requested catalog number is supported by the application.
+- **Trigger**: A client requests the entries for a SUNAT catalog.
+- **Main Success Scenario**:
+  1. The client requests a catalog by its catalog number.
+  2. The system returns the catalog's code and description entries.
+- **Postconditions**: No catalog data is changed.
+- **Open Questions**: [Q-25](file:///c:/Users/LOQ/Documents/GitHub/Examen/docs/01-open-questions.md#q-25-which-sunat-catalogs-and-catalog-versions-are-queryable) (Supported catalog set, version/effective date, and filtering needs).
+
 ---
 
 ### 3.3 DEMO User Profile

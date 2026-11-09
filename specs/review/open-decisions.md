@@ -7,7 +7,7 @@ This register consolidates all open architectural, functional, technological, an
 **Instructor-feedback note:** This register now distinguishes confirmed SUNAT/UBL structures from business-specific choices and records GRE/transport and demo-sandbox behavior as deferred.
 
 In accordance with the project's **spec-first** and **non-assumption** principles:
-- **Specification status**: The relevant domain, DTO, and compliance specifications have been updated; the API contract and architecture are unchanged in this phase.
+- **Specification status**: The instructor feedback has been incorporated into requirements, use cases, DTOs, acceptance criteria, the API contract, and traceability. No application code is changed in this phase.
 - **Pending before implementation**: The decisions below represent unstated inputs or policy choices that require clarification before implementation or deployment.
 
 ---
@@ -22,15 +22,25 @@ In accordance with the project's **spec-first** and **non-assumption** principle
 - **Current Baseline**: GRE, DispatchAdvice, and transport are deferred and out of the assessed scope. Their existing identifiers are retained as deferred references; no active requirements or operations are defined.
 - **Status**: **Resolved for this phase — Deferred / Out of scope**
 
-#### `OD-02`: Exhaustive List of Required Electronic Payment Receipts (CPE)
-- **Source Question**: [`Q-02 in docs/01-open-questions.md`](file:///c:/Users/LOQ/Documents/GitHub/Examen/docs/01-open-questions.md#category-a-scope-and-functional-boundaries), [`REG-01 in regulatory-open-questions.md`](file:///c:/Users/LOQ/Documents/GitHub/Examen/specs/compliance/regulatory-open-questions.md#item-reg-01-cpe-document-types-in-mandatory-scope).
-- **Affected Artifacts**: `FR-006`, `FR-009`, `FR-011`, `UC-004`, `UC-005`, `POST /api/v1/invoices`.
-- **Current Baseline**: Models *Factura Electrónica* (Code `01`) and *Boleta de Venta Electrónica* (Code `03`). Credit/Debit notes are noted as potential extensions.
-- **Options for Resolution**:
-  - *Option A*: Only Facturas and Boletas are evaluated for core grading.
-  - *Option B*: Electronic Credit Notes (`07`) and Debit Notes (`08`) are also mandatory.
-- **Implementation Impact**: Dictates whether credit note adjustment workflows, reversal invariants, and additional UBL templates must be coded.
-- **Status**: **Pending Academic Confirmation**
+#### `OD-02`: Note-Specific CPE Rules
+- **Source Question**: [`Q-02 in docs/01-open-questions.md`](file:///c:/Users/LOQ/Documents/GitHub/Examen/docs/01-open-questions.md#category-a-scope-and-functional-boundaries), [`REG-02 in regulatory-open-questions.md`](file:///c:/Users/LOQ/Documents/GitHub/Examen/specs/compliance/regulatory-open-questions.md#item-reg-02-mandatory-range-of-electronic-payment-receipts-cpe).
+- **Instructor decision**: Credit and debit notes are in the assessed API scope; requirements `FR-021`/`UC-011` and the note operation/schema have been added.
+- **Remaining details**: Note reason codes, note-specific required data, eligibility, and adjustment semantics remain open under `Q-02`.
+- **Status**: **Capability confirmed; detailed business rules pending**
+
+#### `OD-04`: Baja Eligibility and Provider Response
+- **Source Question**: [`Q-24 in docs/01-open-questions.md`](file:///c:/Users/LOQ/Documents/GitHub/Examen/docs/01-open-questions.md#q-24-what-are-the-baja-eligibility-and-provider-response-details).
+- **Affected Artifacts**: `FR-022`, `UC-012`, `POST /api/v1/invoices/{documentId}/baja`.
+- **Baseline**: The API accepts a baja request and directs clients to the existing document resource; no provider ticket or provider-specific payload is specified.
+- **Remaining details**: Eligible document states, pending/accepted/rejected response semantics, and any provider reference.
+- **Status**: **Capability confirmed; provider/business details pending**
+
+#### `OD-05`: SUNAT Catalog Query Coverage and Versioning
+- **Source Question**: [`Q-25 in docs/01-open-questions.md`](file:///c:/Users/LOQ/Documents/GitHub/Examen/docs/01-open-questions.md#q-25-which-sunat-catalogs-and-catalog-versions-are-queryable).
+- **Affected Artifacts**: `FR-023`, `UC-013`, `GET /api/v1/catalogs/{catalogNumber}`.
+- **Baseline**: The query returns the minimum code/description pairs for a supported catalog.
+- **Remaining details**: Supported catalog numbers, applicable versions/effective dates, and filtering needs.
+- **Status**: **Capability confirmed; catalog coverage details pending**
 
 #### `OD-03`: DEMO User Profile and Sandbox Boundary
 - **Source Question**: [`Q-03 in docs/01-open-questions.md`](file:///c:/Users/LOQ/Documents/GitHub/Examen/docs/01-open-questions.md#category-a-scope-and-functional-boundaries).

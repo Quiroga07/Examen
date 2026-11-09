@@ -20,9 +20,8 @@ Every item in this register identifies the ambiguous statutory requirement, the 
 ### Item REG-02: Mandatory Range of Electronic Payment Receipts (CPE)
 - **Document Type Affected**: SUNAT Catálogo No. 01 (`01` Factura, `03` Boleta de Venta, `07` Nota de Crédito, `08` Nota de Débito).
 - **Regulatory Reference**: Resolución de Superintendencia Nº 097-2012/SUNAT.
-- **Ambiguity**:
-  While wholesale (B2B) mandates *Facturas* and retail (B2C) mandates *Boletas de Venta*, the assessment does not explicitly declare whether corrective documents (*Notas de Crédito* and *Notas de Débito*) are part of the evaluated scope.
-- **Architectural Impact**: Affects the document type enumeration in `ElectronicDocument` and the number of UBL 2.1 templates required.
+- **Resolution from Instructor Grading Feedback**: Credit-note and debit-note issuance are in the assessed scope. Requirements `FR-021`/`UC-011`, DTOs, and an application API operation are defined. This does not add GRE or transport.
+- **Remaining business details**: Applicable reason codes, mandatory note-specific data, eligibility, and adjustment semantics remain open under `Q-02`; no values or rules are inferred.
 - **Cross-Reference**: [Q-02 in docs/01-open-questions.md](file:///c:/Users/LOQ/Documents/GitHub/Examen/docs/01-open-questions.md#category-a-scope-and-functional-boundaries).
 
 ---
@@ -121,7 +120,7 @@ Every item in this register identifies the ambiguous statutory requirement, the 
 ### Item REG-11: SUNAT Register Formats 12.1 and 14.1 — Resolved for This Specification
 - **Document Type Affected**: Physical warehouse inventory movements and sales/income records.
 - **Regulatory Reference**: RS 234-2006/SUNAT, Article 13 and Annex 2, Formats 12.1 and 14.1.
-- **Resolution**: Format 12.1 is the *Registro del Inventario Permanente en Unidades Físicas*; Format 14.1 is the *Registro de Ventas e Ingresos*. The minimum fields supported by the assessed processes are mapped in Section 6 of the compliance matrix. These register formats do not create invoice XML formats, API operations, or additional assessed CPE types.
+- **Resolution**: Format 12.1 is the *Registro del Inventario Permanente en Unidades Físicas*; Format 14.1 is the *Registro de Ventas e Ingresos*. The minimum fields supported by the assessed processes are mapped in Section 6 of the compliance matrix. These register formats do not define invoice XML formats or add GRE/transport operations.
 - **Specification Impact**: Map inventory movement and sales data to the official register fields without inventing legacy table/column names. Conditional fields, including ISC and credit/debit-note references, apply only where relevant; product-specific ISC inputs remain open under REG-03.
 - **Cross-Reference**: [Resolved Q-23 in docs/01-open-questions.md](file:///c:/Users/LOQ/Documents/GitHub/Examen/docs/01-open-questions.md#category-d-peruvian-tax-compliance--sunat-integration).
 

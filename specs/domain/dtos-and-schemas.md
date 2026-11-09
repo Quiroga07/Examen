@@ -201,18 +201,18 @@ In accordance with the spec-first methodology:
 
 ### 4.3 `ElectronicInvoiceResponseDto`
 - **Status**: Confirmed
-- **Traces to**: `FR-008`, `FR-009`, `FR-011`, `FR-012`, `AC-008`, `AC-009`
+- **Traces to**: `FR-008`, `FR-009`, `FR-011`, `FR-012`, `FR-021`, `FR-022`, `AC-008`, `AC-009`, `AC-022`, `AC-023`
 - **Purpose**: Output payload returning computed tax amounts, total payable, document status, and generated UBL XML metadata.
 
 | Field Name | Type | Multiplicity | Description |
 |---|---|---|---|
 | `documentId` | `String` | Mandatory | System unique identifier |
 | `legalNumber` | `String` | Mandatory | Formatted series and correlative (e.g., `F001-00000042`) |
-| `documentType` | `String` | Mandatory | SUNAT Cat. 01 code (`01`, `03`) |
+| `documentType` | `String` | Mandatory | SUNAT Cat. 01 code (`01`, `03`, `07`, `08`) |
 | `taxSummary` | `TaxBreakdownDto` | Mandatory | Comprehensive tax breakdown (`FR-008`, `AC-008`) |
 | `totalPayable` | `Decimal` | Mandatory | Final grand total payable; scale 2 (`FR-008`) |
 | `currency` | `String` | Mandatory | Currency code (`PEN`, `USD`) |
-| `lifecycleStatus` | `Enum` | Mandatory | `DRAFT`, `GENERATED`, `SIGNED`, `ACCEPTED`, `REJECTED` |
+| `lifecycleStatus` | `Enum` | Mandatory | `DRAFT`, `GENERATED`, `SIGNED`, `ACCEPTED`, `REJECTED`, `CANCELLED` |
 | `xmlDigest` | `String` | Optional | SHA-256 hash / signature digest of generated UBL XML |
 | `cdrDetails` | `CdrResultDto` | Optional | Populated once transmitted to SUNAT/PSE/OSE |
 
@@ -241,6 +241,37 @@ In accordance with the spec-first methodology:
 | `receivedTimestamp` | `DateTime` | Mandatory | Date and time the CDR was returned and registered |
 | `cdrFileHash` | `String` | Optional | SHA-256 hash of the received CDR ZIP/XML file |
 | `notes` | `List<String>` | Optional | Informational observation codes/text returned separately from `ResponseCode`; not a status range |
+
+### 4.5 `CreateCreditDebitNoteRequestDto`
+- **Status**: Confirmed
+- **Source**: Instructor Grading Feedback
+- **Traces to**: `FR-021`, `UC-011`
+- **Purpose**: Minimal note-issuance contract. The original Factura or Boleta identifier is supplied in the API path; the request identifies the note type and carries lines using the existing `InvoiceLineItemDto`.
+
+| Field Name | Type | Multiplicity | Constraints / Rules | Description |
+|---|---|---|---|---|
+| `documentType` | `String` | Mandatory | SUNAT Cat. 01 (`07` Nota de Crédito, `08` Nota de Débito) | Selects the note type using the document-type catalog code |
+| `lines` | `List<InvoiceLineItemDto>` | Mandatory | At least one line | Note line data reuses the established invoice-line contract |
+
+### 4.6 Baja API Contract (Path-Only Request)
+- **Status**: Confirmed
+- **Source**: Instructor Grading Feedback
+- **Traces to**: `FR-022`, `UC-012`
+- **Purpose**: No request-body DTO is defined because the existing invoice `documentId` path parameter identifies the document to submit for baja and no additional request fields are established. The operation returns acceptance through HTTP `202` and a `Location` to the existing document resource; `ElectronicInvoiceResponseDto` is used to retrieve the subsequent lifecycle state. A document is `CANCELLED` only after confirmation.
+- **Open Questions**: Provider-specific eligibility, pending/response semantics, and any provider reference remain open under `Q-24`.
+
+### 4.7 `SunatCatalogEntryDto`
+- **Status**: Confirmed
+- **Source**: Instructor Grading Feedback
+- **Traces to**: `FR-023`, `FR-011`, `UC-013`
+- **Purpose**: Minimal read-only catalog entry returned by a catalog query.
+
+| Field Name | Type | Multiplicity | Constraints / Rules | Description |
+|---|---|---|---|---|
+| `code` | `String` | Mandatory | Preserve the catalog code as text | Catalog entry code |
+| `description` | `String` | Mandatory | Catalog-provided display text | Catalog entry description |
+
+The queried catalog is identified by the `catalogNumber` path parameter. Supported catalog coverage, version/effective date, and filtering needs remain open under `Q-25`; no extra metadata is assumed.
 
 ---
 

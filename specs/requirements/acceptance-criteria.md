@@ -96,6 +96,27 @@ This document formalizes the verifiable acceptance criteria for ABC Software Cor
 - **Verification Method**: Automated Test / Code Inspection
 - **Criterion**: In stored data and generated XML, catalog-backed document, currency, unit, identity, tax-affectation, ISC-system, pricing-reference, and invoice-operation fields use the applicable official SUNAT code and required UBL location. Catalog 07 tax affectation codes are not conflated with Catalog 08 ISC system codes.
 
+#### `AC-022`: Credit and Debit Note Contract
+- **Target Requirement**: `FR-021`, `UC-011`
+- **Source**: Instructor Grading Feedback
+- **Status**: Confirmed
+- **Verification Method**: API Contract Inspection / Demonstration
+- **Criterion**: The application API accepts a credit or debit note request linked to an identified original invoice, distinguishes the two note types, and returns the resulting electronic-document representation. Unspecified reason and adjustment rules are not assumed.
+
+#### `AC-023`: Baja Request and Lifecycle
+- **Target Requirement**: `FR-022`, `FR-012`, `UC-012`
+- **Source**: Instructor Grading Feedback
+- **Status**: Confirmed
+- **Verification Method**: API Contract Inspection / Demonstration
+- **Criterion**: The API accepts a baja request for an identified electronic document and makes the subsequent document lifecycle retrievable. The cancelled state is reported only after provider/authority confirmation; provider-specific request and response fields are not assumed.
+
+#### `AC-024`: SUNAT Catalog Query
+- **Target Requirement**: `FR-023`, `FR-011`, `UC-013`
+- **Source**: Instructor Grading Feedback
+- **Status**: Confirmed
+- **Verification Method**: API Contract Inspection / Demonstration
+- **Criterion**: A read-only query for a supported catalog returns entries containing their code and description, without modifying catalog data or inventing metadata.
+
 ---
 
 ### 2.3 Roles, Usability, and DEMO User

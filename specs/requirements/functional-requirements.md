@@ -66,7 +66,7 @@ No visual FoxPro schemas, tax rates, codes, or technology decisions are invented
 - **Evidence from Context**: `docs/00-context-and-scope.md` Section 2.1, Item 1: *"ABC Software Corp. is a medium-sized company operating in both wholesale and retail commerce of groceries and general merchandise."*
 - **Description**: The system shall support operational workflows for both wholesale transactions (B2B bulk orders, business customer identification) and retail transactions (B2C consumer checkout).
 - **Acceptance Criterion**: The system allows transactions to be categorized as wholesale or retail, applying corresponding pricing and customer identification requirements.
-- **Open Questions**: [Q-02](file:///c:/Users/LOQ/Documents/GitHub/Examen/docs/01-open-questions.md#category-a-scope-and-functional-boundaries) (Document distinction between Facturas for wholesale and Boletas for retail).
+- **Open Questions**: None for the supported wholesale/retail document distinction (`01` Factura, `03` Boleta).
 
 ---
 
@@ -94,7 +94,7 @@ No visual FoxPro schemas, tax rates, codes, or technology decisions are invented
 - **Evidence from Context**: `docs/00-context-and-scope.md` Section 2.1, Item 3: *"The legacy system suffers from ... Complete absence of formal, standardized XML generation."*
 - **Description**: The system shall generate compliant electronic document XML files following the applicable UBL (*Universal Business Language*) standard for issued commercial receipts.
 - **Acceptance Criterion**: Every issued electronic document produces an XML document adhering strictly to official XML syntax and UBL namespaces without manual post-editing.
-- **Open Questions**: [Q-02](file:///c:/Users/LOQ/Documents/GitHub/Examen/docs/01-open-questions.md#category-a-scope-and-functional-boundaries), [Q-10](file:///c:/Users/LOQ/Documents/GitHub/Examen/docs/01-open-questions.md#category-d-peruvian-tax-compliance--sunat-integration) (Exact UBL versions and document types).
+- **Open Questions**: [Q-10](file:///c:/Users/LOQ/Documents/GitHub/Examen/docs/01-open-questions.md#category-d-peruvian-tax-compliance--sunat-integration) (Exact UBL versions and document-profile requirements).
 
 #### `FR-010`: Interface with Electronic Invoicing Service (SUNAT or PSE/OSE)
 - **Source**: Teacher Assessment
@@ -122,6 +122,27 @@ No visual FoxPro schemas, tax rates, codes, or technology decisions are invented
 - **Description**: The system shall manage the lifecycle states of an electronic document (e.g., Draft, Generated, Signed, Sent, Accepted, Rejected, Cancelled).
 - **Acceptance Criterion**: State transitions follow an immutable state machine where documents cannot be modified once signed/sent, and rejections record the specific error code returned.
 - **Open Questions**: [Q-10](file:///c:/Users/LOQ/Documents/GitHub/Examen/docs/01-open-questions.md#category-d-peruvian-tax-compliance--sunat-integration) (Specific state definitions under SUNAT regulations).
+
+#### `FR-021`: Issue Credit and Debit Notes
+- **Source**: Instructor Grading Feedback
+- **Status**: Confirmed
+- **Description**: The system shall expose an application capability to issue electronic credit and debit notes associated with an existing Factura or Boleta, using the existing invoice line and tax data contracts where applicable.
+- **Acceptance Criterion**: A caller can request a credit or debit note for an identified original electronic document, using Catalog 01 document types `07` or `08`, and the system returns the created electronic-document representation. Note reason codes, eligibility rules, adjustment calculations, and other fields not established by the case are not assumed.
+- **Open Questions**: [Q-02](file:///c:/Users/LOQ/Documents/GitHub/Examen/docs/01-open-questions.md#category-a-scope-and-functional-boundaries) (Applicable reason codes, note-specific required data, and adjustment behavior).
+
+#### `FR-022`: Request Electronic Document Cancellation (Baja)
+- **Source**: Instructor Grading Feedback
+- **Status**: Confirmed
+- **Description**: The system shall expose an application capability to request baja for an identified electronic document and make its resulting lifecycle state retrievable.
+- **Acceptance Criterion**: A baja request is associated with its electronic document; the document is represented as cancelled only after the configured provider/authority confirms the baja. The contract does not prescribe eligibility rules, provider-specific payloads, or a ticket format.
+- **Open Questions**: [Q-24](file:///c:/Users/LOQ/Documents/GitHub/Examen/docs/01-open-questions.md#q-24-what-are-the-baja-eligibility-and-provider-response-details) (Eligibility, response/pending semantics, and any provider reference).
+
+#### `FR-023`: Query SUNAT Catalog Entries
+- **Source**: Instructor Grading Feedback
+- **Status**: Confirmed
+- **Description**: The system shall expose a read-only application operation to retrieve code and description entries for a requested supported SUNAT catalog.
+- **Acceptance Criterion**: A query for a supported catalog number returns its catalog entries as code/description pairs without changing catalog data or inventing unsupported metadata.
+- **Open Questions**: [Q-25](file:///c:/Users/LOQ/Documents/GitHub/Examen/docs/01-open-questions.md#q-25-which-sunat-catalogs-and-catalog-versions-are-queryable) (Supported catalog set, applicable version/effective date, and any filtering requirements).
 
 ---
 
@@ -219,3 +240,6 @@ No visual FoxPro schemas, tax rates, codes, or technology decisions are invented
 | `FR-018` | GRE Departure Gate| Delegate Case| Deferred | Out of assessed scope |
 | `FR-019` | UBL Dispatch XML | Delegate Case| Deferred | Out of assessed scope |
 | `FR-020` | GRE XSD Validation | Delegate Case| Deferred | Out of assessed scope |
+| `FR-021` | Credit and Debit Notes | Instructor Grading Feedback | Confirmed | Note issuance capability; note-specific reason and adjustment rules remain open |
+| `FR-022` | Electronic Document Baja | Instructor Grading Feedback | Confirmed | Application baja request and lifecycle retrieval; provider details remain open |
+| `FR-023` | SUNAT Catalog Queries | Instructor Grading Feedback | Confirmed | Read-only catalog code/description query; catalog coverage/version remain open |

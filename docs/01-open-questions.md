@@ -16,12 +16,10 @@ To maintain architectural integrity, **no assumptions** will be made on any of t
 
 - **Q-02: Which specific Electronic Payment Receipts (CPE) must be supported?**
   - *Context*: The assessment cites errors in IGV and ISC calculation and lack of formal XML generation for wholesale and retail operations.
-  - *Question*: What is the exhaustive list of required electronic document types (SUNAT Catalogo No. 01)? Specifically:
-    - *Factura Electrónica* (Code 01) - mandatory for B2B wholesale?
-    - *Boleta de Venta Electrónica* (Code 03) - mandatory for B2C retail?
-    - *Nota de Crédito Electrónica* (Code 07) and *Nota de Débito Electrónica* (Code 08)?
+  - *Resolution*: Instructor grading feedback confirms credit-note and debit-note issuance as assessed API capabilities; the API distinguishes Catalog 01 note types `07`/`08` and associates each note with an original Factura or Boleta.
+  - *Remaining question*: Which reason codes, note-specific required data, eligibility rules, and adjustment semantics apply? Do not infer these from the minimum API contract.
   - *Scope*: GRE document types are excluded from this CPE scope question; see the Q-01 scope decision.
-  - *Impact*: Governs document entity schemas, UBL 2.1 templates, and tax catalog mappings.
+  - *Impact*: Governs note validation and detailed UBL note content. The minimum request reuses the established invoice-line contract.
 
 - **Q-03: What profile and permissions should be assigned to the DEMO user?**
   - *Context*: The assessment explicitly requests a DEMO user but specifies no credentials, role, or permissions.
@@ -165,16 +163,26 @@ To maintain architectural integrity, **no assumptions** will be made on any of t
 
 - **Q-23: Formats 12.1 and 14.1 — Resolved**
   - *Resolution*: SUNAT RS 234-2006/SUNAT, Article 13 and Annex 2, identifies Format 12.1 as the *Registro del Inventario Permanente en Unidades Físicas* and Format 14.1 as the *Registro de Ventas e Ingresos*. The minimum data fields supported by assessed inventory and sales processes are mapped in `specs/compliance/sunat-ubl-traceability.md`, Section 6.
-  - *Scope*: These are tax-register formats, not invoice XML formats. Their mapping does not add API operations, GRE/transport, or CPE document types outside the assessed scope.
+  - *Scope*: These are tax-register formats, not invoice XML formats. Their mapping does not add GRE or transport operations.
   - *Remaining limitation*: The case still does not provide the legacy database schema, so physical source table/column mappings remain unknown.
+
+- **Q-24: What are the baja eligibility and provider-response details?**
+  - *Context*: Instructor grading feedback requires an application API to request baja for an identified electronic document. The application contract must not invent a SUNAT/provider URL, ticket format, or response lifecycle.
+  - *Question*: Which document states are eligible; what pending, accepted, and rejected outcomes does the authorized provider return; and does the application need to expose a provider reference?
+  - *Impact*: Refines validation and lifecycle details for `FR-022`/`UC-012`; the API currently accepts the request and identifies the existing document resource for status retrieval.
+
+- **Q-25: Which SUNAT catalogs and catalog versions are queryable?**
+  - *Context*: Instructor grading feedback requires a catalog-query operation. The minimum response exposes only catalog entry code and description.
+  - *Question*: Which catalog numbers are supported, which official versions/effective dates apply, and are filters or historical versions required?
+  - *Impact*: Refines the supported catalog set and query behavior for `FR-023`/`UC-013`; no catalog-specific payload metadata is assumed.
 
 ---
 
 ## 3. Summary of Blocking Items
 Before initiating technical implementation or detailed code architecture, resolutions are strictly required for:
-1. **Core Scope Boundaries**: Q-01 is resolved (GRE deferred); confirm Q-02 (assessed CPE document types).
+1. **Core Scope Boundaries**: Q-01 is resolved (GRE deferred); instructor feedback confirms credit/debit note support under Q-02, with note-specific rules remaining open.
 2. **Legacy Inputs**: Provision of the VFP 9 schema (Q-04), legacy business rules (Q-05), soft-delete policy (Q-06, Q-16), and encoding (Q-17).
 3. **Target Technology Stack**: Confirmation of the programming language, runtime, and RDBMS (Q-07, Q-08).
 4. **Distribution Architecture**: Clarification of the MSI/APK architectural topology, mobile connectivity, and API authentication (Q-09, Q-15, Q-21).
 5. **Evaluation Environment**: DEMO user profile details, digital certificates, and authorized integration test pathway (Q-03, Q-12).
-6. **Regulatory Clarifications**: Product-specific ISC applicability and inputs (Q-11), payment policy (Q-19), ICBPER applicability (Q-20), and Catalog 51 operation type/profile (Q-22). CDR/error categories are documented in REG-10; Formats 12.1/14.1 are identified and mapped under resolved Q-23/REG-11.
+6. **Regulatory Clarifications**: Product-specific ISC applicability and inputs (Q-11), payment policy (Q-19), ICBPER applicability (Q-20), Catalog 51 operation type/profile (Q-22), baja provider semantics (Q-24), and catalog coverage/versioning (Q-25). CDR/error categories are documented in REG-10; Formats 12.1/14.1 are identified and mapped under resolved Q-23/REG-11.
