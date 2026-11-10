@@ -8,14 +8,18 @@ flowchart TD
 
     subgraph Controllers["MVC Controllers"]
         WarehouseCtrl["WarehouseController (FR-001–FR-005)"]
-        BillingCtrl["BillingController (FR-006–FR-008)"]
-        TransmissionCtrl["DocumentTransmissionController (FR-009–FR-012)"]
+        BillingCtrl["BillingController (FR-006–FR-008, FR-021)"]
+        CatalogCtrl["CatalogController (FR-023, UC-013)"]
+        TransmissionCtrl["DocumentTransmissionController (FR-009–FR-012, FR-022)"]
         MigrationCtrl["MigrationController (FR-015–FR-017)"]
     end
 
     subgraph Application["Application Services / Use Cases"]
         WarehouseSvc["WarehouseService"]
         BillingSvc["BillingService"]
+        NoteUseCase["IssueCreditDebitNoteUseCase (FR-021, UC-011)"]
+        CatalogUseCase["QuerySunatCatalogUseCase (FR-023, UC-013)"]
+        BajaUseCase["RequestBajaUseCase (FR-022, UC-012)"]
         TaxSvc["TaxCalculationService (FR-008, NFR-009)"]
         XmlUseCase["GenerateInvoiceXmlUseCase (FR-009, UC-005, AC-009)"]
         MigrationSvc["MigrationPipelineService (FR-015–FR-017)"]
@@ -32,6 +36,7 @@ flowchart TD
         Repositories["Repository Interfaces"]
         LegacyPort["ILegacyExtractionCursor (FR-015)"]
         DeliveryPort["ISunatDeliveryPort (FR-010)"]
+        CatalogPort["ICatalogRepositoryPort (FR-011, FR-023)"]
         XmlPort["IUblGeneratorPort (FR-009, AC-009, NFR-010)"]
     end
 
@@ -53,19 +58,25 @@ flowchart TD
     Stack -. stack .-> Application
     DesktopView --> WarehouseCtrl
     DesktopView --> BillingCtrl
+    DesktopView --> CatalogCtrl
     DesktopView --> TransmissionCtrl
     DesktopView --> MigrationCtrl
     MobileView --> WarehouseCtrl
     MobileView --> BillingCtrl
     WarehouseCtrl --> WarehouseSvc
     BillingCtrl --> BillingSvc
+    BillingCtrl --> NoteUseCase
+    CatalogCtrl --> CatalogUseCase
     BillingCtrl --> TaxSvc
     TransmissionCtrl --> XmlUseCase
-    TransmissionCtrl --> DeliveryPort
+    TransmissionCtrl --> BajaUseCase
+    BajaUseCase --> DeliveryPort
     MigrationCtrl --> MigrationSvc
     WarehouseSvc --> Product
     WarehouseSvc --> Movement
     BillingSvc --> Invoice
+    NoteUseCase --> Invoice
+    CatalogUseCase --> CatalogPort
     BillingSvc --> Tax
     TaxSvc --> Tax
     XmlUseCase --> Invoice
@@ -80,6 +91,7 @@ flowchart TD
     DeliveryPort -. implemented by .-> SunatAdapter
     LegacyPort -. implemented by .-> LegacyAdapter
     Repositories -. implemented by .-> RepoAdapters
+    CatalogPort -. implemented by .-> RepoAdapters
     RepoAdapters --> Rdbms
     LegacyAdapter -. read only .-> Vfp
     SunatAdapter --> Sunat

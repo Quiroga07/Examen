@@ -101,18 +101,16 @@ In accordance with the spec-first methodology:
 #### Concept: `WarehouseMovement` (Aggregate Root Entity)
 - **Status**: Confirmed
 - **Traces to**: `FR-002`, `FR-003`, `FR-004`, `FR-005`, `UC-001`, `UC-002`, `AC-002`, `AC-003`, `AC-004`
-- **Description**: Represents an immutable warehouse transaction recording the arrival, departure, or internal transfer of merchandise.
+- **Description**: Represents an immutable warehouse transaction recording an incoming or outgoing merchandise movement. The case does not establish movement subtypes or business causes.
 - **Attributes**:
   - `MovementId`: Unique immutable movement identifier.
-  - `TransactionTimestamp`: Exact date and time when the movement physically occurred (*Confirmed*, `FR-002`, `AC-002`).
-  - `MovementType`: Type of movement (`INBOUND_PURCHASE`, `OUTBOUND_SALE`, `INVENTORY_ADJUSTMENT`) (*Confirmed*, `FR-003`, `FR-004`).
-  - `InternalTrackingNumber`: Sequential internal document voucher number (*Confirmed*, `FR-005`, `Q-14`).
+  - `TransactionDate`: Date recorded for the movement (*Confirmed*, `FR-002`, `AC-002`). The case establishes a date only; no time or timezone is inferred.
+  - `MovementType`: Direction of movement (`INBOUND`, `OUTBOUND`) (*Confirmed*, `FR-003`, `FR-004`); more specific causes are not established by the case.
+  - `InternalDocumentNumber`: Internal document number, preserved as a distinct business identifier (*Confirmed*, `FR-005`, `Q-14`).
   - `Lines`: Collection of `MovementLineItem` entities (*Confirmed*, `FR-003`, `FR-004`).
-  - `ReferenceDocumentNumber`: Optional external supplier invoice number or sales invoice reference (*Proposed*).
 - **Domain Invariants**:
   - A `WarehouseMovement` must contain at least one valid `MovementLineItem`.
-  - Once posted, a `WarehouseMovement` is completely immutable. No modification of timestamp, quantities, or tracking numbers is allowed.
-  - `TransactionTimestamp` cannot be in the future.
+  - Once posted, a `WarehouseMovement` is completely immutable. No modification of its date, quantities, or internal document number is allowed.
 
 #### Concept: `MovementLineItem` (Entity)
 - **Status**: Confirmed
@@ -124,17 +122,17 @@ In accordance with the spec-first methodology:
   - `Quantity`: Decimal measurement quantity moved (*Confirmed*, `FR-003`, `FR-004`).
 - **Domain Invariants**:
   - `Quantity` must be strictly greater than zero ($> 0$).
-  - For `OUTBOUND_SALE` movements, `Quantity` cannot exceed current available stock unless verified legacy negative stock override rules are confirmed (`AC-004`, [Q-05](file:///c:/Users/LOQ/Documents/GitHub/Examen/docs/01-open-questions.md#category-b-legacy-visual-foxpro-9-database--migration)).
+  - For `OUTBOUND` movements, `Quantity` cannot exceed current available stock unless verified legacy negative stock override rules are confirmed (`AC-004`, [Q-05](file:///c:/Users/LOQ/Documents/GitHub/Examen/docs/01-open-questions.md#category-b-legacy-visual-foxpro-9-database--migration)).
 
-#### Concept: `InternalTrackingNumber` (Value Object)
+#### Concept: `InternalDocumentNumber` (Value Object)
 - **Status**: Confirmed
 - **Traces to**: `FR-005`, `AC-005`, `Q-14`
-- **Description**: Encapsulates legacy-compatible internal voucher numbering used to track warehouse ins/outs.
+- **Description**: Preserves the internal document number as a value separate from the SUNAT legal series and correlative.
 - **Attributes**:
-  - `Series`: Internal series identifier (e.g., `INT-01`, `ING-01`).
-  - `Correlative`: Strictly sequential positive integer.
+  - `Value`: Internal document number, represented without assuming a format or sequence.
 - **Domain Invariants**:
-  - The combination of `Series` + `Correlative` must be globally unique across all recorded movements.
+  - Do not split, normalize, regenerate, or reinterpret the value as a SUNAT series or correlative.
+  - Its actual format, uniqueness scope, and any generation policy remain open under `Q-14`.
 
 ---
 
@@ -146,16 +144,17 @@ In accordance with the spec-first methodology:
 - **Description**: Represents a legal commercial and tax document issued for a wholesale or retail sale.
 - **Attributes**:
   - `DocumentId`: Unique system identifier.
-  - `DocumentType`: Legal document type (`SunatDocumentType` Enum: 01 Factura, 03 Boleta, etc.) (*Confirmed*, `FR-011`, `Q-02`).
-  - `SeriesNumber`: Legal series and sequential correlative (`DocumentSeriesNumber` Value Object) (*Confirmed*, `FR-011`, `Q-14`).
+  - `DocumentType`: Legal document type (`SunatDocumentType` Enum: `01` Factura, `03` Boleta, and in-scope note types `07` Nota de Crédito / `08` Nota de Débito) (*Confirmed*, `FR-011`, `FR-021`, `Q-02`).
+  - `SeriesNumber`: SUNAT legal series and correlative (`DocumentSeriesNumber` Value Object) (*Confirmed*, `FR-009`). This is distinct from the legacy internal document number (`FR-005`, `Q-14`).
   - `IssueDate`: Date of tax document emission (*Confirmed*, `FR-002`).
-  - `Issuer`: Legal entity details of ABC Software Corp. (RUC, Business Name, Fiscal Address) (*Confirmed*, `FR-007`).
+  - `Issuer`: Issuer legal-entity data required by the applicable SUNAT invoice profile, supplied from an approved configuration/source. The case does not provide specific RUC, legal-name, or address values (`FR-009`, Q-26).
   - `Customer`: Legal recipient entity (`Customer` Entity with `RucNumber` or identity document); the identity maps to buyer `PartyIdentification/ID`, and the legal name maps to `PartyLegalEntity/RegistrationName` (*Confirmed*, `FR-006`, `FR-007`, `FR-009`).
   - `OperationTypeCode`: SUNAT Catalog 51 type of operation, mapped to UBL `cbc:ProfileID` where the applicable invoice profile requires it (`FR-009`, `Q-22`). Catalog 51 is not mapped to `InvoiceTypeCode/@listID`.
   - `PaymentTerms`: Payment condition and, for credit, the applicable due-date/installment data (`FR-009`, `REG-08`).
   - `Legend1000`: Amount-in-words legend from Catalog 52 code `1000`, mapped to `cbc:Note/@languageLocaleID="1000"` where required by the SUNAT invoice profile (`FR-009`).
   - `Currency`: Document currency (`PEN` or `USD`) (*Confirmed*, `FR-011`).
   - `Lines`: Ordered collection of `DocumentLineItem` entities (*Confirmed*, `FR-008`); each retains Catalog 07 tax affectation, applicable ISC details, pricing reference, and unit price for UBL traceability.
+  - `OriginalDocumentReference`: Original Factura or Boleta identifier for an in-scope credit/debit note (`FR-021`, `UC-011`); note-specific required data and adjustment semantics remain open under `Q-02`.
   - `TaxSummary`: Aggregated tax bases and amounts (`TaxBreakdown` Value Object) (*Confirmed*, `FR-008`, `NFR-009`).
   - `TotalPayable`: Final payable monetary amount (`Money`) (*Confirmed*, `FR-008`).
   - `LifecycleStatus`: Current electronic billing state (`DocumentLifecycleStatus` Enum) (*Confirmed / Inferred*, `FR-012`).
@@ -172,10 +171,18 @@ In accordance with the spec-first methodology:
 - **Traces to**: `FR-008`, `FR-009`, `UC-004`, `AC-008`, `REG-03`, `REG-09`
 - **Attributes**:
   - `ProductId`, `Quantity`, `UnitOfMeasure`, `UnitPrice`, and the line extension amount.
-  - `TaxExemptionReasonCode`: SUNAT Catalog 07 affectation code mapped to UBL `ClassifiedTaxCategory/cbc:TaxExemptionReasonCode`.
+  - `TaxExemptionReasonCode`: SUNAT Catalog 07 affectation code mapped to UBL `/Invoice/cac:InvoiceLine/cac:TaxTotal/cac:TaxSubtotal/cac:TaxCategory/cbc:TaxExemptionReasonCode`.
   - `PricingReference`: optional alternative price and Catalog 16 price type code, included only where required by the applicable profile.
   - `IscCalculation`: optional Catalog 08 system, system-appropriate calculation inputs, effective scheduled rate/amount, required applicable `TierRange` for positive-base ISC lines, and resulting ISC amount.
 - **Invariant**: Tax category, price reference, and ISC data are distinct; an ISC system code must not be used as a Catalog 07 affectation code.
+
+#### Concept: `SunatCatalogEntry` (Read-Only Value Object)
+- **Status**: Confirmed minimum API representation
+- **Traces to**: `FR-011`, `FR-023`, `UC-013`, `AC-024`
+- **Attributes**:
+  - `Code`: Catalog code preserved as text.
+  - `Description`: Catalog-provided display text.
+- **Scope**: Query results are read-only. Supported catalog numbers, version/effective date, and filtering remain open under `Q-25`.
 
 #### Concept: `RucNumber` (Value Object)
 - **Status**: Confirmed
@@ -214,7 +221,7 @@ In accordance with the spec-first methodology:
   - `SIGNED`: Digital signature (XMLDSig) applied; ready for dispatch.
   - `TRANSMITTED`: Sent to SUNAT/PSE/OSE, awaiting response.
   - `ACCEPTED`: Successfully accepted by tax authority with CDR `cbc:ResponseCode` `0`.
-  - `REJECTED`: Rejected by tax authority with a nonzero response code identifying the rejection; no numeric range is assumed.
+  - `REJECTED`: Rejected by a CDR rejection code in the `2000–3999` range. The `0100–0999` SUNAT-exception and `1000–1999` taxpayer-format/structure-exception ranges are service/submission exceptions, not CDR outcomes. Codes `4000+` are observations and do not alone change acceptance into rejection.
   - `CANCELLED`: Legally cancelled via official communication (*Comunicación de Baja*).
 
 ---
@@ -238,7 +245,7 @@ GRE, DispatchAdvice, and transport aggregates are outside the active assessed sc
 | Domain Invariant ID | Target Aggregate | Rule Statement | Enforcing Requirement |
 |---|---|---|---|
 | `INV-001` | Product | Unit price must be non-negative; description cannot be empty | `FR-001`, `FR-006` |
-| `INV-002` | Inventory | Stock movements are immutable once posted; timestamp cannot be future | `FR-002`, `AC-002` |
+| `INV-002` | Inventory | Stock movements are immutable once posted; the recorded movement date is retained without inferring a time or timezone | `FR-002`, `AC-002` |
 | `INV-003` | Inventory | Outbound sales cannot result in negative stock unless authorized | `FR-004`, `AC-004` |
 | `INV-004` | Billing | Customer RUC must satisfy validated statutory criteria without unverified endpoints (per Q-13) | `FR-007`, `AC-007` |
 | `INV-005` | Billing | Total payable must equal sum of line taxable bases + taxes with 0.00 drift | `FR-008`, `NFR-009`, `AC-008` |

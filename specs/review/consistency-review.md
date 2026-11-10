@@ -1,11 +1,11 @@
 # Architectural and Quality Consistency Review (`specs/review/consistency-review.md`)
 
-**Instructor-feedback update:** The compliance matrix now identifies SUNAT Formats 12.1 and 14.1 and maps their supported minimum fields under RS 234-2006/SUNAT; Q-23 is resolved. CDR processing distinguishes exception categories (`0100–0999`, `1000–1999`), rejection codes (`2000–3999`), and observations (`4000+`) from CDR acceptance. ISC systems `01`/`02`/`03` are confirmed, but product applicability and rates remain open. GRE, DispatchAdvice, transport, and demo-sandbox behavior are deferred. The API contract and architecture are intentionally unchanged in this phase.
+**Final instructor-feedback review:** The requirements and matrix identify all five case-stated legacy facts, while preserving physical schema names as unknown. Formats 12.1/14.1, the three ISC systems and applicable CDR response categories are documented with the cited official sources. The MVC and future Hexagonal designs retain the XML-generation output port and now trace the note, baja, and catalog capabilities. GRE, DispatchAdvice, transport, and demo-sandbox behavior remain deferred. This review corrected date/number semantics, synchronized related API schemas, and recorded remaining generator and business decisions as pending.
 
 ## 1. Overview and Quality Gate Purpose
 
-This document provides a rigorous quality, architectural, and regulatory consistency review of all engineering specifications prepared for ABC Software Corp. Conducted from the perspective of a Senior Systems Analyst and Software Architect, this review verifies that:
-1. All four mandated assessment deliverables are present, complete in their analytical structure, and properly documented.
+This document reviews the quality, architecture, and regulatory consistency of the specifications prepared for ABC Software Corp. It verifies that:
+1. The four assessment deliverables are represented and their gaps are recorded; representation does not mean every pending implementation decision is resolved.
 2. The core assessment directives—specifically **RUC validation**, the **DEMO user profile**, **preservation of legacy Visual FoxPro data and business logic**, and the explicit deferral of GRE/transport and demo-sandbox behavior—are faithfully executed without invented assumptions.
 3. No premature implementation details, fabricated external URLs, unverified credentials, or unsupported database schemas have leaked into the analytical baseline.
 4. All technical ambiguities and missing information are formally cataloged in the open-questions registers.
@@ -16,9 +16,9 @@ This document provides a rigorous quality, architectural, and regulatory consist
 
 | Deliverable Mandate | Associated Repository Artifacts | Completeness & Compliance Evaluation |
 |---|---|---|
-| **Deliverable 1: Domain Model, DTOs, and Validation Schemas** | - [`specs/domain/domain-model.md`](file:///c:/Users/LOQ/Documents/GitHub/Examen/specs/domain/domain-model.md)<br>- [`specs/domain/dtos-and-schemas.md`](file:///c:/Users/LOQ/Documents/GitHub/Examen/specs/domain/dtos-and-schemas.md) | **UPDATED**: Models Catalog 08 ISC systems `01`/`02`/`03`, line-level calculation data, and the requested invoice fields; excludes out-of-scope GRE/transport/demo-sandbox contracts. |
-| **Deliverable 2: Architecture Specifications & Mermaid Diagrams** | - [`specs/architecture/mvc-current.md`](file:///c:/Users/LOQ/Documents/GitHub/Examen/specs/architecture/mvc-current.md)<br>- [`specs/architecture/future-hexagonal.md`](file:///c:/Users/LOQ/Documents/GitHub/Examen/specs/architecture/future-hexagonal.md)<br>- [`specs/architecture/architecture-decisions.md`](file:///c:/Users/LOQ/Documents/GitHub/Examen/specs/architecture/architecture-decisions.md)<br>- [`specs/architecture/deployment-options.md`](file:///c:/Users/LOQ/Documents/GitHub/Examen/specs/architecture/deployment-options.md)<br>- [`diagrams/mvc-current.mmd`](file:///c:/Users/LOQ/Documents/GitHub/Examen/diagrams/mvc-current.mmd)<br>- [`diagrams/future-hexagonal.mmd`](file:///c:/Users/LOQ/Documents/GitHub/Examen/diagrams/future-hexagonal.mmd) | **PRESENT & VERIFIED**: Adheres strictly to the teacher's assessment baseline (a clean Modular Monolith organized via MVC), details how it evolves toward Hexagonal Architecture (Ports and Adapters) to support future REST services and horizontal scaling without microservices overhead, models MSI/APK packaging, establishes 6 ADRs (`ADR-001` to `ADR-006`), and provides syntactically valid Mermaid diagrams. |
-| **Deliverable 3: API & Service Contracts** | - [`specs/api/openapi.yaml`](file:///c:/Users/LOQ/Documents/GitHub/Examen/specs/api/openapi.yaml)<br>- [`specs/api/api-design.md`](file:///c:/Users/LOQ/Documents/GitHub/Examen/specs/api/api-design.md) | **UNCHANGED IN THIS PHASE**: The API contract and architecture were not revised; the current domain/DTO changes are not represented as API changes. |
+| **Deliverable 1: Domain Model, DTOs, and Validation Schemas** | - [`specs/domain/domain-model.md`](file:///c:/Users/LOQ/Documents/GitHub/Examen/specs/domain/domain-model.md)<br>- [`specs/domain/dtos-and-schemas.md`](file:///c:/Users/LOQ/Documents/GitHub/Examen/specs/domain/dtos-and-schemas.md) | **UPDATED; PARTIAL**: Models Catalog 08 ISC systems `01`/`02`/`03`, line-level calculation data, and named invoice mappings. Product-specific applicability, rates, units, and full invoice profile inputs remain pending. |
+| **Deliverable 2: Architecture Specifications & Mermaid Diagrams** | - [`specs/architecture/mvc-current.md`](file:///c:/Users/LOQ/Documents/GitHub/Examen/specs/architecture/mvc-current.md)<br>- [`specs/architecture/future-hexagonal.md`](file:///c:/Users/LOQ/Documents/GitHub/Examen/specs/architecture/future-hexagonal.md)<br>- [`specs/architecture/architecture-decisions.md`](file:///c:/Users/LOQ/Documents/GitHub/Examen/specs/architecture/architecture-decisions.md)<br>- [`specs/architecture/deployment-options.md`](file:///c:/Users/LOQ/Documents/GitHub/Examen/specs/architecture/deployment-options.md)<br>- [`diagrams/mvc-current.mmd`](file:///c:/Users/LOQ/Documents/GitHub/Examen/diagrams/mvc-current.mmd)<br>- [`diagrams/future-hexagonal.mmd`](file:///c:/Users/LOQ/Documents/GitHub/Examen/diagrams/future-hexagonal.mmd) | **UPDATED; REVIEWED**: MVC remains the initial architecture, evolving toward Hexagonal Architecture; the XML-generation port is explicit. Note, baja, and catalog requirements now trace to components/ports. PHP/Laravel/Docker is the Partial Exam 2 stack; exact versions and a compatible XML tool remain open. |
+| **Deliverable 3: API & Service Contracts** | - [`specs/api/openapi.yaml`](file:///c:/Users/LOQ/Documents/GitHub/Examen/specs/api/openapi.yaml)<br>- [`specs/api/api-design.md`](file:///c:/Users/LOQ/Documents/GitHub/Examen/specs/api/api-design.md) | **UPDATED; STRUCTURAL LINT UNVERIFIED**: Includes bearer security, HTTP responses, mapped invoice fields, and note, baja, CDR-download, and catalog operations. Full OpenAPI parser/linter validation was unavailable without installing tooling. |
 | **Deliverable 4: SUNAT & UBL Compliance Traceability Matrix** | - [`specs/compliance/sunat-ubl-traceability.md`](file:///c:/Users/LOQ/Documents/GitHub/Examen/specs/compliance/sunat-ubl-traceability.md)<br>- [`specs/compliance/regulatory-open-questions.md`](file:///c:/Users/LOQ/Documents/GitHub/Examen/specs/compliance/regulatory-open-questions.md) | **UPDATED**: Adds the requested catalog and UBL paths, full CDR status ranges, and supported format contracts with official-source/version citations. Business-specific applicability remains open. |
 
 ---
@@ -66,16 +66,19 @@ This document provides a rigorous quality, architectural, and regulatory consist
 
 | Boundary | Cross-Checked Specifications | Consistency Finding | Status |
 |---|---|---|---|
-| **Requirements vs. Use Cases** | `functional-requirements.md` $\leftrightarrow$ `use-cases.md` | Active use cases map to active requirements; `UC-009`/`UC-010` are retained as deferred references only. | **Consistent** |
-| **Requirements vs. Criteria** | `functional-requirements.md` $\leftrightarrow$ `acceptance-criteria.md` | Active requirements map to applicable criteria. GRE/DispatchAdvice criteria and demo-sandbox behavior are explicitly deferred. | **Consistent** |
-| **Domain Model vs. DTOs** | `domain-model.md` $\leftrightarrow$ `dtos-and-schemas.md` | ISC system, input, and line-result concepts align; `INV-007`/`INV-008` are deferred, not active invariants. | **Consistent** |
-| **DTOs vs. OpenAPI 3.0.3** | `dtos-and-schemas.md` $\leftrightarrow$ `openapi.yaml` | Credit/debit notes use Catalog 01 codes `07`/`08` and existing invoice lines; baja uses the document resource without inventing a body; catalog queries return code/description pairs. Structural references and operation security/status coverage were checked. | **Structurally consistent; detailed business fields remain open under Q-02/Q-24/Q-25** |
-| **Architecture vs. API** | `future-hexagonal.md` $\leftrightarrow$ `openapi.yaml` | Existing operations remain mapped to documented ports. The new note, baja, and catalog-query operations are application API contracts; explicit architecture-port detail is not changed in this API phase. | **API specified; architecture detail unchanged** |
-| **Compliance vs. Contracts** | `sunat-ubl-traceability.md` $\leftrightarrow$ `openapi.yaml` | The application contract includes note issuance, baja request, and catalog lookup without adding external provider URLs or GRE/transport/sandbox operations. | **Scope-aligned; note/baja and catalog details remain open as specified** |
+| **Legacy facts vs. migration** | `00-context-and-scope.md`, `legacy-data-inventory.md`, `mapping-and-reconciliation.md` | Date, incoming movement, outgoing movement, product, and internal document number each map to target concepts. Actual VFP table/column names and types remain unknown under Q-04. | **Conceptual mapping consistent; physical mapping pending** |
+| **Requirements vs. Use Cases / Criteria** | `functional-requirements.md`, `use-cases.md`, `acceptance-criteria.md` | Active requirement IDs map to use cases/criteria; notes, baja, and catalog queries trace to instructor feedback. Supplementary GRE/transport and sandbox IDs remain deferred. | **Consistent; unconfirmed business behavior remains pending** |
+| **Domain Model vs. DTOs** | `domain-model.md`, `dtos-and-schemas.md` | Movement dates are date-only; internal numbers are opaque values distinct from SUNAT numbering; line Catalog 07 affectation uses `TaxExemptionReasonCode`; lifecycle includes `TRANSMITTED`; CDR outcome categories agree. | **Aligned; full invoice profile inputs remain pending** |
+| **DTOs vs. OpenAPI 3.0.3** | `dtos-and-schemas.md`, `openapi.yaml` | Invoice request schemas include the documented operation type, payment terms, legend, buyer name, tax affectation, ISC, and pricing-reference data. Note, baja, CDR-download, and catalog operations remain scoped and traceable. | **Structurally cross-checked; full YAML lint unverified** |
+| **Architecture vs. API / Requirements** | MVC and Hexagonal specs/diagrams, `openapi.yaml` | XML generation remains behind `IUblGeneratorPort`; note issuance, baja, and read-only catalog query now have controller/use-case/port references. | **Consistent at specification level; implementations not assessed** |
+| **SUNAT–UBL vs. Domain/API** | `sunat-ubl-traceability.md`, domain/DTOs, `openapi.yaml` | Named UBL paths link to invoice fields; formats 12.1/14.1 and CDR categories have source-backed traceability. The API request is not a complete profile specification. | **Named mappings verified; implementation profile remains partial** |
+| **OpenAPI security/responses** | `openapi.yaml`, `api-design.md`, Q-21 | Bearer authentication is required; `401`/`403`, duplicate-number `409`, asynchronous `202`, and applicable provider `502` semantics are documented. Token issuance/claims and authorization policy remain open. | **Contract covered; implementation policy pending** |
 
 ---
 
-## 5. Detailed Findings & Corrections Log
+## 5. Historical Corrections Log
+
+The following items describe earlier review phases and are retained as history; they are not the result of this final review.
 
 During the consistency review, minor cross-referencing and formatting items were identified and corrected:
 1. **RUC Modulo 11 Formula Duplication in Traceability Matrix**:
@@ -93,12 +96,35 @@ During the consistency review, minor cross-referencing and formatting items were
 
 ---
 
+### 5.1 Final Review Findings
+
+#### `RV-01`: UBL Invoice 2.1 Generator Readiness — Partial
+- The MVC and future Hexagonal designs specify the same boundary: `GenerateInvoiceXmlUseCase` depends on `IUblGeneratorPort`; infrastructure owns replaceable XSD-generated classes/serialization.
+- The target language/framework/container are specified (PHP/Laravel/Docker), but the PHP-compatible XSD tool and exact versions remain unselected under Q-07.
+- The documented DTO and API fields cover several feedback-named mappings, but not a complete executable SUNAT invoice profile: issuer data/configuration, source of unit codes, exact tax-scheme serialization, complete profile-required field/optionality rules, expected XML fixtures, and whether the port returns unsigned XML remain unresolved. Q-11/Q-19/Q-22 carry applicable business inputs; Q-26 tracks the remaining generator contract/test oracle.
+- **Verdict**: A scoped serializer and unit tests for confirmed mappings can begin using explicit fixtures. The specifications do **not** yet justify claiming a fully SUNAT-profile-conformant generator. The full invoicing application is not a prerequisite for those isolated tests.
+
+#### `RV-02`: Legacy Date and Internal Number Semantics — Corrected
+- The case establishes a date, not a timestamp or timezone, and an internal document number, not a SUNAT series/correlative.
+- Domain, DTO, API, and traceability now use date-only movement values and preserve internal numbers without assumed structure or generation. Migration maps all five facts conceptually; physical source names, types, and relationships remain unknown under Q-04.
+- Movement request schemas no longer require a cause, supplier reference, sales mode, or buyer identity. The optional unit-cost field remains pending under Q-18 and is not treated as a legacy fact.
+- Supplier/transfer causes, inventory adjustments/write-offs, and business-specific product attributes are not treated as legacy facts. Target workflow examples do not establish old schema fields.
+
+#### `RV-03`: CDR Categories and Lifecycle — Corrected
+- The domain/DTO semantics distinguish CDR `0` acceptance, `2000–3999` rejections, `4000+` observations, and `0100–0999`/`1000–1999` service/submission exceptions. The status model includes `TRANSMITTED`; an exception response is not represented as a CDR outcome.
+
+#### `RV-04`: Requirement-to-Architecture/API Links — Updated
+- `FR-021`–`FR-023` trace through `UC-011`–`UC-013`, `AC-022`–`AC-024`, domain/DTO contracts, MVC controllers/use cases, Hexagonal ports, and OpenAPI operations.
+- The API contract uses bearer authentication and the requested response semantics. Q-21 concerns token issuer/claims and authorization policy, not the already-selected bearer scheme.
+- OpenAPI security/response/schema references and operation structure received local structural checks. No parser/linter is installed or available in the workspace; full OpenAPI lint is unverified.
+
+#### `RV-05`: Remaining Unsupported or Conditional Business Detail
+- Exact product-tax applicability/rates, ICBPER applicability, payment policy, Catalog 51 profile selection, note rules, baja eligibility/provider outcomes, and catalog coverage/versioning remain pending under Q-11, Q-20, Q-19, Q-22, Q-02, Q-24, and Q-25 respectively.
+- Target DTO fields and workflow examples beyond the five legacy facts are not evidence of physical legacy columns; migration source names and types remain explicitly unknown.
+- GRE, DispatchAdvice, transport, and demo-sandbox behavior are deferred, with no active API operation or requirement behavior for them.
+
 ## 6. Academic Readiness Verdict
 
-### **VERDICT: REQUESTED SPECIFICATION CORRECTIONS RECORDED**
+### **VERDICT: GENERATOR MAY PROCEED ONLY AS A SCOPED, TESTABLE ADAPTER**
 
-### Justification:
-1. **Spec-first scope**: No application code, API contract, or architecture was changed in this phase.
-2. **Compliance coverage**: The domain, DTO, and compliance specifications now record the requested ISC systems and invoice traceability fields, along with verified CDR and SUNAT format details.
-3. **Deferred scope**: GRE, DispatchAdvice, transport, and demo-sandbox behavior are not active assessed features.
-4. **Remaining decisions**: Product-specific ISC applicability and rates, applicable Catalog 51 transaction type, payment policy, and any additional SUNAT profile requirements remain open rather than being invented.
+The approved UBL 2.1 baseline and named element mappings permit isolated serializer work and unit tests with explicitly supplied fixtures. Full generator conformance is **not ready** until Q-07/Q-10/Q-11/Q-19/Q-22/Q-26 decisions and approved test vectors resolve the missing profile/input contract. No pending item is marked complete.

@@ -40,7 +40,7 @@ No visual FoxPro schemas, tax rates, codes, or technology decisions are invented
 - **Source**: Teacher Assessment
 - **Status**: Confirmed
 - **Evidence from Context**: `docs/00-context-and-scope.md` Section 2.1, Item 2: Incoming movement is one of the five stated legacy facts.
-- **Description**: The system shall record incoming goods into the warehouse, reflecting supplier receptions or internal inventory entries, updating stock balances accordingly.
+- **Description**: The system shall record incoming warehouse movements and update stock balances according to validated business rules. The case does not specify movement causes such as supplier receipts or internal transfers.
 - **Acceptance Criterion**: When an inbound receipt is confirmed, the product inventory balance increments by the exact received quantity and an audit movement is registered.
 - **Open Questions**: [Q-05](file:///c:/Users/LOQ/Documents/GitHub/Examen/docs/01-open-questions.md#category-b-legacy-visual-foxpro-9-database--migration) (Legacy inventory valuation or balance update logic).
 
@@ -48,7 +48,7 @@ No visual FoxPro schemas, tax rates, codes, or technology decisions are invented
 - **Source**: Teacher Assessment
 - **Status**: Confirmed
 - **Evidence from Context**: `docs/00-context-and-scope.md` Section 2.1, Item 2: Outgoing movement is one of the five stated legacy facts.
-- **Description**: The system shall record outgoing merchandise movements representing wholesale deliveries, retail sales dispatches, or inventory write-offs.
+- **Description**: The system shall record outgoing warehouse movements. Wholesale and retail operations are in scope, but the case does not specify all movement causes or establish inventory write-offs as a legacy behavior.
 - **Acceptance Criterion**: When an outbound dispatch is processed, stock availability is verified, inventory decrements by the dispatched quantity, and negative stock is prevented unless permitted by validated business rules.
 - **Open Questions**: [Q-05](file:///c:/Users/LOQ/Documents/GitHub/Examen/docs/01-open-questions.md#category-b-legacy-visual-foxpro-9-database--migration) (Legacy negative stock rules).
 

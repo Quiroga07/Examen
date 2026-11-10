@@ -31,9 +31,9 @@ paths:
     post:
       summary: Record incoming warehouse goods
       description: |
-        Records incoming inventory from suppliers or internal transfers.
-        Generates an immutable transaction record, assigns a sequential internal tracking voucher,
-        and increments the physical stock balance for each line item.
+        Records an incoming warehouse movement without assuming a specific business cause.
+        Records the movement date and any known internal document number separately from SUNAT
+        numbering, and increments the physical stock balance for each line item.
       operationId: recordInboundMovement
       x-requirement-ids:
         - FR-001
@@ -61,7 +61,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/WarehouseMovementResponse'
         '400':
-          description: Invalid request payload, missing mandatory fields, or future timestamp
+          description: Invalid request payload or missing mandatory fields
           content:
             application/json:
               schema:
@@ -83,9 +83,9 @@ paths:
     post:
       summary: Record outgoing warehouse goods
       description: |
-        Records merchandise dispatches for wholesale orders, retail sales, or operational adjustments.
+        Records outgoing warehouse movements associated with assessed wholesale or retail operations.
         Verifies stock availability, decrements inventory balances, prevents unauthorized negative stock,
-        and issues an internal tracking number.
+        and preserves any known internal document number.
       operationId: recordOutboundMovement
       x-requirement-ids:
         - FR-002
@@ -783,25 +783,18 @@ components:
     CreateInboundMovementRequest:
       type: object
       required:
-        - transactionTimestamp
+        - transactionDate
         - lines
       properties:
-        transactionTimestamp:
+        transactionDate:
           type: string
-          format: date-time
-          description: Timestamp of receipt (cannot be in future)
-          example: '2026-10-22T08:30:00Z'
-        internalTrackingNumber:
+          format: date
+          description: Date of the inbound movement; no time or timezone is inferred from the legacy case
+          example: '2026-10-22'
+        internalDocumentNumber:
           type: string
           nullable: true
-          description: Optional pre-assigned internal document number
-          example: REC-2026-0041
-        supplierReference:
-          type: string
-          maxLength: 50
-          nullable: true
-          description: Supplier external invoice or guide voucher
-          example: F001-0012948
+          description: Known internal document number; format and generation policy remain open under Q-14
         lines:
           type: array
           minItems: 1
@@ -811,27 +804,18 @@ components:
     CreateOutboundMovementRequest:
       type: object
       required:
-        - transactionTimestamp
-        - operationMode
+        - transactionDate
         - lines
       properties:
-        transactionTimestamp:
+        transactionDate:
           type: string
-          format: date-time
-          description: Timestamp of dispatch
-          example: '2026-10-22T09:15:00Z'
-        operationMode:
-          type: string
-          enum:
-            - WHOLESALE
-            - RETAIL
-          description: Commercial sales mode (FR-006)
-          example: WHOLESALE
-        customerIdentity:
+          format: date
+          description: Date of the outbound movement; no time or timezone is inferred from the legacy case
+          example: '2026-10-22'
+        internalDocumentNumber:
           type: string
           nullable: true
-          description: Customer identity (mandatory for wholesale sales)
-          example: '20123456789'
+          description: Known internal document number; format and generation policy remain open under Q-14
         lines:
           type: array
           minItems: 1
@@ -842,9 +826,8 @@ components:
       type: object
       required:
         - movementId
-        - internalTrackingNumber
         - movementType
-        - transactionTimestamp
+        - transactionDate
         - totalItemCount
         - totalQuantity
         - status
@@ -853,21 +836,20 @@ components:
           type: string
           description: Immutable system movement ID
           example: mov-987a-bc12
-        internalTrackingNumber:
+        internalDocumentNumber:
           type: string
-          description: Assigned sequential tracking voucher (FR-005)
-          example: VFP-MV-000842
+          nullable: true
+          description: Known internal document number when available; format and generation policy remain open under Q-14
         movementType:
           type: string
           enum:
-            - INBOUND_PURCHASE
-            - OUTBOUND_SALE
-            - ADJUSTMENT
-          example: INBOUND_PURCHASE
-        transactionTimestamp:
+            - INBOUND
+            - OUTBOUND
+          example: INBOUND
+        transactionDate:
           type: string
-          format: date-time
-          example: '2026-10-22T08:30:00Z'
+          format: date
+          example: '2026-10-22'
         totalItemCount:
           type: integer
           example: 1
@@ -1028,7 +1010,7 @@ components:
         - description
         - quantity
         - unitPrice
-        - taxCategory
+        - taxExemptionReasonCode
       properties:
         lineNumber:
           type: integer
@@ -1051,10 +1033,71 @@ components:
           minimum: 0.00
           description: Unit price excluding tax
           example: 165.00
-        taxCategory:
+        taxExemptionReasonCode:
           type: string
-          description: SUNAT Cat. 07 affectation code (e.g., 10 Gravado)
+          description: SUNAT Catalog 07 value serialized at UBL TaxCategory/cbc:TaxExemptionReasonCode
           example: '10'
+        iscCalculation:
+          $ref: '#/components/schemas/IscCalculation'
+        pricingReference:
+          $ref: '#/components/schemas/PricingReference'
+
+    IscCalculation:
+      type: object
+      required:
+        - systemCode
+        - iscAmount
+      description: >
+        Line-level ISC inputs and result. Populate only when ISC applies; product applicability,
+        rates, units, and schedule-specific values remain open under Q-11.
+      properties:
+        systemCode:
+          type: string
+          enum: ['01', '02', '03']
+          description: SUNAT Catalog 08 ISC calculation system
+        taxableBase:
+          type: number
+          format: double
+          minimum: 0
+        quantity:
+          type: number
+          format: double
+          minimum: 0
+        unitOfMeasure:
+          type: string
+          description: Statutory measurement unit when required by the applicable schedule
+        ratePercent:
+          type: number
+          format: double
+          minimum: 0
+        amountPerUnit:
+          type: number
+          format: double
+          minimum: 0
+        publicSalePrice:
+          type: number
+          format: double
+          minimum: 0
+        tierRange:
+          type: string
+          description: UBL TaxCategory/cbc:TierRange when required by the applicable SUNAT validation rule
+        iscAmount:
+          type: number
+          format: double
+          minimum: 0
+          description: Calculated ISC amount for this invoice line
+
+    PricingReference:
+      type: object
+      properties:
+        alternativePriceAmount:
+          type: number
+          format: double
+          minimum: 0
+        priceTypeCode:
+          type: string
+          enum: ['01', '02', '03']
+          description: SUNAT Catalog 16 code serialized at AlternativeConditionPrice/PriceTypeCode
 
     IssueElectronicInvoiceRequest:
       type: object
@@ -1080,14 +1123,23 @@ components:
           example: F001
         issueDate:
           type: string
-          format: date-time
-          example: '2026-10-22T10:00:00Z'
+          format: date
+          description: Calendar date serialized as UBL cbc:IssueDate
+          example: '2026-10-22'
         currency:
           type: string
           enum:
             - PEN
             - USD
           example: PEN
+        operationTypeCode:
+          type: string
+          description: SUNAT Catalog 51 value serialized as UBL ProfileID where applicable; selection and profile scheme remain open under Q-22
+        paymentTerms:
+          $ref: '#/components/schemas/PaymentTerms'
+        legend1000:
+          type: string
+          description: Amount-in-words legend text serialized as cbc:Note with languageLocaleID 1000 where required
         customer:
           $ref: '#/components/schemas/CustomerIdentity'
         lines:
@@ -1095,6 +1147,35 @@ components:
           minItems: 1
           items:
             $ref: '#/components/schemas/InvoiceLineItem'
+
+    PaymentTerms:
+      type: object
+      properties:
+        paymentCondition:
+          type: string
+          enum: [CONTADO, CREDITO]
+        netPendingAmount:
+          type: number
+          format: double
+          minimum: 0
+          description: Net amount pending when the payment condition is credit
+        installments:
+          type: array
+          items:
+            $ref: '#/components/schemas/PaymentInstallment'
+
+    PaymentInstallment:
+      type: object
+      properties:
+        installmentNumber:
+          type: string
+        dueDate:
+          type: string
+          format: date
+        amount:
+          type: number
+          format: double
+          minimum: 0
 
     CreateCreditDebitNoteRequest:
       type: object
@@ -1142,6 +1223,10 @@ components:
           minimum: 0.00
           description: Calculated Selective Consumption Tax
           example: 0.00
+        iscLineDetails:
+          type: array
+          items:
+            $ref: '#/components/schemas/IscCalculation'
         exoneratedAmount:
           type: number
           format: double
@@ -1235,6 +1320,7 @@ components:
             - DRAFT
             - GENERATED
             - SIGNED
+            - TRANSMITTED
             - ACCEPTED
             - REJECTED
             - CANCELLED

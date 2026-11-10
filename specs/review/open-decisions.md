@@ -28,14 +28,14 @@ In accordance with the project's **spec-first** and **non-assumption** principle
 - **Remaining details**: Note reason codes, note-specific required data, eligibility, and adjustment semantics remain open under `Q-02`.
 - **Status**: **Capability confirmed; detailed business rules pending**
 
-#### `OD-04`: Baja Eligibility and Provider Response
+#### `OD-15`: Baja Eligibility and Provider Response
 - **Source Question**: [`Q-24 in docs/01-open-questions.md`](file:///c:/Users/LOQ/Documents/GitHub/Examen/docs/01-open-questions.md#q-24-what-are-the-baja-eligibility-and-provider-response-details).
 - **Affected Artifacts**: `FR-022`, `UC-012`, `POST /api/v1/invoices/{documentId}/baja`.
 - **Baseline**: The API accepts a baja request and directs clients to the existing document resource; no provider ticket or provider-specific payload is specified.
 - **Remaining details**: Eligible document states, pending/accepted/rejected response semantics, and any provider reference.
 - **Status**: **Capability confirmed; provider/business details pending**
 
-#### `OD-05`: SUNAT Catalog Query Coverage and Versioning
+#### `OD-16`: SUNAT Catalog Query Coverage and Versioning
 - **Source Question**: [`Q-25 in docs/01-open-questions.md`](file:///c:/Users/LOQ/Documents/GitHub/Examen/docs/01-open-questions.md#q-25-which-sunat-catalogs-and-catalog-versions-are-queryable).
 - **Affected Artifacts**: `FR-023`, `UC-013`, `GET /api/v1/catalogs/{catalogNumber}`.
 - **Baseline**: The query returns the minimum code/description pairs for a supported catalog.
@@ -85,16 +85,21 @@ In accordance with the project's **spec-first** and **non-assumption** principle
 
 ### Category C: Technology Platform & Distribution Architecture
 
-#### `OD-07`: Mandated Programming Language, Framework, and Runtime
+#### `OD-07`: Selected PHP/Laravel/Docker Stack and UBL Tooling
 - **Source Question**: [`Q-07 in docs/01-open-questions.md`](file:///c:/Users/LOQ/Documents/GitHub/Examen/docs/01-open-questions.md#category-c-technology-stack-and-architectural-constraints).
 - **Affected Artifacts**: `NFR-001`, `NFR-002`, `NFR-006`, [`specs/architecture/mvc-current.md`](file:///c:/Users/LOQ/Documents/GitHub/Examen/specs/architecture/mvc-current.md), [`specs/architecture/future-hexagonal.md`](file:///c:/Users/LOQ/Documents/GitHub/Examen/specs/architecture/future-hexagonal.md).
-- **Current Baseline**: Clean Modular Monolith MVC and Ports & Adapters designed in technology-neutral terms.
-- **Ecosystem Options**:
-  - *.NET Ecosystem*: C#, ASP.NET Core MVC / Web API, EF Core, .NET MAUI / MSIX.
-  - *Java Ecosystem*: Java 21, Spring Boot MVC, Spring Data JPA, Android Native SDK.
-  - *TypeScript Ecosystem*: NestJS / Express, TypeORM / Prisma, Electron, React Native.
-- **Implementation Impact**: Fundamental prerequisite before solution scaffolding, package installation, or code authoring.
-- **Status**: **Pending Academic Confirmation**
+- **Current Baseline**: PHP with Laravel and Docker is selected for Partial Exam 2; MVC is the initial design and evolves toward Hexagonal Architecture. Exact versions are unspecified.
+- **Remaining Decision**: Confirm a PHP-compatible tool for generation/serialization of classes from the official UBL 2.1 Invoice XSD. Keep it behind `IUblGeneratorPort`.
+- **Implementation Impact**: Blocks selecting the infrastructure XML adapter/tool, not isolated serializer tests against specified mappings and fixtures.
+- **Status**: **Stack selected; XML tooling and exact versions pending**
+
+#### `OD-17`: Complete UBL Invoice Generator Input Contract
+- **Source Question**: [`Q-26 in docs/01-open-questions.md`](file:///c:/Users/LOQ/Documents/GitHub/Examen/docs/01-open-questions.md#q-26-what-complete-input-mapping-and-test-oracle-define-the-ubl-invoice-21-xml-generator).
+- **Affected Artifacts**: `FR-009`, `AC-009`, `NFR-010`, `IUblGeneratorPort`, `IssueElectronicInvoiceRequestDto`, and the OpenAPI invoice schemas.
+- **Current Baseline**: UBL 2.1, the replaceable output port, and specifically requested SUNAT/UBL field mappings are documented. The invoice endpoint schema now includes the approved conditional fields.
+- **Remaining Decision**: Resolve issuer data/configuration, product unit and tax-scheme inputs, complete profile-required fields/optionality, the unsigned-XML/signature boundary, and approved generator test vectors. Related tax/payment/profile choices remain open under `Q-11`, `Q-19`, and `Q-22`.
+- **Implementation Impact**: Blocks a complete SUNAT-profile-conformant generator; scoped XML serialization tests can be written for mapped fields and fixture inputs without implementing the invoicing application.
+- **Status**: **Partial contract; generator conformance details pending**
 
 #### `OD-08`: Mandated Target Relational Database Management System (RDBMS)
 - **Source Question**: [`Q-08 in docs/01-open-questions.md`](file:///c:/Users/LOQ/Documents/GitHub/Examen/docs/01-open-questions.md#category-c-technology-stack-and-architectural-constraints).
@@ -114,13 +119,14 @@ In accordance with the project's **spec-first** and **non-assumption** principle
 - **Implementation Impact**: Dictates mobile client architecture and conflict resolution algorithms.
 - **Status**: **Pending Academic Confirmation**
 
-#### `OD-10`: REST API Authentication and Security Standard
+#### `OD-10`: Bearer-Token Issuance and Authorization Policy
 - **Source Question**: [`Q-21 in docs/01-open-questions.md`](file:///c:/Users/LOQ/Documents/GitHub/Examen/docs/01-open-questions.md#category-c-technology-stack-and-architectural-constraints).
-- **Affected Artifacts**: `FR-013`, `specs/api/openapi.yaml`, [`specs/api/api-design.md Section 5`](file:///c:/Users/LOQ/Documents/GitHub/Examen/specs/api/api-design.md#5-security-and-authentication-boundaries).
-- **Current Baseline**: `openapi.yaml` omits hardcoded security schemes to avoid unverified assumptions.
+- **Affected Artifacts**: `FR-013`, `specs/api/openapi.yaml`, [`specs/api/api-design.md Section 2`](file:///c:/Users/LOQ/Documents/GitHub/Examen/specs/api/api-design.md#2-authentication-and-common-responses).
+- **Current Baseline**: The OpenAPI contract requires HTTP bearer authentication and documents `401` and `403`. Token issuance, claims, and role/operation permissions are unspecified.
 - **Options for Resolution**: HTTP Bearer JWT tokens, Cookie-based session authentication, or TLS Basic Auth for evaluation.
-- **Implementation Impact**: Dictates `securitySchemes` in `openapi.yaml` and security filter middleware.
-- **Status**: **Pending Academic Confirmation**
+- **Implementation Impact**: Determines authentication middleware and operation authorization; the contract's bearer scheme is already fixed.
+- **Status**: **Contract scheme specified; implementation policy pending**
+- **Clarification**: The listed alternatives are historical/unapproved and superseded by the bearer-only OpenAPI contract. Do not select or add them without an approved scope change.
 
 ---
 
@@ -139,7 +145,7 @@ In accordance with the project's **spec-first** and **non-assumption** principle
 #### `OD-12`: Authorized Electronic Invoicing Testing Pathway
 - **Source Question**: [`Q-12 in docs/01-open-questions.md`](file:///c:/Users/LOQ/Documents/GitHub/Examen/docs/01-open-questions.md#category-d-peruvian-tax-compliance--sunat-integration), [`REG-06 in regulatory-open-questions.md`](file:///c:/Users/LOQ/Documents/GitHub/Examen/specs/compliance/regulatory-open-questions.md#item-reg-06-testing-and-staging-pathway).
 - **Affected Artifacts**: `FR-010`, `UC-006`, `AC-010`, `POST /api/v1/invoices/{id}/transmit`.
-- **Current Baseline**: Abstract `ISunatDeliveryPort` defined with two interchangeable adapters (`SunatSoapDeliveryAdapter` and `LocalSimulatorDeliveryAdapter`).
+- **Current Baseline**: An abstract `ISunatDeliveryPort` is specified; no provider adapter, simulator, endpoint, or test pathway is selected or implemented. Demo-sandbox behavior remains out of scope.
 - **Options for Resolution**:
   - *Option A*: Real connection to SUNAT Beta web services (requires course test SOL credentials and test certificate).
   - *Option B*: Connection to an authorized OSE/PSE staging API.
@@ -155,12 +161,12 @@ In accordance with the project's **spec-first** and **non-assumption** principle
 - **Specification Impact**: Completes business-specific product configuration and representative tax cases without changing the catalogued system set.
 - **Status**: **Pending Regulatory Clarification**
 
-#### `OD-14`: Dual Series Numbering Strategy vs. Internal Numbers
+#### `OD-14`: Legacy Internal Document Number Format and Handling
 - **Source Question**: [`Q-14 in docs/01-open-questions.md`](file:///c:/Users/LOQ/Documents/GitHub/Examen/docs/01-open-questions.md#category-d-peruvian-tax-compliance--sunat-integration).
-- **Affected Artifacts**: `FR-005`, `FR-011`, `AC-005`, `DocumentSeriesNumber`.
-- **Current Baseline**: Dual numbering supported (internal tracking number preserved alongside legal SUNAT series `F###` / `B###`).
-- **Options for Resolution**: Confirm whether internal vouchers are permanently maintained as parallel tracking numbers or completely superseded by SUNAT series.
-- **Implementation Impact**: Affects document database schema foreign keys.
+- **Affected Artifacts**: `FR-005`, `AC-005`, `InternalDocumentNumber`, and migration mappings.
+- **Current Baseline**: The known legacy internal number is preserved as a distinct value and is never mapped to the SUNAT series or correlative.
+- **Remaining Decision**: The legacy number's format, uniqueness scope, and any target-side generation policy await schema and business-rule discovery.
+- **Implementation Impact**: Blocks physical migration mapping and any assumed generation/uniqueness behavior; it does not block the conceptual mapping.
 - **Status**: **Pending Academic Confirmation**
 
 ---
@@ -171,9 +177,9 @@ Before beginning technical implementation or writing code, decisions must be res
 
 ```
 [Phase 1: Academic Confirmation]
-  - Resolve OD-01 (GRE scope)
-  - Resolve OD-07 (Technology stack: .NET, Java, TS, or Python)
-  - Resolve OD-08 (Target RDBMS: PostgreSQL, SQL Server, MySQL)
+  - OD-01 is resolved: GRE and transport are deferred.
+  - OD-07 stack selection is resolved; confirm XML tool compatibility and exact versions.
+  - Resolve OD-08 (Target RDBMS).
          │
          ▼
 [Phase 2: Legacy Inspection & Input Delivery]
@@ -184,7 +190,7 @@ Before beginning technical implementation or writing code, decisions must be res
          ▼
 [Phase 3: Integration & Testing Environment]
   - Resolve OD-03 (DEMO user credentials and workflows)
-  - Resolve OD-10 (REST authentication standard)
+  - Resolve OD-10 (Bearer-token issuer/claims and authorization policy)
   - Resolve OD-11 (RUC validation mode: offline vs online)
   - Resolve OD-12 (SUNAT test pathway: Beta vs OSE vs Simulator)
          │

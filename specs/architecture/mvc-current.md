@@ -22,7 +22,7 @@ For Partial Exam 2, the selected implementation stack is PHP with Laravel and Do
 |                  v                                        v                                        |
 |  +----------------------------------------------------------------------------------------------+  |
 |  | CONTROLLERS                                                                                  |  |
-|  | - WarehouseController   - BillingController   - DocumentTransmissionController               |  |
+|  | - WarehouseController   - BillingController   - CatalogController   - DocumentTransmissionController |  |
 |  | - MigrationController                                                                       |  |
 |  | * Enforces input validation against DTOs, handles UI orchestration, triggers Domain Services |  |
 |  +----------------------------------------------------------------------------------------------+  |
@@ -33,7 +33,7 @@ For Partial Exam 2, the selected implementation stack is PHP with Laravel and Do
 |                                                                                                    |
 |  +----------------------------------------------------------------------------------------------+  |
 |  | APPLICATION SERVICES                                                                         |  |
-|  | - WarehouseService     - BillingService      - TaxCalculationService                         |  |
+|  | - WarehouseService     - BillingService      - CatalogQueryService      - TaxCalculationService |  |
 |  | - GenerateInvoiceXmlUseCase (FR-009, AC-009) - MigrationService (FR-015–FR-017)               |  |
 |  +----------------------------------------------------------------------------------------------+  |
 |                                                    |                                               |
@@ -46,7 +46,8 @@ For Partial Exam 2, the selected implementation stack is PHP with Laravel and Do
 |  +-------------------------------------------------v--------------------------------------------+  |
 |  | DATA ACCESS & REPOSITORY ABSTRACTIONS                                                        |  |
 |  | - IProductRepository    - IMovementRepository  - IInvoiceRepository                         |  |
-|  | - ILegacyExtractionCursor  - ISunatDeliveryPort  - IUblGeneratorPort (FR-009, NFR-010)      |  |
+|  | - ICatalogRepository    - ILegacyExtractionCursor  - ISunatDeliveryPort                       |  |
+|  | - IUblGeneratorPort (FR-009, NFR-010)                                                        |  |
 |  +----------------------------------------------------------------------------------------------+  |
 +---------------------------------------------------|------------------------------------------------+
                                                     | (Persistence & I/O)
@@ -70,20 +71,21 @@ For Partial Exam 2, the selected implementation stack is PHP with Laravel and Do
 - **Role**: Coordinates user interactions, binds and validates incoming HTTP/action payloads against formal DTO schemas (`specs/domain/dtos-and-schemas.md`), coordinates application services, and returns populated view models.
 - **Key Controllers**:
   - `WarehouseController`: Handles inbound receipts (`FR-003`, `UC-001`), outbound dispatches (`FR-004`, `UC-002`), and stock balance views.
-  - `BillingController`: Coordinates customer RUC validation (`FR-007`, `UC-003`), invoice drafting (`FR-006`, `UC-004`), and tax calculation previews.
-  - `DocumentTransmissionController`: Coordinates UBL Invoice XML generation (`FR-009`, `UC-005`), signing, transmission to the selected SUNAT/PSE/OSE pathway (`FR-010`, `UC-006`), and CDR status inspection. XML generation is invoked through `GenerateInvoiceXmlUseCase` and `IUblGeneratorPort`; the implementation is in infrastructure.
+  - `BillingController`: Coordinates customer RUC validation (`FR-007`, `UC-003`), invoice drafting (`FR-006`, `UC-004`), and credit/debit note requests (`FR-021`, `UC-011`) through the application service.
+  - `CatalogController`: Serves read-only SUNAT catalog queries (`FR-023`, `UC-013`) through `CatalogQueryService` and the catalog repository abstraction.
+  - `DocumentTransmissionController`: Coordinates UBL Invoice XML generation (`FR-009`, `UC-005`), signing, transmission to the selected SUNAT/PSE/OSE pathway (`FR-010`, `UC-006`), baja requests (`FR-022`, `UC-012`), and CDR status inspection. XML generation is invoked through `GenerateInvoiceXmlUseCase` and `IUblGeneratorPort`; the implementation is in infrastructure.
   - `MigrationController`: Provides administrative UI for triggering read-only legacy extraction and viewing reconciliation reports (`FR-015`, `FR-016`, `UC-008`).
 
 ### 2.3 Model Layer
 The Model layer is partitioned into three distinct sub-layers to enforce separation of concerns:
 1. **Application Services**:
    - Orchestrates domain business flows and transactions. Invoice XML generation is a use case that calls the `IUblGeneratorPort` abstraction (`FR-009`, `AC-009`, `NFR-010`).
-   - Examples: `WarehouseService`, `BillingService`, `TaxCalculationService`, `GenerateInvoiceXmlUseCase`, `MigrationPipelineService`.
+   - Examples: `WarehouseService`, `BillingService` (including note issuance), `CatalogQueryService`, `TaxCalculationService`, `GenerateInvoiceXmlUseCase`, and `MigrationPipelineService`.
 2. **Domain Model & Invariants**:
    - Pure domain entities, value objects, and business invariants as defined in [specs/domain/domain-model.md](file:///c:/Users/LOQ/Documents/GitHub/Examen/specs/domain/domain-model.md).
    - Independent of frameworks, databases, and UI components (`NFR-002`).
 3. **Application Output Ports and Data Access Abstractions**:
-   - Interface contracts for persistence and external capabilities (`IProductRepository`, `IMovementRepository`, `IInvoiceRepository`, `ILegacyExtractionCursor`, `ISunatDeliveryPort`, `IUblGeneratorPort`). The MVC application service depends on `IUblGeneratorPort`, not its infrastructure implementation (`NFR-002`).
+   - Interface contracts for persistence and external capabilities (`IProductRepository`, `IMovementRepository`, `IInvoiceRepository`, `ICatalogRepository`, `ILegacyExtractionCursor`, `ISunatDeliveryPort`, `IUblGeneratorPort`). Baja uses the delivery boundary; catalog lookup uses a read-only repository without implying an external SUNAT URL. The MVC application service depends on `IUblGeneratorPort`, not its infrastructure implementation (`NFR-002`).
    - The infrastructure `UblInvoiceXmlAdapter` implements the output port and encapsulates the selected PHP-compatible generation/serialization tool and its XSD-generated UBL 2.1 classes. Tool compatibility remains to be confirmed (`ADR-007`).
 
 ---
@@ -96,7 +98,8 @@ To prevent the monolithic codebase from becoming a tangled "Big Ball of Mud", th
 src/ or App/
 ├── Modules/
 │   ├── WarehouseModule/          # FR-001 to FR-005: Products, movements, stock balance
-│   ├── BillingModule/            # FR-006, FR-007, FR-012: Sales, customers, RUC validation
+│   ├── BillingModule/            # FR-006–FR-012, FR-021–FR-022: Sales, notes, RUC, lifecycle and baja
+│   ├── CatalogModule/            # FR-011, FR-023: Read-only SUNAT catalog queries
 │   ├── TaxComplianceModule/      # FR-008 to FR-012: Tax math, UBL XML, signing, SUNAT lifecycle
 │   └── MigrationModule/          # FR-015 to FR-017: VFP read-only extract, staging, reconciliation
 └── SharedKernel/                 # Money, Common Enums, Result/Error models, Audit logger

@@ -41,7 +41,11 @@ In strict adherence to the assessment directives:
 +-------------------------------------------------------------------------------------------------------------+
 ```
 
+This compact overview highlights the XML-generation boundary rather than enumerating every capability. The full capability-level view, including note, baja, and catalog ports/use cases, is maintained in [`diagrams/future-hexagonal.mmd`](../../diagrams/future-hexagonal.mmd).
+
 The XML boundary is the same as in the initial MVC design: `GenerateInvoiceXmlUseCase` depends on the outbound `IUblGeneratorPort`; infrastructure supplies the replaceable `UblInvoiceXmlAdapter`. That adapter is proposed to serialize UBL Invoice 2.1 objects using classes generated from the official OASIS Invoice XSD. Confirm a compatible PHP tool before implementation; neither a tool nor exact package/runtime versions are selected (`FR-009`, `AC-009`, `NFR-002`, `NFR-010`; [ADR-007](file:///c:/Users/LOQ/Documents/GitHub/Examen/specs/architecture/architecture-decisions.md#adr-007-ubl-invoice-xml-generation-behind-an-output-port)).
+
+The instructor-added API capabilities use the same staged boundary: `BillingController` delegates note issuance (`FR-021`/`UC-011`), `DocumentTransmissionController` delegates baja (`FR-022`/`UC-012`) through `ISunatDeliveryPort`, and `CatalogController` delegates read-only catalog lookup (`FR-023`/`UC-013`) through `ICatalogRepositoryPort`. No new provider URL or catalog-refresh protocol is implied.
 
 ---
 
@@ -52,7 +56,7 @@ The XML boundary is the same as in the initial MVC design: `GenerateInvoiceXmlUs
 - **Contents**:
   - **Domain Entities & Value Objects**: `Product`, `WarehouseMovement`, `ElectronicDocument`, `TaxBreakdown`, `RucNumber`, `Money` ([specs/domain/domain-model.md](file:///c:/Users/LOQ/Documents/GitHub/Examen/specs/domain/domain-model.md)).
   - **Domain Invariants**: Modulo 11 check digit verification (`INV-004`), arbitrary-precision tax balance rules (`INV-005`), and stock decrement rules (`INV-003`).
-  - **Use Case Interactors**: Classes implementing assessed operational use cases (`RecordInboundUseCase`, `IssueInvoiceUseCase`, `GenerateInvoiceXmlUseCase`, `ValidateRucUseCase`, `MigrateLegacyDataUseCase`).
+  - **Use Case Interactors**: Classes implementing assessed operational use cases (`RecordInboundUseCase`, `IssueInvoiceUseCase`, `IssueCreditDebitNoteUseCase`, `RequestBajaUseCase`, `QuerySunatCatalogUseCase`, `GenerateInvoiceXmlUseCase`, `ValidateRucUseCase`, `MigrateLegacyDataUseCase`).
 
 ---
 
@@ -65,6 +69,9 @@ Driver ports expose the application core's capabilities to the outside world; dr
 - `IIssueInvoicePort` (`FR-006`, `FR-008`, `FR-009`, `UC-005`): Computes taxes, verifies RUC, and orchestrates UBL generation.
 - `IValidateRucPort` (`FR-007`, `UC-003`): Evaluates RUC structure and Modulo 11 check digits.
 - `IExtractLegacyPort` (`FR-015`, `FR-016`, `UC-008`): Launches non-destructive legacy migration pipeline.
+- `IIssueCreditDebitNotePort` (`FR-021`, `UC-011`): Accepts the documented note type, original document reference, and shared line DTO; note-specific business rules remain open.
+- `IRequestBajaPort` (`FR-022`, `UC-012`): Requests baja for an identified document and exposes the confirmed lifecycle outcome; eligibility/provider details remain open.
+- `IQuerySunatCatalogPort` (`FR-023`, `UC-013`): Returns code/description entries for a supported catalog.
 
 #### Driving Adapters:
 1. **MVC Controller Adapter (Initial)**:
@@ -85,7 +92,8 @@ Driven ports represent external services, persistence mechanisms, and third-part
 - `IProductRepositoryPort` (`FR-001`): Persistence operations for the product catalog.
 - `IMovementRepositoryPort` (`FR-003`, `FR-004`): Appends immutable inventory movements and retrieves stock balances.
 - `IInvoiceRepositoryPort` (`FR-008`, `FR-009`, `FR-012`): Persists electronic invoices and updates document lifecycle status.
-- `ISunatDeliveryPort` (`FR-010`, `UC-006`): Transmits signed UBL XML payloads to tax authority endpoints and retrieves CDR responses.
+- `ICatalogRepositoryPort` (`FR-011`, `FR-023`, `UC-013`): Reads catalog entries from the configured application catalog source; no external SUNAT URL or refresh protocol is assumed.
+- `ISunatDeliveryPort` (`FR-010`, `FR-022`, `UC-006`, `UC-012`): Transmits signed UBL XML payloads, submits configured baja requests, and retrieves provider outcomes/CDRs.
 - `ILegacyExtractionPort` (`FR-015`, `UC-008`): Read-only streaming extractor for legacy Visual FoxPro `.DBF` files.
 - `IUblGeneratorPort` (`FR-009`, `AC-009`, `NFR-010`): Generates UBL Invoice 2.1 XML from the application invoice model. The use case depends on this port, never on a generator library or schema-generated classes.
 

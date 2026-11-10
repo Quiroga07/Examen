@@ -60,6 +60,7 @@ Invoice creation can return `201` when issuance completes synchronously or `202`
 ## 5. Existing DTOs and artifact contracts
 
 - Invoice creation, retrieval, and transmission use `IssueElectronicInvoiceRequest` and `ElectronicInvoiceResponse`. Duplicate invoice numbering returns `409`; request validation and tax/domain validation use the documented `400`/`422` responses.
+- The invoice request carries the mapped operation type, payment terms, amount-in-words legend, buyer legal name, Catalog 07 affectation code, optional Catalog 08 ISC inputs, and optional Catalog 16 pricing reference. Their applicability is conditional where the approved DTO/profile says so.
 - Invoice XML download returns the generated XML as `application/xml`.
 - Credit/debit note issuance uses `CreateCreditDebitNoteRequest` with Catalog 01 document type `07` or `08` and existing invoice-line data; the path identifies the original Factura or Boleta. It returns an `ElectronicInvoiceResponse`.
 - Baja submission takes the document ID in the path and no body because no additional request fields are established. It returns `202 Accepted` with a `Location` header to the existing document resource; `CANCELLED` is returned by that resource only after confirmation.
@@ -81,7 +82,8 @@ The capabilities and minimum API contracts below are confirmed by instructor gra
 | Bearer authentication | `bearerAuth`, `401`, and `403` are specified | Token issuance/claims and the role-permission matrix remain open under Q-03/Q-21. |
 | Provider pathway | Transmission uses the internal provider adapter; `502` describes upstream communication failure | The authorized provider and test pathway remain open under [Q-12](../../docs/01-open-questions.md). |
 | RUC verification | No external SUNAT URL is specified | Offline versus online validation scope remains open under [Q-13](../../docs/01-open-questions.md). |
-| ISC | No business-specific rates, product applicability, or calculation inputs are added to the API | Resolve using case evidence and the open ISC questions in the compliance specifications. |
+| ISC | The contract exposes generic Catalog 08 line inputs without defaults | Product applicability and effective rates/units/reference-price inputs remain open under [Q-11](../../docs/01-open-questions.md). |
+| UBL XML generator | The output port and named SUNAT/UBL mappings are specified | Full generator readiness remains partial: issuer configuration, exact profile-required fields/optionality, line tax-scheme serialization, test vectors, and PHP XSD-tool compatibility require confirmation under Q-07/Q-10/Q-22 and review finding `RV-01`. |
 
 ## 7. Specification references
 

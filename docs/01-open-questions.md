@@ -55,14 +55,10 @@ To maintain architectural integrity, **no assumptions** will be made on any of t
 
 ### Category C: Technology Stack and Architectural Constraints
 
-- **Q-07: What programming languages, frameworks, and runtimes are required or permitted?**
-  - *Context*: The assessment specifies an initial clean/modular monolith using MVC, preparing for Hexagonal Architecture, Windows MSI, and Android APK, but does not state the technology platform.
-  - *Question*: Which technological ecosystem is required or preferred for the course?
-    - .NET ecosystem (C#, ASP.NET Core MVC / .NET MAUI)?
-    - Java ecosystem (Java, Spring Boot MVC, Android SDK)?
-    - TypeScript/Node.js ecosystem (NestJS / Express MVC, Electron, React Native / Capacitor)?
-    - Python ecosystem (Django MVC, Kivy/BeeWare)?
-  - *Impact*: Fundamental prerequisite before any project scaffolding, solution setup, or implementation can occur.
+- **Q-07: Which exact PHP/Laravel/Docker versions and PHP-compatible UBL XSD tooling apply?**
+  - *Resolution*: PHP, Laravel, and Docker are selected for Partial Exam 2. MVC remains the initial architecture and evolves toward Hexagonal Architecture; exact versions are not specified.
+  - *Remaining question*: Which compatible PHP tool, if any, can generate and serialize classes from the official UBL 2.1 Invoice XSD? The tool must remain replaceable behind `IUblGeneratorPort`.
+  - *Impact*: Blocks selecting the XML adapter implementation and exact environment versions, but does not block the technology-neutral port or isolated fixture-based XML tests.
 
 - **Q-08: What target Database Management System (RDBMS) is mandated?**
   - *Context*: The new system must store modernized domain entities and migrated historical data in a robust relational database.
@@ -148,13 +144,12 @@ To maintain architectural integrity, **no assumptions** will be made on any of t
   - *Question*: Must the retail module and tax calculation engine support ICBPER line items and tax subtotals?
   - *Impact*: Adds an additional tax category and calculation rule to the billing engine.
 
-- **Q-21: What authentication and authorization scheme is required for the REST API?**
-  - *Context*: The system specification introduces an OpenAPI 3.0.3 contract for future desktop/mobile client integration and modular monolith evolution. However, the assessment does not state the authentication standard. In accordance with project rules, no security schemes or credentials may be invented.
-  - *Question*: What authentication and authorization standard is required for REST endpoints?
+- **Q-21: Which bearer-token issuance, claims, and authorization policy apply to the REST API?**
+  - *Baseline*: The OpenAPI contract specifies HTTP bearer authentication and documents `401` and `403`. It does not specify token issuance, token format, claims, or the role/permission matrix.
+  - *Question*: Which bearer-token issuer/format, claims, and role-to-operation permissions are authorized for implementation?
     - Bearer JWT tokens with stateless validation?
-    - Cookie-based session authentication for web clients with API keys for external/mobile services?
-    - Basic authentication with TLS for evaluation?
-  - *Impact*: Dictates the `components.securitySchemes` configuration in `specs/api/openapi.yaml` and client authorization headers.
+  - *Impact*: Determines authentication middleware and operation authorization; it does not change the documented bearer scheme.
+  - *Clarification*: The previously listed cookie and basic-auth alternatives are superseded by the bearer-only OpenAPI contract; token issuance, claims, and authorization policy remain open.
 
 - **Q-22: Which Catalog 51 invoice operation type and profile scheme apply?**
   - *Context*: Catalog 51 is for type of operation (`tipOperacion`) and is distinct from Catalog 01 `InvoiceTypeCode`; the cited SUNAT guide/structure maps operation type to UBL `cbc:ProfileID`. The 2017 guide's scheme URI conflicts with its Catalog 51 label.
@@ -175,6 +170,11 @@ To maintain architectural integrity, **no assumptions** will be made on any of t
   - *Context*: Instructor grading feedback requires a catalog-query operation. The minimum response exposes only catalog entry code and description.
   - *Question*: Which catalog numbers are supported, which official versions/effective dates apply, and are filters or historical versions required?
   - *Impact*: Refines the supported catalog set and query behavior for `FR-023`/`UC-013`; no catalog-specific payload metadata is assumed.
+
+- **Q-26: What complete input mapping and test oracle define the UBL Invoice 2.1 XML generator?**
+  - *Context*: `FR-009` and the official OASIS UBL 2.1 / SUNAT invoice sources specify the baseline and several named mappings, but not a complete issuer-to-XML data contract and expected output fixture.
+  - *Question*: Confirm the issuer data source/configuration and legal series/correlative allocation; how product unit codes, tax scheme identifiers, calculated line/document totals, and profile-conditional fields are supplied; the exact SUNAT profile validation set; and whether `IUblGeneratorPort` returns unsigned XML before a separate signature step. Provide representative approved XML fixtures or expected mappings for generator unit tests.
+  - *Impact*: Blocks a claim of full SUNAT-profile conformance and an implementation-ready generator contract, but not isolated serialization tests for already specified mappings. Related business inputs remain open under `Q-07`, `Q-10`, `Q-11`, `Q-19`, and `Q-22`.
 
 ---
 

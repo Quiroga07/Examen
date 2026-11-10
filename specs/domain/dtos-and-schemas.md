@@ -25,13 +25,12 @@ In accordance with the spec-first methodology:
 ### 3.1 `CreateInboundMovementRequestDto`
 - **Status**: Confirmed
 - **Traces to**: `FR-001`, `FR-002`, `FR-003`, `FR-005`, `UC-001`, `AC-003`
-- **Purpose**: Input payload for recording incoming merchandise into the warehouse (supplier reception or transfer).
+- **Purpose**: Input payload for recording an inbound warehouse movement. The case does not establish its business cause.
 
 | Field Name | Type | Multiplicity | Constraints / Rules | Description |
 |---|---|---|---|---|
-| `transactionTimestamp` | `DateTime` | Mandatory | Cannot be in future; defaults to current system time | Date and time of receipt (`FR-002`) |
-| `internalTrackingNumber` | `String` | Optional | If omitted, auto-generated sequentially | Optional pre-assigned internal voucher |
-| `supplierReference` | `String` | Optional | Max 50 chars | External supplier invoice/remission guide |
+| `transactionDate` | `Date` | Mandatory | No time or timezone is inferred | Date of receipt (`FR-002`) |
+| `internalDocumentNumber` | `String` | Conditional | Preserve the supplied value; do not infer a format or generation rule (`Q-14`) | Internal document number, distinct from SUNAT numbering |
 | `lines` | `List<MovementLineDto>`| Mandatory | At least 1 item required | Line items received |
 
 #### Sub-DTO: `MovementLineDto`
@@ -39,20 +38,19 @@ In accordance with the spec-first methodology:
 |---|---|---|---|---|
 | `productId` | `String` | Mandatory | Must match active `Product` | Product identifier |
 | `quantity` | `Decimal` | Mandatory | Strictly $> 0.00$; scale 2 | Physical quantity received |
-| `unitCost` | `Decimal` | Optional | $\ge 0.00$; scale 2 | Acquisition cost per unit |
+| `unitCost` | `Decimal` | Pending / optional | $\ge 0.00$; scale 2, only if the costing policy is confirmed (`Q-18`) | Proposed acquisition cost per unit; not a known legacy fact |
 
 ---
 
 ### 3.2 `CreateOutboundMovementRequestDto`
 - **Status**: Confirmed
-- **Traces to**: `FR-002`, `FR-004`, `FR-005`, `FR-006`, `UC-002`, `AC-004`
-- **Purpose**: Input payload for recording merchandise departures (wholesale dispatch, retail sale, or write-off).
+- **Traces to**: `FR-002`, `FR-004`, `FR-005`, `UC-002`, `AC-004`
+- **Purpose**: Input payload for recording an outbound warehouse movement. The case does not establish its business cause.
 
 | Field Name | Type | Multiplicity | Constraints / Rules | Description |
 |---|---|---|---|---|
-| `transactionTimestamp` | `DateTime` | Mandatory | Cannot be in future | Date and time of dispatch (`FR-002`) |
-| `operationMode` | `Enum` | Mandatory | `WHOLESALE` or `RETAIL` | Commercial operation mode (`FR-006`) |
-| `customerIdentity` | `String` | Conditional | Mandatory if `WHOLESALE` | Customer RUC or identification |
+| `transactionDate` | `Date` | Mandatory | No time or timezone is inferred | Date of dispatch (`FR-002`) |
+| `internalDocumentNumber` | `String` | Conditional | Preserve the supplied value; do not infer a format or generation rule (`Q-14`) | Internal document number, distinct from SUNAT numbering |
 | `lines` | `List<MovementLineDto>`| Mandatory | At least 1 item required | Line items dispatched |
 
 ---
@@ -65,9 +63,9 @@ In accordance with the spec-first methodology:
 | Field Name | Type | Multiplicity | Description |
 |---|---|---|---|
 | `movementId` | `String` | Mandatory | Immutable unique movement identifier |
-| `internalTrackingNumber` | `String` | Mandatory | Assigned sequential internal tracking voucher (`FR-005`) |
-| `movementType` | `Enum` | Mandatory | `INBOUND_PURCHASE`, `OUTBOUND_SALE`, `ADJUSTMENT` |
-| `transactionTimestamp` | `DateTime` | Mandatory | Immutable recorded timestamp (`FR-002`, `AC-002`) |
+| `internalDocumentNumber` | `String` | Conditional | Preserve the known internal number; generation policy remains open (`FR-005`, `Q-14`) |
+| `movementType` | `Enum` | Mandatory | `INBOUND` or `OUTBOUND`; no specific cause is inferred |
+| `transactionDate` | `Date` | Mandatory | Immutable recorded date; no time or timezone is inferred (`FR-002`, `AC-002`) |
 | `totalItemCount` | `Integer` | Mandatory | Number of distinct product lines |
 | `totalQuantity` | `Decimal` | Mandatory | Sum of all line quantities |
 | `status` | `String` | Mandatory | Current movement status (`POSTED`) |
@@ -136,7 +134,7 @@ In accordance with the spec-first methodology:
 |---|---|---|---|---|
 | `documentType` | `String` | Mandatory | SUNAT Cat. 01 (`01` Factura, `03` Boleta) | Legal document type (`FR-011`, `Q-02`) |
 | `series` | `String` | Mandatory | Formats: `F###` (Factura) or `B###` (Boleta) | Legal series code (`Q-14`) |
-| `issueDate` | `DateTime` | Mandatory | Current date (or max 2 days past per SUNAT) | Date of tax emission (`FR-002`) |
+| `issueDate` | `Date` | Mandatory | UBL `IssueDate` is a calendar date; applicable profile validation remains subject to `Q-10` | Date of tax emission (`FR-009`) |
 | `currency` | `String` | Mandatory | `PEN` or `USD` (SUNAT Cat. 02) | Transaction currency (`FR-011`) |
 | `operationTypeCode` | `String` | Conditional | SUNAT Catalog 51 where applicable | Operation type serialized in UBL `cbc:ProfileID`; not `InvoiceTypeCode/@listID` |
 | `paymentTerms` | `PaymentTermsDto` | Conditional | Required where the applicable SUNAT document profile requires payment condition/detail | `cac:PaymentTerms` data; see `REG-08` |
@@ -174,8 +172,7 @@ In accordance with the spec-first methodology:
 | `description` | `String` | Mandatory | Non-blank | Line item commercial description |
 | `quantity` | `Decimal` | Mandatory | Strictly $> 0.00$; scale 2 | Billed quantity |
 | `unitPrice` | `Decimal` | Mandatory | $\ge 0.00$; scale 2 | Base price per unit (excluding or including tax per mode) |
-| `taxCategory` | `String` | Mandatory | SUNAT Cat. 07 code | Tax affectation code (`FR-008`, `FR-011`) |
-| `taxExemptionReasonCode` | `String` | Conditional | SUNAT Catalog 07 value, consistent with the line tax category | UBL classified tax category affectation reason |
+| `taxExemptionReasonCode` | `String` | Mandatory | SUNAT Catalog 07 value applicable to the line | UBL `TaxCategory/cbc:TaxExemptionReasonCode` (`FR-008`, `FR-011`) |
 | `iscCalculation` | `IscCalculationDto` | Optional | Only for an ISC-applicable line; Catalog 08 code `01`/`02`/`03` | Calculation inputs and result for this invoice line |
 | `pricingReference` | `PricingReferenceDto` | Optional | Include where applicable under Catalog 16 | Alternative price and SUNAT price type code |
 
@@ -212,7 +209,7 @@ In accordance with the spec-first methodology:
 | `taxSummary` | `TaxBreakdownDto` | Mandatory | Comprehensive tax breakdown (`FR-008`, `AC-008`) |
 | `totalPayable` | `Decimal` | Mandatory | Final grand total payable; scale 2 (`FR-008`) |
 | `currency` | `String` | Mandatory | Currency code (`PEN`, `USD`) |
-| `lifecycleStatus` | `Enum` | Mandatory | `DRAFT`, `GENERATED`, `SIGNED`, `ACCEPTED`, `REJECTED`, `CANCELLED` |
+| `lifecycleStatus` | `Enum` | Mandatory | `DRAFT`, `GENERATED`, `SIGNED`, `TRANSMITTED`, `ACCEPTED`, `REJECTED`, `CANCELLED` |
 | `xmlDigest` | `String` | Optional | SHA-256 hash / signature digest of generated UBL XML |
 | `cdrDetails` | `CdrResultDto` | Optional | Populated once transmitted to SUNAT/PSE/OSE |
 
@@ -236,7 +233,7 @@ In accordance with the spec-first methodology:
 
 | Field Name | Type | Multiplicity | Description |
 |---|---|---|---|
-| `cdrCode` | `String` | Mandatory | Raw authority CDR `ResponseCode`; `0` indicates acceptance, a nonzero code indicates rejection. No numeric ranges are assumed. |
+| `cdrCode` | `String` | Mandatory | Preserve raw response code. CDR `0` indicates acceptance; `2000–3999` indicates rejection; `4000+` are observations. `0100–0999` SUNAT exceptions and `1000–1999` taxpayer format/structure exceptions are service/submission exceptions, not CDR outcomes. |
 | `cdrDescription` | `String` | Mandatory | Official response description from authority |
 | `receivedTimestamp` | `DateTime` | Mandatory | Date and time the CDR was returned and registered |
 | `cdrFileHash` | `String` | Optional | SHA-256 hash of the received CDR ZIP/XML file |

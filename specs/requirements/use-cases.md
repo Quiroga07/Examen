@@ -28,7 +28,7 @@ Every use case links to its functional (`FR-xxx`) and non-functional (`NFR-xxx`)
 - **Preconditions**:
   - The operator is authenticated with warehouse permissions.
   - The products being received exist in the product catalog.
-- **Trigger**: Physical goods arrive at the warehouse from a supplier or transfer.
+- **Trigger**: An incoming warehouse movement is to be recorded. Its specific business cause is not established by the case.
 - **Main Success Scenario**:
   1. The operator initiates a new Inbound Warehouse Receipt.
   2. The system records the transaction date and associates an internal document number according to confirmed numbering rules.
