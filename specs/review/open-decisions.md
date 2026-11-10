@@ -89,17 +89,20 @@ In accordance with the project's **spec-first** and **non-assumption** principle
 - **Source Question**: [`Q-07 in docs/01-open-questions.md`](file:///c:/Users/LOQ/Documents/GitHub/Examen/docs/01-open-questions.md#category-c-technology-stack-and-architectural-constraints).
 - **Affected Artifacts**: `NFR-001`, `NFR-002`, `NFR-006`, [`specs/architecture/mvc-current.md`](file:///c:/Users/LOQ/Documents/GitHub/Examen/specs/architecture/mvc-current.md), [`specs/architecture/future-hexagonal.md`](file:///c:/Users/LOQ/Documents/GitHub/Examen/specs/architecture/future-hexagonal.md).
 - **Current Baseline**: PHP with Laravel and Docker is selected for Partial Exam 2; MVC is the initial design and evolves toward Hexagonal Architecture. Exact versions are unspecified.
-- **Remaining Decision**: Confirm a PHP-compatible tool for generation/serialization of classes from the official UBL 2.1 Invoice XSD. Keep it behind `IUblGeneratorPort`.
-- **Implementation Impact**: Blocks selecting the infrastructure XML adapter/tool, not isolated serializer tests against specified mappings and fixtures.
-- **Status**: **Stack selected; XML tooling and exact versions pending**
+- **Candidate Evaluation**: `goetas/xsd2php` 0.4.14 documents XSD-to-PHP class and JMS metadata generation, and JMS serialization; its release notes mention PHP 8.4. Its manifest allows PHP 8/Symfony through 7, while its `xsd-reader` dependency requires PHP `^8.1`. This is a plausible candidate, not confirmed compatible with an unspecified Laravel/Symfony lockfile. Documentation does not demonstrate the complete OASIS UBL 2.1 import graph.
+- **Remaining Decision**: Resolve the dependency set in the eventual Laravel app and prove generation plus JMS serialization for the full local UBL schema bundle. Preserve the adapter behind `IUblGeneratorPort`.
+- **Bootstrap**: Docker Desktop Linux/WSL2 engine must be running; with no local PHP/Composer, create the application in WSL2 via the official Laravel Docker/Sail route and execute Composer and tests inside the Sail container. Verify DOM/libxml there.
+- **Implementation Impact**: Candidate selection awaits a Composer solve and full schema proof of concept; precise stack versions remain unspecified.
+- **Status**: **Candidate documented; compatibility and UBL proof of concept pending**
 
-#### `OD-17`: Complete UBL Invoice Generator Input Contract
-- **Source Question**: [`Q-26 in docs/01-open-questions.md`](file:///c:/Users/LOQ/Documents/GitHub/Examen/docs/01-open-questions.md#q-26-what-complete-input-mapping-and-test-oracle-define-the-ubl-invoice-21-xml-generator).
+#### `OD-17`: UBL Invoice Generator Input Contract and Conformance Oracle
+- **Source Question**: [`Q-26 in docs/01-open-questions.md`](file:///c:/Users/LOQ/Documents/GitHub/Examen/docs/01-open-questions.md#q-26-what-remains-to-establish-the-ubl-invoice-21-xml-generator-input-contract-and-conformance-oracle).
 - **Affected Artifacts**: `FR-009`, `AC-009`, `NFR-010`, `IUblGeneratorPort`, `IssueElectronicInvoiceRequestDto`, and the OpenAPI invoice schemas.
-- **Current Baseline**: UBL 2.1, the replaceable output port, and specifically requested SUNAT/UBL field mappings are documented. The invoice endpoint schema now includes the approved conditional fields.
-- **Remaining Decision**: Resolve issuer data/configuration, product unit and tax-scheme inputs, complete profile-required fields/optionality, the unsigned-XML/signature boundary, and approved generator test vectors. Related tax/payment/profile choices remain open under `Q-11`, `Q-19`, and `Q-22`.
-- **Implementation Impact**: Blocks a complete SUNAT-profile-conformant generator; scoped XML serialization tests can be written for mapped fields and fixture inputs without implementing the invoicing application.
-- **Status**: **Partial contract; generator conformance details pending**
+- **Current Baseline**: `IUblGeneratorPort` consumes `IssueElectronicInvoiceRequestDto` plus explicit resolved generation data absent from the request and returns unsigned UBL Invoice 2.1 XML. A synthetic one-line fixture supplies test-only issuer/customer/product identifiers and all mapping values; it does not represent real taxpayers or approved business defaults. The adapter maps only supplied DTO/context values and reports missing/invalid required input explicitly.
+- **Validation**: Unit tests validate output offline with PHP DOM/libxml against the official OASIS UBL 2.1 Invoice XSD and complete local import/include closure. This proves UBL XSD structure/types only, not SUNAT-profile conformance. The official Invoice XSD has relative imports; the complete OASIS schema directory structure must be retained. No signing or transmission is part of this port.
+- **Remaining Decision**: Confirm the production sources for issuer party data and legal invoice identifier, resolved product units, tax scheme identifiers/calculation inputs/rounding, and the complete applicable profile-required fields and optionality. Tool compatibility and import-graph generation remain gated by `OD-07`/`Q-07`; business/profile questions remain under `Q-10`, `Q-11`, `Q-19`, and `Q-22`.
+- **Implementation Impact**: Supports a fixture-based adapter and XSD-validation contract; does not establish a production-complete invoice input or SUNAT-conformant output.
+- **Status**: **Boundary and test fixture specified; production data and profile oracle pending**
 
 #### `OD-08`: Mandated Target Relational Database Management System (RDBMS)
 - **Source Question**: [`Q-08 in docs/01-open-questions.md`](file:///c:/Users/LOQ/Documents/GitHub/Examen/docs/01-open-questions.md#category-c-technology-stack-and-architectural-constraints).

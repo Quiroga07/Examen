@@ -57,8 +57,11 @@ To maintain architectural integrity, **no assumptions** will be made on any of t
 
 - **Q-07: Which exact PHP/Laravel/Docker versions and PHP-compatible UBL XSD tooling apply?**
   - *Resolution*: PHP, Laravel, and Docker are selected for Partial Exam 2. MVC remains the initial architecture and evolves toward Hexagonal Architecture; exact versions are not specified.
-  - *Remaining question*: Which compatible PHP tool, if any, can generate and serialize classes from the official UBL 2.1 Invoice XSD? The tool must remain replaceable behind `IUblGeneratorPort`.
-  - *Impact*: Blocks selecting the XML adapter implementation and exact environment versions, but does not block the technology-neutral port or isolated fixture-based XML tests.
+  - *Tool evaluation*: `goetas/xsd2php` 0.4.14 is a documented candidate: its project README describes generating PHP classes and JMS Serializer metadata from XSD and serializing generated objects; its release notes mention PHP 8.4 support. Its Composer manifest allows PHP 8 and Symfony components through 7, while its `xsd-reader` dependency requires PHP `^8.1`. This is a plausible compatibility range, not a confirmed Laravel dependency solve or proof that the full UBL schema import graph generates and serializes correctly.
+  - *Remaining question*: Can the selected Laravel/Symfony dependency set resolve with the candidate, and can it generate and serialize the complete local OASIS UBL 2.1 Invoice schema/import closure? Keep any accepted tool replaceable behind `IUblGeneratorPort`.
+  - *Bootstrap*: Local PHP and Composer are unavailable. Start Docker Desktop's Linux/WSL2 engine, create the Laravel project from WSL2 using the official Docker/Sail bootstrap route, and run Composer/Artisan/tests in its container. Confirm the container has PHP DOM/libxml and record versions only after startup.
+  - *Sources*: [`goetas/xsd2php` README](https://github.com/goetas-webservices/xsd2php), [0.4.14 release notes](https://github.com/goetas-webservices/xsd2php/releases/tag/0.4.14), [0.4.14 Composer manifest](https://raw.githubusercontent.com/goetas-webservices/xsd2php/0.4.14/composer.json), [xsd-reader manifest](https://raw.githubusercontent.com/goetas-webservices/xsd-reader/0.4.7/composer.json), [Laravel Sail documentation](https://laravel.com/docs/sail).
+  - *Impact*: The generator can be contractually specified, but tool adoption remains gated on dependency resolution and the full-UBL proof of concept; exact environment versions remain open.
 
 - **Q-08: What target Database Management System (RDBMS) is mandated?**
   - *Context*: The new system must store modernized domain entities and migrated historical data in a robust relational database.
@@ -171,10 +174,12 @@ To maintain architectural integrity, **no assumptions** will be made on any of t
   - *Question*: Which catalog numbers are supported, which official versions/effective dates apply, and are filters or historical versions required?
   - *Impact*: Refines the supported catalog set and query behavior for `FR-023`/`UC-013`; no catalog-specific payload metadata is assumed.
 
-- **Q-26: What complete input mapping and test oracle define the UBL Invoice 2.1 XML generator?**
-  - *Context*: `FR-009` and the official OASIS UBL 2.1 / SUNAT invoice sources specify the baseline and several named mappings, but not a complete issuer-to-XML data contract and expected output fixture.
-  - *Question*: Confirm the issuer data source/configuration and legal series/correlative allocation; how product unit codes, tax scheme identifiers, calculated line/document totals, and profile-conditional fields are supplied; the exact SUNAT profile validation set; and whether `IUblGeneratorPort` returns unsigned XML before a separate signature step. Provide representative approved XML fixtures or expected mappings for generator unit tests.
-  - *Impact*: Blocks a claim of full SUNAT-profile conformance and an implementation-ready generator contract, but not isolated serialization tests for already specified mappings. Related business inputs remain open under `Q-07`, `Q-10`, `Q-11`, `Q-19`, and `Q-22`.
+- **Q-26: What remains to establish the UBL Invoice 2.1 XML generator input contract and conformance oracle?**
+  - *Baseline*: `IUblGeneratorPort` accepts the approved `IssueElectronicInvoiceRequestDto` plus explicit resolved generation data not present in that request, and returns **unsigned** XML. The intended mapping includes only supplied document, buyer, line, tax-affectation, optional ISC/TierRange and pricing-reference, payment-term, and legend data. Catalog 51 maps to `cbc:ProfileID` where selected, not to `InvoiceTypeCode/@listID`. Unit tests use an explicitly synthetic one-line fixture; no real taxpayer data is required. The implementation contract and local-XSD test boundary are recorded in [ADR-007](../specs/architecture/architecture-decisions.md#adr-007-ubl-invoice-xml-generation-behind-an-output-port).
+  - *Remaining questions*: Confirm the production source of issuer legal-party data and legal invoice identifier; resolved product unit codes; exact tax scheme identifiers and calculation/rounding inputs; all XSD-required generation data; and applicable profile-required fields/optionality. Obtain an approved XML test oracle if conformance beyond UBL XSD validity is expected.
+  - *Tool/XSD gate*: Documentation supports `goetas/xsd2php` as a PHP-class/JMS-metadata generation candidate, not as verified for the entire official UBL 2.1 import graph or the eventual Laravel dependency set (`Q-07`). Validate generated fixture XML offline using the official OASIS UBL 2.1 Invoice XSD and its complete local import/include closure. XSD validity is not SUNAT-profile conformance.
+  - *Not open*: The adapter boundary is unsigned XML; signing and transmission are separate and out of scope for this generator.
+  - *Impact*: These gaps block a claim of complete SUNAT-profile conformance, but do not prevent testing synthetic fixture serialization and UBL XSD structure. Related business/profile choices remain open under `Q-07`, `Q-10`, `Q-11`, `Q-19`, and `Q-22`.
 
 ---
 
