@@ -18,12 +18,13 @@ Its complete `xsd/` subtree (79 XSD files) is retained under
 
 ## Dependency isolation
 
-The app's `composer.json` and `composer.lock` are not modified. The package
-dependencies and generated classes/metadata are confined to this directory.
-The app-level Composer dry-run required `--with-all-dependencies` because
-xsd2php 0.4.14 accepts Symfony YAML through 7.x, while this app lockfile
-selects 8.1.11. That solver proposed Symfony YAML 7.4.23 plus package installs;
-no app dependency changes were applied.
+The xsd2php CLI and schema-generation dependencies remain confined to this
+directory. The Laravel app reuses this directory's generated PHP classes and
+JMS metadata through Composer autoloading, and requires only
+`goetas-webservices/xsd2php-runtime` 0.2.18 and `jms/serializer` 3.32.9 as
+normal application dependencies. The root dependency solve added five packages
+without upgrading or removing any locked package. The CLI is not a root
+dependency; the app does not run schema generation at runtime.
 
 The POC was evaluated in the running `laravel.test` container with PHP 8.4.1,
 Laravel 12.71.0, Composer 2.8.3, libxml 2.9.14, and DOM/libxml extensions.
