@@ -171,7 +171,7 @@ In accordance with the spec-first methodology:
 | `productId` | `String` | Mandatory | Valid catalog item | Product identifier |
 | `description` | `String` | Mandatory | Non-blank | Line item commercial description |
 | `quantity` | `Decimal` | Mandatory | Strictly $> 0.00$; scale 2 | Billed quantity |
-| `unitPrice` | `Decimal` | Mandatory | $\ge 0.00$; scale 2 | Base price per unit (excluding or including tax per mode) |
+| `unitPrice` | `Decimal` | Mandatory | $\ge 0.00$; scale 2 | Base price per unit; whether the amount includes or excludes tax is not resolved |
 | `taxExemptionReasonCode` | `String` | Mandatory | SUNAT Catalog 07 value applicable to the line | UBL `TaxCategory/cbc:TaxExemptionReasonCode` (`FR-008`, `FR-011`) |
 | `iscCalculation` | `IscCalculationDto` | Optional | Only for an ISC-applicable line; Catalog 08 code `01`/`02`/`03` | Calculation inputs and result for this invoice line |
 | `pricingReference` | `PricingReferenceDto` | Optional | Include where applicable under Catalog 16 | Alternative price and SUNAT price type code |
@@ -226,6 +226,14 @@ The cardinality and requiredness below distinguish the local official UBL 2.1 In
 | `lineExtensionAmount` | `Decimal` | Exactly 1; required by XSD and input contract | `/Invoice/cac:InvoiceLine/cbc:LineExtensionAmount` | Supplied by the caller; the adapter does not calculate it from quantity and unit price. |
 | `taxTotals` | `List<UblTaxTotalInput>` | `0..n` per XSD; tax applicability/cardinality remains conditional | `/Invoice/cac:InvoiceLine/cac:TaxTotal` | Each supplied total follows the `UblTaxTotalInput` fields below. Do not infer a tax entry for a line. |
 
+#### Existing request-line fields used by the UBL mapping
+
+| Request field | UBL mapping | Established meaning and limit |
+|---|---|---|
+| `productId` | **Open**: possible candidates are `/Invoice/cac:InvoiceLine/cac:Item/cac:SellersItemIdentification/cbc:ID` or `/Invoice/cac:InvoiceLine/cac:Item/cac:StandardItemIdentification/cbc:ID` | The domain model defines `ProductId` as an internal UUID/alphanumeric identifier and separately describes `ProductCode` as a proposed commercial SKU. The XSD defines seller identification as assigned by the seller and standard identification as assigned according to a standard system. No specification equates `productId` to either, or identifies a standard system. Do not select or serialize either mapping until the identifier's meaning is decided. |
+| `description` | `/Invoice/cac:InvoiceLine/cac:Item/cbc:Description` | The request calls this the line item's commercial description, and the domain model calls Product.Description the official commercial name/description. UBL Item.Description is text describing the item. The XSD permits `0..n`; the request supplies exactly one non-blank value. Do not substitute `Item/cbc:Name`, which UBL defines as a distinct optional short name. |
+| `unitPrice` | `/Invoice/cac:InvoiceLine/cac:Price/cbc:PriceAmount` | UBL defines PriceAmount as the price amount and identifies unit price as an alternative business term; `Price` is optional in the XSD, and PriceAmount is required when Price is present. The project DTO describes the value as excluding or including tax per mode but does not specify which mode applies. Serialize only the supplied amount; whether it is tax-inclusive or tax-exclusive remains open. |
+
 #### `UblTaxTotalInput` and tax subtotal
 
 The same structure is used for a supplied line-level or document-level `TaxTotal`.
@@ -233,14 +241,16 @@ The same structure is used for a supplied line-level or document-level `TaxTotal
 | Field | Type | Cardinality / requiredness | UBL mapping | Basis / notes |
 |---|---|---|---|---|
 | `taxAmount` | `Decimal` | Exactly 1 when a `TaxTotal` is present; required by XSD | `cac:TaxTotal/cbc:TaxAmount` | Caller-provided tax amount; not calculated or rounded by the adapter. |
-| `taxSubtotals` | `List<UblTaxSubtotalInput>` | `0..n` per XSD | `cac:TaxTotal/cac:TaxSubtotal` | The XSD permits no subtotals. Any requirement for them in a specific tax/profile case remains open in Q-26. |
+| `taxSubtotals` | `List<UblTaxSubtotalInput>` | XSD: `0..n`; **proposed input-contract rule**: `1..n` when a `UblTaxTotalInput` is supplied | `cac:TaxTotal/cac:TaxSubtotal` | The XSD permits no subtotals, but ADR-007 requires an explicit tax-scheme identifier and this contract carries that identifier only in a subtotal. Requiring at least one subtotal per supplied total reconciles the internal input shape with ADR-007; it is a proposal, not an XSD requirement or established business/profile rule, and remains open for confirmation in Q-26. |
 | `taxSubtotals[].taxableAmount` | `Decimal` | `0..1`; optional by XSD | `cac:TaxSubtotal/cbc:TaxableAmount` | Caller supplies it when required by the applicable, approved business rule; the adapter does not derive a tax base. |
 | `taxSubtotals[].taxAmount` | `Decimal` | Exactly 1 for each subtotal; required by XSD | `cac:TaxSubtotal/cbc:TaxAmount` | Caller-provided amount. |
 | `taxSubtotals[].taxSchemeId` | `String` | Exactly 1 for each subtotal by this input contract; the UBL `TaxScheme/cbc:ID` element is optional by XSD | `cac:TaxSubtotal/cac:TaxCategory/cac:TaxScheme/cbc:ID` | ADR-007 requires scheme identifiers as explicit inputs. No identifier value, catalog interpretation, rate, or calculation is selected here. |
 
-`cac:TaxSubtotal/cac:TaxCategory` is required by the XSD. For line subtotals, the existing request line's `taxExemptionReasonCode` maps to `cbc:TaxExemptionReasonCode`; the applicable document-level category aggregation is not defined. Neither mapping supplies a tax calculation or SUNAT profile rule.
+For each supplied `TaxSubtotal`, the XSD requires one `cac:TaxCategory`, which in turn requires one `cac:TaxScheme`. Within `TaxScheme`, `cbc:ID` is optional under the XSD but is required by ADR-007 and this internal input contract. Other `TaxCategory` children, including `cbc:ID`, `cbc:Percent`, and `cbc:TaxExemptionReasonCode`, are optional under the XSD. For line subtotals, the request line's `taxExemptionReasonCode` maps to `TaxCategory/cbc:TaxExemptionReasonCode`; the contract defines no document-level category classification input. The XSD does not require a separate `TaxCategory` input object beyond the required nested scheme structure. These structural facts do not choose a tax calculation or SUNAT profile rule.
 
-Each `UblTaxTotalInput` represents one taxation scheme as described by the UBL `TaxTotal` definition. All `taxSchemeId` values in its subtotals must therefore agree; separate totals represent separate schemes. A total with no subtotals serializes no scheme identifier, and whether that is allowed for a given business/profile case remains open in Q-26.
+Each `UblTaxTotalInput` represents one taxation scheme as described by the UBL `TaxTotal` definition. All `taxSchemeId` values in its subtotals must therefore agree; separate totals represent separate schemes. No tax values are calculated or aggregated by this contract.
+
+At Invoice level, the official XSD permits `cac:TaxTotal` zero or more times; each present total requires exactly one `cbc:TaxAmount`. Its `cac:TaxSubtotal` collection may be empty under the XSD. Existing business specifications require a tax summary but do not decide whether, when, or how many document totals or subtotals must be emitted, nor their grouping. The internal data shape maps exactly the entries supplied (and omits the Invoice `TaxTotal` elements when the list is empty); callers must not infer missing totals. Whether a business/profile requires entries remains open in Q-26. The proposed non-empty-subtotal input rule above applies only when a total is supplied and does not change the XSD cardinality.
 
 #### `UblLegalMonetaryTotals`
 
