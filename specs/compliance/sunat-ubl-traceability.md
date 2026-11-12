@@ -61,6 +61,8 @@ The following standard SUNAT catalogs are officially incorporated into the syste
 
 ## 4. Traceability Matrix: Electronic Invoices (CPE - Facturas & Boletas)
 
+> **Generator-input cross-reference (not a SUNAT rule)**: The internal `UblInvoiceGenerationData` contract in [the DTO specification, section 4.2.1](../domain/dtos-and-schemas.md#421-internal-ublinvoicegenerationdata-proposed) supplies issuer party data, per-line and document tax totals, and legal monetary totals to the serializer. That contract distinguishes UBL XSD cardinality from business requirements; it does not define taxpayer data sources, tax policy, or profile compliance. See [Q-26](../../docs/01-open-questions.md#q-26-what-remains-to-establish-the-ubl-invoice-21-xml-generator-input-contract-and-conformance-oracle) for unresolved choices.
+
 > **Scope Note**: This section covers standard Electronic Payment Receipts issued for wholesale and retail operations pursuant to the **Teacher Assessment**.
 
 | Req ID | Document / Process | SUNAT Rule / Field Definition | UBL 2.1 XML Element Path (XPath) | Validation & Compliance Rule | API Operation (Contract) | Source Origin | Verification Status |

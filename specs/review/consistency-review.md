@@ -100,9 +100,10 @@ During the consistency review, minor cross-referencing and formatting items were
 
 #### `RV-01`: UBL Invoice 2.1 Generator Readiness — Partial
 - The MVC and future Hexagonal designs specify the same boundary: `GenerateInvoiceXmlUseCase` depends on `IUblGeneratorPort`; infrastructure owns replaceable XSD-generated classes/serialization.
-- The target language/framework/container are specified (PHP/Laravel/Docker), but the PHP-compatible XSD tool and exact versions remain unselected under Q-07.
-- The documented DTO and API fields cover several feedback-named mappings, but not a complete executable SUNAT invoice profile: issuer data/configuration, source of unit codes, exact tax-scheme serialization, complete profile-required field/optionality rules, expected XML fixtures, and whether the port returns unsigned XML remain unresolved. Q-11/Q-19/Q-22 carry applicable business inputs; Q-26 tracks the remaining generator contract/test oracle.
-- **Verdict**: A scoped serializer and unit tests for confirmed mappings can begin using explicit fixtures. The specifications do **not** yet justify claiming a fully SUNAT-profile-conformant generator. The full invoicing application is not a prerequisite for those isolated tests.
+- The internal `UblInvoiceGenerationData` shape, field types/cardinalities, UBL paths, and distinction between XSD and business/input-contract requiredness are specified separately from the API request DTO in `specs/domain/dtos-and-schemas.md` section 4.2.1.
+- The isolated `tools/ubl-xsd-poc/` proves generation from the full local official UBL 2.1 schema bundle, serialization of a synthetic fixture, and local Invoice XSD validation. A root Composer dry run also resolved its two runtime packages as normal dependencies without proposed upgrades or downgrades; production dependencies and adapter code are not integrated.
+- Production sources for issuer data and legal numbering, unit selection, applicable tax schemes/subtotal grouping, calculations/rounding, document-tax-total emission, profile-required fields/optionality, and an approved profile-level XML oracle remain unresolved under Q-26 and the related business questions. Whether an input value is required by the internal contract does not establish a SUNAT profile rule.
+- **Verdict**: The specified input shape and isolated XSD proof permit a scoped adapter implementation using explicit inputs. The specifications do **not** justify claiming a fully SUNAT-profile-conformant generator. The full invoicing application is not a prerequisite for isolated tests.
 
 #### `RV-02`: Legacy Date and Internal Number Semantics — Corrected
 - The case establishes a date, not a timestamp or timezone, and an internal document number, not a SUNAT series/correlative.
