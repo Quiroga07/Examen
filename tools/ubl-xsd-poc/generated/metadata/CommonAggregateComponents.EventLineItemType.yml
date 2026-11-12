@@ -1,0 +1,46 @@
+Ubl21\CommonAggregateComponents\EventLineItemType:
+    properties:
+        lineNumberNumeric:
+            expose: true
+            access_type: public_method
+            serialized_name: LineNumberNumeric
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getLineNumberNumeric
+                setter: setLineNumberNumeric
+            type: Ubl21\CommonBasicComponents\LineNumberNumeric
+        participatingLocationsLocation:
+            expose: true
+            access_type: public_method
+            serialized_name: ParticipatingLocationsLocation
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getParticipatingLocationsLocation
+                setter: setParticipatingLocationsLocation
+            type: Ubl21\CommonAggregateComponents\ParticipatingLocationsLocation
+        retailPlannedImpact:
+            expose: true
+            access_type: public_method
+            serialized_name: RetailPlannedImpact
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getRetailPlannedImpact
+                setter: setRetailPlannedImpact
+            xml_list:
+                inline: true
+                entry_name: RetailPlannedImpact
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            type: array<Ubl21\CommonAggregateComponents\RetailPlannedImpact>
+        supplyItem:
+            expose: true
+            access_type: public_method
+            serialized_name: SupplyItem
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getSupplyItem
+                setter: setSupplyItem
+            type: Ubl21\CommonAggregateComponents\SupplyItem

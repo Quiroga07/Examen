@@ -1,0 +1,32 @@
+Ubl21\CommonAggregateComponents\ItemPropertyGroupType:
+    properties:
+        iD:
+            expose: true
+            access_type: public_method
+            serialized_name: ID
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getID
+                setter: setID
+            type: Ubl21\CommonBasicComponents\ID
+        name:
+            expose: true
+            access_type: public_method
+            serialized_name: Name
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getName
+                setter: setName
+            type: Ubl21\CommonBasicComponents\Name
+        importanceCode:
+            expose: true
+            access_type: public_method
+            serialized_name: ImportanceCode
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getImportanceCode
+                setter: setImportanceCode
+            type: Ubl21\CommonBasicComponents\ImportanceCode

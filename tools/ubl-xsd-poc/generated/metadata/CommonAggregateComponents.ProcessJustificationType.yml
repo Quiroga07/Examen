@@ -1,0 +1,50 @@
+Ubl21\CommonAggregateComponents\ProcessJustificationType:
+    properties:
+        previousCancellationReasonCode:
+            expose: true
+            access_type: public_method
+            serialized_name: PreviousCancellationReasonCode
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getPreviousCancellationReasonCode
+                setter: setPreviousCancellationReasonCode
+            type: Ubl21\CommonBasicComponents\PreviousCancellationReasonCode
+        processReasonCode:
+            expose: true
+            access_type: public_method
+            serialized_name: ProcessReasonCode
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getProcessReasonCode
+                setter: setProcessReasonCode
+            type: Ubl21\CommonBasicComponents\ProcessReasonCode
+        processReason:
+            expose: true
+            access_type: public_method
+            serialized_name: ProcessReason
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getProcessReason
+                setter: setProcessReason
+            xml_list:
+                inline: true
+                entry_name: ProcessReason
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            type: array<Ubl21\CommonBasicComponents\ProcessReason>
+        description:
+            expose: true
+            access_type: public_method
+            serialized_name: Description
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getDescription
+                setter: setDescription
+            xml_list:
+                inline: true
+                entry_name: Description
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            type: array<Ubl21\CommonBasicComponents\Description>

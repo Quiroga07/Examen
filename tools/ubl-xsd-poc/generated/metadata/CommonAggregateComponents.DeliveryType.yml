@@ -1,0 +1,250 @@
+Ubl21\CommonAggregateComponents\DeliveryType:
+    properties:
+        iD:
+            expose: true
+            access_type: public_method
+            serialized_name: ID
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getID
+                setter: setID
+            type: Ubl21\CommonBasicComponents\ID
+        quantity:
+            expose: true
+            access_type: public_method
+            serialized_name: Quantity
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getQuantity
+                setter: setQuantity
+            type: Ubl21\CommonBasicComponents\Quantity
+        minimumQuantity:
+            expose: true
+            access_type: public_method
+            serialized_name: MinimumQuantity
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getMinimumQuantity
+                setter: setMinimumQuantity
+            type: Ubl21\CommonBasicComponents\MinimumQuantity
+        maximumQuantity:
+            expose: true
+            access_type: public_method
+            serialized_name: MaximumQuantity
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getMaximumQuantity
+                setter: setMaximumQuantity
+            type: Ubl21\CommonBasicComponents\MaximumQuantity
+        actualDeliveryDate:
+            expose: true
+            access_type: public_method
+            serialized_name: ActualDeliveryDate
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getActualDeliveryDate
+                setter: setActualDeliveryDate
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\Date
+        actualDeliveryTime:
+            expose: true
+            access_type: public_method
+            serialized_name: ActualDeliveryTime
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getActualDeliveryTime
+                setter: setActualDeliveryTime
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\Time
+        latestDeliveryDate:
+            expose: true
+            access_type: public_method
+            serialized_name: LatestDeliveryDate
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getLatestDeliveryDate
+                setter: setLatestDeliveryDate
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\Date
+        latestDeliveryTime:
+            expose: true
+            access_type: public_method
+            serialized_name: LatestDeliveryTime
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getLatestDeliveryTime
+                setter: setLatestDeliveryTime
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\Time
+        releaseID:
+            expose: true
+            access_type: public_method
+            serialized_name: ReleaseID
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getReleaseID
+                setter: setReleaseID
+            type: Ubl21\CommonBasicComponents\ReleaseID
+        trackingID:
+            expose: true
+            access_type: public_method
+            serialized_name: TrackingID
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getTrackingID
+                setter: setTrackingID
+            type: Ubl21\CommonBasicComponents\TrackingID
+        deliveryAddress:
+            expose: true
+            access_type: public_method
+            serialized_name: DeliveryAddress
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getDeliveryAddress
+                setter: setDeliveryAddress
+            type: Ubl21\CommonAggregateComponents\DeliveryAddress
+        deliveryLocation:
+            expose: true
+            access_type: public_method
+            serialized_name: DeliveryLocation
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getDeliveryLocation
+                setter: setDeliveryLocation
+            type: Ubl21\CommonAggregateComponents\DeliveryLocation
+        alternativeDeliveryLocation:
+            expose: true
+            access_type: public_method
+            serialized_name: AlternativeDeliveryLocation
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getAlternativeDeliveryLocation
+                setter: setAlternativeDeliveryLocation
+            type: Ubl21\CommonAggregateComponents\AlternativeDeliveryLocation
+        requestedDeliveryPeriod:
+            expose: true
+            access_type: public_method
+            serialized_name: RequestedDeliveryPeriod
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getRequestedDeliveryPeriod
+                setter: setRequestedDeliveryPeriod
+            type: Ubl21\CommonAggregateComponents\RequestedDeliveryPeriod
+        promisedDeliveryPeriod:
+            expose: true
+            access_type: public_method
+            serialized_name: PromisedDeliveryPeriod
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getPromisedDeliveryPeriod
+                setter: setPromisedDeliveryPeriod
+            type: Ubl21\CommonAggregateComponents\PromisedDeliveryPeriod
+        estimatedDeliveryPeriod:
+            expose: true
+            access_type: public_method
+            serialized_name: EstimatedDeliveryPeriod
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getEstimatedDeliveryPeriod
+                setter: setEstimatedDeliveryPeriod
+            type: Ubl21\CommonAggregateComponents\EstimatedDeliveryPeriod
+        carrierParty:
+            expose: true
+            access_type: public_method
+            serialized_name: CarrierParty
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getCarrierParty
+                setter: setCarrierParty
+            type: Ubl21\CommonAggregateComponents\CarrierParty
+        deliveryParty:
+            expose: true
+            access_type: public_method
+            serialized_name: DeliveryParty
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getDeliveryParty
+                setter: setDeliveryParty
+            type: Ubl21\CommonAggregateComponents\DeliveryParty
+        notifyParty:
+            expose: true
+            access_type: public_method
+            serialized_name: NotifyParty
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getNotifyParty
+                setter: setNotifyParty
+            xml_list:
+                inline: true
+                entry_name: NotifyParty
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            type: array<Ubl21\CommonAggregateComponents\NotifyParty>
+        despatch:
+            expose: true
+            access_type: public_method
+            serialized_name: Despatch
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getDespatch
+                setter: setDespatch
+            type: Ubl21\CommonAggregateComponents\Despatch
+        deliveryTerms:
+            expose: true
+            access_type: public_method
+            serialized_name: DeliveryTerms
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getDeliveryTerms
+                setter: setDeliveryTerms
+            xml_list:
+                inline: true
+                entry_name: DeliveryTerms
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            type: array<Ubl21\CommonAggregateComponents\DeliveryTerms>
+        minimumDeliveryUnit:
+            expose: true
+            access_type: public_method
+            serialized_name: MinimumDeliveryUnit
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getMinimumDeliveryUnit
+                setter: setMinimumDeliveryUnit
+            type: Ubl21\CommonAggregateComponents\MinimumDeliveryUnit
+        maximumDeliveryUnit:
+            expose: true
+            access_type: public_method
+            serialized_name: MaximumDeliveryUnit
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getMaximumDeliveryUnit
+                setter: setMaximumDeliveryUnit
+            type: Ubl21\CommonAggregateComponents\MaximumDeliveryUnit
+        shipment:
+            expose: true
+            access_type: public_method
+            serialized_name: Shipment
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getShipment
+                setter: setShipment
+            type: Ubl21\CommonAggregateComponents\Shipment

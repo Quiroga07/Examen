@@ -1,0 +1,25 @@
+Ubl21\Xades\V132\UnsignedDataObjectPropertiesType:
+    properties:
+        id:
+            expose: true
+            access_type: public_method
+            serialized_name: Id
+            accessor:
+                getter: getId
+                setter: setId
+            xml_attribute: true
+            type: string
+        unsignedDataObjectProperty:
+            expose: true
+            access_type: public_method
+            serialized_name: UnsignedDataObjectProperty
+            xml_element:
+                namespace: 'http://uri.etsi.org/01903/v1.3.2#'
+            accessor:
+                getter: getUnsignedDataObjectProperty
+                setter: setUnsignedDataObjectProperty
+            xml_list:
+                inline: true
+                entry_name: UnsignedDataObjectProperty
+                namespace: 'http://uri.etsi.org/01903/v1.3.2#'
+            type: array<Ubl21\Xades\V132\AnyType>

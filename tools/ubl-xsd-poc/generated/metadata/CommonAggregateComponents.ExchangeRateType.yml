@@ -1,0 +1,92 @@
+Ubl21\CommonAggregateComponents\ExchangeRateType:
+    properties:
+        sourceCurrencyCode:
+            expose: true
+            access_type: public_method
+            serialized_name: SourceCurrencyCode
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getSourceCurrencyCode
+                setter: setSourceCurrencyCode
+            type: Ubl21\CommonBasicComponents\SourceCurrencyCode
+        sourceCurrencyBaseRate:
+            expose: true
+            access_type: public_method
+            serialized_name: SourceCurrencyBaseRate
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getSourceCurrencyBaseRate
+                setter: setSourceCurrencyBaseRate
+            type: Ubl21\CommonBasicComponents\SourceCurrencyBaseRate
+        targetCurrencyCode:
+            expose: true
+            access_type: public_method
+            serialized_name: TargetCurrencyCode
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getTargetCurrencyCode
+                setter: setTargetCurrencyCode
+            type: Ubl21\CommonBasicComponents\TargetCurrencyCode
+        targetCurrencyBaseRate:
+            expose: true
+            access_type: public_method
+            serialized_name: TargetCurrencyBaseRate
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getTargetCurrencyBaseRate
+                setter: setTargetCurrencyBaseRate
+            type: Ubl21\CommonBasicComponents\TargetCurrencyBaseRate
+        exchangeMarketID:
+            expose: true
+            access_type: public_method
+            serialized_name: ExchangeMarketID
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getExchangeMarketID
+                setter: setExchangeMarketID
+            type: Ubl21\CommonBasicComponents\ExchangeMarketID
+        calculationRate:
+            expose: true
+            access_type: public_method
+            serialized_name: CalculationRate
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getCalculationRate
+                setter: setCalculationRate
+            type: Ubl21\CommonBasicComponents\CalculationRate
+        mathematicOperatorCode:
+            expose: true
+            access_type: public_method
+            serialized_name: MathematicOperatorCode
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getMathematicOperatorCode
+                setter: setMathematicOperatorCode
+            type: Ubl21\CommonBasicComponents\MathematicOperatorCode
+        date:
+            expose: true
+            access_type: public_method
+            serialized_name: Date
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getDate
+                setter: setDate
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\Date
+        foreignExchangeContract:
+            expose: true
+            access_type: public_method
+            serialized_name: ForeignExchangeContract
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getForeignExchangeContract
+                setter: setForeignExchangeContract
+            type: Ubl21\CommonAggregateComponents\ForeignExchangeContract

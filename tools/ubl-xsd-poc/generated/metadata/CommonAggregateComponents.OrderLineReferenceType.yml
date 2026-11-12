@@ -1,0 +1,52 @@
+Ubl21\CommonAggregateComponents\OrderLineReferenceType:
+    properties:
+        lineID:
+            expose: true
+            access_type: public_method
+            serialized_name: LineID
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getLineID
+                setter: setLineID
+            type: Ubl21\CommonBasicComponents\LineID
+        salesOrderLineID:
+            expose: true
+            access_type: public_method
+            serialized_name: SalesOrderLineID
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getSalesOrderLineID
+                setter: setSalesOrderLineID
+            type: Ubl21\CommonBasicComponents\SalesOrderLineID
+        uUID:
+            expose: true
+            access_type: public_method
+            serialized_name: UUID
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getUUID
+                setter: setUUID
+            type: Ubl21\CommonBasicComponents\UUID
+        lineStatusCode:
+            expose: true
+            access_type: public_method
+            serialized_name: LineStatusCode
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getLineStatusCode
+                setter: setLineStatusCode
+            type: Ubl21\CommonBasicComponents\LineStatusCode
+        orderReference:
+            expose: true
+            access_type: public_method
+            serialized_name: OrderReference
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getOrderReference
+                setter: setOrderReference
+            type: Ubl21\CommonAggregateComponents\OrderReference

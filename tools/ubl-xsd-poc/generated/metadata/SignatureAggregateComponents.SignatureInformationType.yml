@@ -1,0 +1,32 @@
+Ubl21\SignatureAggregateComponents\SignatureInformationType:
+    properties:
+        iD:
+            expose: true
+            access_type: public_method
+            serialized_name: ID
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getID
+                setter: setID
+            type: Ubl21\CommonBasicComponents\ID
+        referencedSignatureID:
+            expose: true
+            access_type: public_method
+            serialized_name: ReferencedSignatureID
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:SignatureBasicComponents-2'
+            accessor:
+                getter: getReferencedSignatureID
+                setter: setReferencedSignatureID
+            type: Ubl21\SignatureBasicComponents\ReferencedSignatureID
+        signature:
+            expose: true
+            access_type: public_method
+            serialized_name: Signature
+            xml_element:
+                namespace: 'http://www.w3.org/2000/09/xmldsig#'
+            accessor:
+                getter: getSignature
+                setter: setSignature
+            type: Ubl21\XmlDsig\Signature

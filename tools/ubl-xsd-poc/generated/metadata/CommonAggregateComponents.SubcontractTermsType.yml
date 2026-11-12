@@ -1,0 +1,76 @@
+Ubl21\CommonAggregateComponents\SubcontractTermsType:
+    properties:
+        rate:
+            expose: true
+            access_type: public_method
+            serialized_name: Rate
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getRate
+                setter: setRate
+            type: Ubl21\CommonBasicComponents\Rate
+        unknownPriceIndicator:
+            expose: true
+            access_type: public_method
+            serialized_name: UnknownPriceIndicator
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getUnknownPriceIndicator
+                setter: setUnknownPriceIndicator
+            type: bool
+        description:
+            expose: true
+            access_type: public_method
+            serialized_name: Description
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getDescription
+                setter: setDescription
+            xml_list:
+                inline: true
+                entry_name: Description
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            type: array<Ubl21\CommonBasicComponents\Description>
+        amount:
+            expose: true
+            access_type: public_method
+            serialized_name: Amount
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getAmount
+                setter: setAmount
+            type: Ubl21\CommonBasicComponents\Amount
+        subcontractingConditionsCode:
+            expose: true
+            access_type: public_method
+            serialized_name: SubcontractingConditionsCode
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getSubcontractingConditionsCode
+                setter: setSubcontractingConditionsCode
+            type: Ubl21\CommonBasicComponents\SubcontractingConditionsCode
+        maximumPercent:
+            expose: true
+            access_type: public_method
+            serialized_name: MaximumPercent
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getMaximumPercent
+                setter: setMaximumPercent
+            type: Ubl21\CommonBasicComponents\MaximumPercent
+        minimumPercent:
+            expose: true
+            access_type: public_method
+            serialized_name: MinimumPercent
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getMinimumPercent
+                setter: setMinimumPercent
+            type: Ubl21\CommonBasicComponents\MinimumPercent

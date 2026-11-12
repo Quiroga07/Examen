@@ -1,0 +1,52 @@
+Ubl21\CommonAggregateComponents\ConsumptionReportReferenceType:
+    properties:
+        consumptionReportID:
+            expose: true
+            access_type: public_method
+            serialized_name: ConsumptionReportID
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getConsumptionReportID
+                setter: setConsumptionReportID
+            type: Ubl21\CommonBasicComponents\ConsumptionReportID
+        consumptionType:
+            expose: true
+            access_type: public_method
+            serialized_name: ConsumptionType
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getConsumptionType
+                setter: setConsumptionType
+            type: Ubl21\CommonBasicComponents\ConsumptionType
+        consumptionTypeCode:
+            expose: true
+            access_type: public_method
+            serialized_name: ConsumptionTypeCode
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getConsumptionTypeCode
+                setter: setConsumptionTypeCode
+            type: Ubl21\CommonBasicComponents\ConsumptionTypeCode
+        totalConsumedQuantity:
+            expose: true
+            access_type: public_method
+            serialized_name: TotalConsumedQuantity
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getTotalConsumedQuantity
+                setter: setTotalConsumedQuantity
+            type: Ubl21\CommonBasicComponents\TotalConsumedQuantity
+        period:
+            expose: true
+            access_type: public_method
+            serialized_name: Period
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getPeriod
+                setter: setPeriod
+            type: Ubl21\CommonAggregateComponents\Period

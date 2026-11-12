@@ -1,0 +1,55 @@
+Ubl21\XmlDsig\SignatureType:
+    properties:
+        id:
+            expose: true
+            access_type: public_method
+            serialized_name: Id
+            accessor:
+                getter: getId
+                setter: setId
+            xml_attribute: true
+            type: string
+        signedInfo:
+            expose: true
+            access_type: public_method
+            serialized_name: SignedInfo
+            xml_element:
+                namespace: 'http://www.w3.org/2000/09/xmldsig#'
+            accessor:
+                getter: getSignedInfo
+                setter: setSignedInfo
+            type: Ubl21\XmlDsig\SignedInfo
+        signatureValue:
+            expose: true
+            access_type: public_method
+            serialized_name: SignatureValue
+            xml_element:
+                namespace: 'http://www.w3.org/2000/09/xmldsig#'
+            accessor:
+                getter: getSignatureValue
+                setter: setSignatureValue
+            type: Ubl21\XmlDsig\SignatureValue
+        keyInfo:
+            expose: true
+            access_type: public_method
+            serialized_name: KeyInfo
+            xml_element:
+                namespace: 'http://www.w3.org/2000/09/xmldsig#'
+            accessor:
+                getter: getKeyInfo
+                setter: setKeyInfo
+            type: Ubl21\XmlDsig\KeyInfo
+        object:
+            expose: true
+            access_type: public_method
+            serialized_name: Object
+            xml_element:
+                namespace: 'http://www.w3.org/2000/09/xmldsig#'
+            accessor:
+                getter: getObject
+                setter: setObject
+            xml_list:
+                inline: true
+                entry_name: Object
+                namespace: 'http://www.w3.org/2000/09/xmldsig#'
+            type: array<Ubl21\XmlDsig\ObjectXsd>

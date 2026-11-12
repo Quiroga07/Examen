@@ -1,0 +1,22 @@
+Ubl21\CommonAggregateComponents\UnstructuredPriceType:
+    properties:
+        priceAmount:
+            expose: true
+            access_type: public_method
+            serialized_name: PriceAmount
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getPriceAmount
+                setter: setPriceAmount
+            type: Ubl21\CommonBasicComponents\PriceAmount
+        timeAmount:
+            expose: true
+            access_type: public_method
+            serialized_name: TimeAmount
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getTimeAmount
+                setter: setTimeAmount
+            type: Ubl21\CommonBasicComponents\TimeAmount

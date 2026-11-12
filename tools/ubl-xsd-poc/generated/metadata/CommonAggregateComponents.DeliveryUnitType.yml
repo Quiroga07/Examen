@@ -1,0 +1,32 @@
+Ubl21\CommonAggregateComponents\DeliveryUnitType:
+    properties:
+        batchQuantity:
+            expose: true
+            access_type: public_method
+            serialized_name: BatchQuantity
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getBatchQuantity
+                setter: setBatchQuantity
+            type: Ubl21\CommonBasicComponents\BatchQuantity
+        consumerUnitQuantity:
+            expose: true
+            access_type: public_method
+            serialized_name: ConsumerUnitQuantity
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getConsumerUnitQuantity
+                setter: setConsumerUnitQuantity
+            type: Ubl21\CommonBasicComponents\ConsumerUnitQuantity
+        hazardousRiskIndicator:
+            expose: true
+            access_type: public_method
+            serialized_name: HazardousRiskIndicator
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getHazardousRiskIndicator
+                setter: setHazardousRiskIndicator
+            type: bool

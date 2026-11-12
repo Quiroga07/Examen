@@ -1,0 +1,60 @@
+Ubl21\CommonAggregateComponents\EconomicOperatorShortListType:
+    properties:
+        limitationDescription:
+            expose: true
+            access_type: public_method
+            serialized_name: LimitationDescription
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getLimitationDescription
+                setter: setLimitationDescription
+            xml_list:
+                inline: true
+                entry_name: LimitationDescription
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            type: array<Ubl21\CommonBasicComponents\LimitationDescription>
+        expectedQuantity:
+            expose: true
+            access_type: public_method
+            serialized_name: ExpectedQuantity
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getExpectedQuantity
+                setter: setExpectedQuantity
+            type: Ubl21\CommonBasicComponents\ExpectedQuantity
+        maximumQuantity:
+            expose: true
+            access_type: public_method
+            serialized_name: MaximumQuantity
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getMaximumQuantity
+                setter: setMaximumQuantity
+            type: Ubl21\CommonBasicComponents\MaximumQuantity
+        minimumQuantity:
+            expose: true
+            access_type: public_method
+            serialized_name: MinimumQuantity
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getMinimumQuantity
+                setter: setMinimumQuantity
+            type: Ubl21\CommonBasicComponents\MinimumQuantity
+        preSelectedParty:
+            expose: true
+            access_type: public_method
+            serialized_name: PreSelectedParty
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getPreSelectedParty
+                setter: setPreSelectedParty
+            xml_list:
+                inline: true
+                entry_name: PreSelectedParty
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            type: array<Ubl21\CommonAggregateComponents\PreSelectedParty>

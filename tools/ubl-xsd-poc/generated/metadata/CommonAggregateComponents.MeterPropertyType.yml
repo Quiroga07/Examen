@@ -1,0 +1,56 @@
+Ubl21\CommonAggregateComponents\MeterPropertyType:
+    properties:
+        name:
+            expose: true
+            access_type: public_method
+            serialized_name: Name
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getName
+                setter: setName
+            type: Ubl21\CommonBasicComponents\Name
+        nameCode:
+            expose: true
+            access_type: public_method
+            serialized_name: NameCode
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getNameCode
+                setter: setNameCode
+            type: Ubl21\CommonBasicComponents\NameCode
+        value:
+            expose: true
+            access_type: public_method
+            serialized_name: Value
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getValue
+                setter: setValue
+            type: Ubl21\CommonBasicComponents\Value
+        valueQuantity:
+            expose: true
+            access_type: public_method
+            serialized_name: ValueQuantity
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getValueQuantity
+                setter: setValueQuantity
+            type: Ubl21\CommonBasicComponents\ValueQuantity
+        valueQualifier:
+            expose: true
+            access_type: public_method
+            serialized_name: ValueQualifier
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getValueQualifier
+                setter: setValueQualifier
+            xml_list:
+                inline: true
+                entry_name: ValueQualifier
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            type: array<Ubl21\CommonBasicComponents\ValueQualifier>

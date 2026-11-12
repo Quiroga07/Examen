@@ -1,0 +1,32 @@
+Ubl21\CommonAggregateComponents\WebSiteAccessType:
+    properties:
+        uRI:
+            expose: true
+            access_type: public_method
+            serialized_name: URI
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getURI
+                setter: setURI
+            type: Ubl21\CommonBasicComponents\URI
+        password:
+            expose: true
+            access_type: public_method
+            serialized_name: Password
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getPassword
+                setter: setPassword
+            type: Ubl21\CommonBasicComponents\Password
+        login:
+            expose: true
+            access_type: public_method
+            serialized_name: Login
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getLogin
+                setter: setLogin
+            type: Ubl21\CommonBasicComponents\Login

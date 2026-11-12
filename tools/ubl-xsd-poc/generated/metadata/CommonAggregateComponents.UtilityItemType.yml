@@ -1,0 +1,156 @@
+Ubl21\CommonAggregateComponents\UtilityItemType:
+    properties:
+        iD:
+            expose: true
+            access_type: public_method
+            serialized_name: ID
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getID
+                setter: setID
+            type: Ubl21\CommonBasicComponents\ID
+        subscriberID:
+            expose: true
+            access_type: public_method
+            serialized_name: SubscriberID
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getSubscriberID
+                setter: setSubscriberID
+            type: Ubl21\CommonBasicComponents\SubscriberID
+        subscriberType:
+            expose: true
+            access_type: public_method
+            serialized_name: SubscriberType
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getSubscriberType
+                setter: setSubscriberType
+            type: Ubl21\CommonBasicComponents\SubscriberType
+        subscriberTypeCode:
+            expose: true
+            access_type: public_method
+            serialized_name: SubscriberTypeCode
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getSubscriberTypeCode
+                setter: setSubscriberTypeCode
+            type: Ubl21\CommonBasicComponents\SubscriberTypeCode
+        description:
+            expose: true
+            access_type: public_method
+            serialized_name: Description
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getDescription
+                setter: setDescription
+            xml_list:
+                inline: true
+                entry_name: Description
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            type: array<Ubl21\CommonBasicComponents\Description>
+        packQuantity:
+            expose: true
+            access_type: public_method
+            serialized_name: PackQuantity
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getPackQuantity
+                setter: setPackQuantity
+            type: Ubl21\CommonBasicComponents\PackQuantity
+        packSizeNumeric:
+            expose: true
+            access_type: public_method
+            serialized_name: PackSizeNumeric
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getPackSizeNumeric
+                setter: setPackSizeNumeric
+            type: Ubl21\CommonBasicComponents\PackSizeNumeric
+        consumptionType:
+            expose: true
+            access_type: public_method
+            serialized_name: ConsumptionType
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getConsumptionType
+                setter: setConsumptionType
+            type: Ubl21\CommonBasicComponents\ConsumptionType
+        consumptionTypeCode:
+            expose: true
+            access_type: public_method
+            serialized_name: ConsumptionTypeCode
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getConsumptionTypeCode
+                setter: setConsumptionTypeCode
+            type: Ubl21\CommonBasicComponents\ConsumptionTypeCode
+        currentChargeType:
+            expose: true
+            access_type: public_method
+            serialized_name: CurrentChargeType
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getCurrentChargeType
+                setter: setCurrentChargeType
+            type: Ubl21\CommonBasicComponents\CurrentChargeType
+        currentChargeTypeCode:
+            expose: true
+            access_type: public_method
+            serialized_name: CurrentChargeTypeCode
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getCurrentChargeTypeCode
+                setter: setCurrentChargeTypeCode
+            type: Ubl21\CommonBasicComponents\CurrentChargeTypeCode
+        oneTimeChargeType:
+            expose: true
+            access_type: public_method
+            serialized_name: OneTimeChargeType
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getOneTimeChargeType
+                setter: setOneTimeChargeType
+            type: Ubl21\CommonBasicComponents\OneTimeChargeType
+        oneTimeChargeTypeCode:
+            expose: true
+            access_type: public_method
+            serialized_name: OneTimeChargeTypeCode
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getOneTimeChargeTypeCode
+                setter: setOneTimeChargeTypeCode
+            type: Ubl21\CommonBasicComponents\OneTimeChargeTypeCode
+        taxCategory:
+            expose: true
+            access_type: public_method
+            serialized_name: TaxCategory
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getTaxCategory
+                setter: setTaxCategory
+            type: Ubl21\CommonAggregateComponents\TaxCategory
+        contract:
+            expose: true
+            access_type: public_method
+            serialized_name: Contract
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getContract
+                setter: setContract
+            type: Ubl21\CommonAggregateComponents\Contract

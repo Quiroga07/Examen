@@ -1,0 +1,3 @@
+Ubl21\CommonBasicComponents\TareWeightMeasure:
+    xml_root_name: TareWeightMeasure
+    xml_root_namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'

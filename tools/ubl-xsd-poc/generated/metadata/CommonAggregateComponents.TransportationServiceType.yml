@@ -1,0 +1,276 @@
+Ubl21\CommonAggregateComponents\TransportationServiceType:
+    properties:
+        transportServiceCode:
+            expose: true
+            access_type: public_method
+            serialized_name: TransportServiceCode
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getTransportServiceCode
+                setter: setTransportServiceCode
+            type: Ubl21\CommonBasicComponents\TransportServiceCode
+        tariffClassCode:
+            expose: true
+            access_type: public_method
+            serialized_name: TariffClassCode
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getTariffClassCode
+                setter: setTariffClassCode
+            type: Ubl21\CommonBasicComponents\TariffClassCode
+        priority:
+            expose: true
+            access_type: public_method
+            serialized_name: Priority
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getPriority
+                setter: setPriority
+            type: Ubl21\CommonBasicComponents\Priority
+        freightRateClassCode:
+            expose: true
+            access_type: public_method
+            serialized_name: FreightRateClassCode
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getFreightRateClassCode
+                setter: setFreightRateClassCode
+            type: Ubl21\CommonBasicComponents\FreightRateClassCode
+        transportationServiceDescription:
+            expose: true
+            access_type: public_method
+            serialized_name: TransportationServiceDescription
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getTransportationServiceDescription
+                setter: setTransportationServiceDescription
+            xml_list:
+                inline: true
+                entry_name: TransportationServiceDescription
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            type: array<Ubl21\CommonBasicComponents\TransportationServiceDescription>
+        transportationServiceDetailsURI:
+            expose: true
+            access_type: public_method
+            serialized_name: TransportationServiceDetailsURI
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getTransportationServiceDetailsURI
+                setter: setTransportationServiceDetailsURI
+            type: Ubl21\CommonBasicComponents\TransportationServiceDetailsURI
+        nominationDate:
+            expose: true
+            access_type: public_method
+            serialized_name: NominationDate
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getNominationDate
+                setter: setNominationDate
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\Date
+        nominationTime:
+            expose: true
+            access_type: public_method
+            serialized_name: NominationTime
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getNominationTime
+                setter: setNominationTime
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\Time
+        name:
+            expose: true
+            access_type: public_method
+            serialized_name: Name
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getName
+                setter: setName
+            type: Ubl21\CommonBasicComponents\Name
+        sequenceNumeric:
+            expose: true
+            access_type: public_method
+            serialized_name: SequenceNumeric
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getSequenceNumeric
+                setter: setSequenceNumeric
+            type: Ubl21\CommonBasicComponents\SequenceNumeric
+        transportEquipment:
+            expose: true
+            access_type: public_method
+            serialized_name: TransportEquipment
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getTransportEquipment
+                setter: setTransportEquipment
+            xml_list:
+                inline: true
+                entry_name: TransportEquipment
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            type: array<Ubl21\CommonAggregateComponents\TransportEquipment>
+        supportedTransportEquipment:
+            expose: true
+            access_type: public_method
+            serialized_name: SupportedTransportEquipment
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getSupportedTransportEquipment
+                setter: setSupportedTransportEquipment
+            xml_list:
+                inline: true
+                entry_name: SupportedTransportEquipment
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            type: array<Ubl21\CommonAggregateComponents\SupportedTransportEquipment>
+        unsupportedTransportEquipment:
+            expose: true
+            access_type: public_method
+            serialized_name: UnsupportedTransportEquipment
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getUnsupportedTransportEquipment
+                setter: setUnsupportedTransportEquipment
+            xml_list:
+                inline: true
+                entry_name: UnsupportedTransportEquipment
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            type: array<Ubl21\CommonAggregateComponents\UnsupportedTransportEquipment>
+        commodityClassification:
+            expose: true
+            access_type: public_method
+            serialized_name: CommodityClassification
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getCommodityClassification
+                setter: setCommodityClassification
+            xml_list:
+                inline: true
+                entry_name: CommodityClassification
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            type: array<Ubl21\CommonAggregateComponents\CommodityClassification>
+        supportedCommodityClassification:
+            expose: true
+            access_type: public_method
+            serialized_name: SupportedCommodityClassification
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getSupportedCommodityClassification
+                setter: setSupportedCommodityClassification
+            xml_list:
+                inline: true
+                entry_name: SupportedCommodityClassification
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            type: array<Ubl21\CommonAggregateComponents\SupportedCommodityClassification>
+        unsupportedCommodityClassification:
+            expose: true
+            access_type: public_method
+            serialized_name: UnsupportedCommodityClassification
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getUnsupportedCommodityClassification
+                setter: setUnsupportedCommodityClassification
+            xml_list:
+                inline: true
+                entry_name: UnsupportedCommodityClassification
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            type: array<Ubl21\CommonAggregateComponents\UnsupportedCommodityClassification>
+        totalCapacityDimension:
+            expose: true
+            access_type: public_method
+            serialized_name: TotalCapacityDimension
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getTotalCapacityDimension
+                setter: setTotalCapacityDimension
+            type: Ubl21\CommonAggregateComponents\TotalCapacityDimension
+        shipmentStage:
+            expose: true
+            access_type: public_method
+            serialized_name: ShipmentStage
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getShipmentStage
+                setter: setShipmentStage
+            xml_list:
+                inline: true
+                entry_name: ShipmentStage
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            type: array<Ubl21\CommonAggregateComponents\ShipmentStage>
+        transportEvent:
+            expose: true
+            access_type: public_method
+            serialized_name: TransportEvent
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getTransportEvent
+                setter: setTransportEvent
+            xml_list:
+                inline: true
+                entry_name: TransportEvent
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            type: array<Ubl21\CommonAggregateComponents\TransportEvent>
+        responsibleTransportServiceProviderParty:
+            expose: true
+            access_type: public_method
+            serialized_name: ResponsibleTransportServiceProviderParty
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getResponsibleTransportServiceProviderParty
+                setter: setResponsibleTransportServiceProviderParty
+            type: Ubl21\CommonAggregateComponents\ResponsibleTransportServiceProviderParty
+        environmentalEmission:
+            expose: true
+            access_type: public_method
+            serialized_name: EnvironmentalEmission
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getEnvironmentalEmission
+                setter: setEnvironmentalEmission
+            xml_list:
+                inline: true
+                entry_name: EnvironmentalEmission
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            type: array<Ubl21\CommonAggregateComponents\EnvironmentalEmission>
+        estimatedDurationPeriod:
+            expose: true
+            access_type: public_method
+            serialized_name: EstimatedDurationPeriod
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getEstimatedDurationPeriod
+                setter: setEstimatedDurationPeriod
+            type: Ubl21\CommonAggregateComponents\EstimatedDurationPeriod
+        scheduledServiceFrequency:
+            expose: true
+            access_type: public_method
+            serialized_name: ScheduledServiceFrequency
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getScheduledServiceFrequency
+                setter: setScheduledServiceFrequency
+            xml_list:
+                inline: true
+                entry_name: ScheduledServiceFrequency
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            type: array<Ubl21\CommonAggregateComponents\ScheduledServiceFrequency>

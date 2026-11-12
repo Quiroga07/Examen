@@ -1,0 +1,374 @@
+Ubl21\CommonAggregateComponents\ItemType:
+    properties:
+        description:
+            expose: true
+            access_type: public_method
+            serialized_name: Description
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getDescription
+                setter: setDescription
+            xml_list:
+                inline: true
+                entry_name: Description
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            type: array<Ubl21\CommonBasicComponents\Description>
+        packQuantity:
+            expose: true
+            access_type: public_method
+            serialized_name: PackQuantity
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getPackQuantity
+                setter: setPackQuantity
+            type: Ubl21\CommonBasicComponents\PackQuantity
+        packSizeNumeric:
+            expose: true
+            access_type: public_method
+            serialized_name: PackSizeNumeric
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getPackSizeNumeric
+                setter: setPackSizeNumeric
+            type: Ubl21\CommonBasicComponents\PackSizeNumeric
+        catalogueIndicator:
+            expose: true
+            access_type: public_method
+            serialized_name: CatalogueIndicator
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getCatalogueIndicator
+                setter: setCatalogueIndicator
+            type: bool
+        name:
+            expose: true
+            access_type: public_method
+            serialized_name: Name
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getName
+                setter: setName
+            type: Ubl21\CommonBasicComponents\Name
+        hazardousRiskIndicator:
+            expose: true
+            access_type: public_method
+            serialized_name: HazardousRiskIndicator
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getHazardousRiskIndicator
+                setter: setHazardousRiskIndicator
+            type: bool
+        additionalInformation:
+            expose: true
+            access_type: public_method
+            serialized_name: AdditionalInformation
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getAdditionalInformation
+                setter: setAdditionalInformation
+            xml_list:
+                inline: true
+                entry_name: AdditionalInformation
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            type: array<Ubl21\CommonBasicComponents\AdditionalInformation>
+        keyword:
+            expose: true
+            access_type: public_method
+            serialized_name: Keyword
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getKeyword
+                setter: setKeyword
+            xml_list:
+                inline: true
+                entry_name: Keyword
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            type: array<Ubl21\CommonBasicComponents\Keyword>
+        brandName:
+            expose: true
+            access_type: public_method
+            serialized_name: BrandName
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getBrandName
+                setter: setBrandName
+            xml_list:
+                inline: true
+                entry_name: BrandName
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            type: array<Ubl21\CommonBasicComponents\BrandName>
+        modelName:
+            expose: true
+            access_type: public_method
+            serialized_name: ModelName
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getModelName
+                setter: setModelName
+            xml_list:
+                inline: true
+                entry_name: ModelName
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            type: array<Ubl21\CommonBasicComponents\ModelName>
+        buyersItemIdentification:
+            expose: true
+            access_type: public_method
+            serialized_name: BuyersItemIdentification
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getBuyersItemIdentification
+                setter: setBuyersItemIdentification
+            type: Ubl21\CommonAggregateComponents\BuyersItemIdentification
+        sellersItemIdentification:
+            expose: true
+            access_type: public_method
+            serialized_name: SellersItemIdentification
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getSellersItemIdentification
+                setter: setSellersItemIdentification
+            type: Ubl21\CommonAggregateComponents\SellersItemIdentification
+        manufacturersItemIdentification:
+            expose: true
+            access_type: public_method
+            serialized_name: ManufacturersItemIdentification
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getManufacturersItemIdentification
+                setter: setManufacturersItemIdentification
+            xml_list:
+                inline: true
+                entry_name: ManufacturersItemIdentification
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            type: array<Ubl21\CommonAggregateComponents\ManufacturersItemIdentification>
+        standardItemIdentification:
+            expose: true
+            access_type: public_method
+            serialized_name: StandardItemIdentification
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getStandardItemIdentification
+                setter: setStandardItemIdentification
+            type: Ubl21\CommonAggregateComponents\StandardItemIdentification
+        catalogueItemIdentification:
+            expose: true
+            access_type: public_method
+            serialized_name: CatalogueItemIdentification
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getCatalogueItemIdentification
+                setter: setCatalogueItemIdentification
+            type: Ubl21\CommonAggregateComponents\CatalogueItemIdentification
+        additionalItemIdentification:
+            expose: true
+            access_type: public_method
+            serialized_name: AdditionalItemIdentification
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getAdditionalItemIdentification
+                setter: setAdditionalItemIdentification
+            xml_list:
+                inline: true
+                entry_name: AdditionalItemIdentification
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            type: array<Ubl21\CommonAggregateComponents\AdditionalItemIdentification>
+        catalogueDocumentReference:
+            expose: true
+            access_type: public_method
+            serialized_name: CatalogueDocumentReference
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getCatalogueDocumentReference
+                setter: setCatalogueDocumentReference
+            type: Ubl21\CommonAggregateComponents\CatalogueDocumentReference
+        itemSpecificationDocumentReference:
+            expose: true
+            access_type: public_method
+            serialized_name: ItemSpecificationDocumentReference
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getItemSpecificationDocumentReference
+                setter: setItemSpecificationDocumentReference
+            xml_list:
+                inline: true
+                entry_name: ItemSpecificationDocumentReference
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            type: array<Ubl21\CommonAggregateComponents\ItemSpecificationDocumentReference>
+        originCountry:
+            expose: true
+            access_type: public_method
+            serialized_name: OriginCountry
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getOriginCountry
+                setter: setOriginCountry
+            type: Ubl21\CommonAggregateComponents\OriginCountry
+        commodityClassification:
+            expose: true
+            access_type: public_method
+            serialized_name: CommodityClassification
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getCommodityClassification
+                setter: setCommodityClassification
+            xml_list:
+                inline: true
+                entry_name: CommodityClassification
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            type: array<Ubl21\CommonAggregateComponents\CommodityClassification>
+        transactionConditions:
+            expose: true
+            access_type: public_method
+            serialized_name: TransactionConditions
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getTransactionConditions
+                setter: setTransactionConditions
+            xml_list:
+                inline: true
+                entry_name: TransactionConditions
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            type: array<Ubl21\CommonAggregateComponents\TransactionConditions>
+        hazardousItem:
+            expose: true
+            access_type: public_method
+            serialized_name: HazardousItem
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getHazardousItem
+                setter: setHazardousItem
+            xml_list:
+                inline: true
+                entry_name: HazardousItem
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            type: array<Ubl21\CommonAggregateComponents\HazardousItem>
+        classifiedTaxCategory:
+            expose: true
+            access_type: public_method
+            serialized_name: ClassifiedTaxCategory
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getClassifiedTaxCategory
+                setter: setClassifiedTaxCategory
+            xml_list:
+                inline: true
+                entry_name: ClassifiedTaxCategory
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            type: array<Ubl21\CommonAggregateComponents\ClassifiedTaxCategory>
+        additionalItemProperty:
+            expose: true
+            access_type: public_method
+            serialized_name: AdditionalItemProperty
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getAdditionalItemProperty
+                setter: setAdditionalItemProperty
+            xml_list:
+                inline: true
+                entry_name: AdditionalItemProperty
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            type: array<Ubl21\CommonAggregateComponents\AdditionalItemProperty>
+        manufacturerParty:
+            expose: true
+            access_type: public_method
+            serialized_name: ManufacturerParty
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getManufacturerParty
+                setter: setManufacturerParty
+            xml_list:
+                inline: true
+                entry_name: ManufacturerParty
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            type: array<Ubl21\CommonAggregateComponents\ManufacturerParty>
+        informationContentProviderParty:
+            expose: true
+            access_type: public_method
+            serialized_name: InformationContentProviderParty
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getInformationContentProviderParty
+                setter: setInformationContentProviderParty
+            type: Ubl21\CommonAggregateComponents\InformationContentProviderParty
+        originAddress:
+            expose: true
+            access_type: public_method
+            serialized_name: OriginAddress
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getOriginAddress
+                setter: setOriginAddress
+            xml_list:
+                inline: true
+                entry_name: OriginAddress
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            type: array<Ubl21\CommonAggregateComponents\OriginAddress>
+        itemInstance:
+            expose: true
+            access_type: public_method
+            serialized_name: ItemInstance
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getItemInstance
+                setter: setItemInstance
+            xml_list:
+                inline: true
+                entry_name: ItemInstance
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            type: array<Ubl21\CommonAggregateComponents\ItemInstance>
+        certificate:
+            expose: true
+            access_type: public_method
+            serialized_name: Certificate
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getCertificate
+                setter: setCertificate
+            xml_list:
+                inline: true
+                entry_name: Certificate
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            type: array<Ubl21\CommonAggregateComponents\Certificate>
+        dimension:
+            expose: true
+            access_type: public_method
+            serialized_name: Dimension
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getDimension
+                setter: setDimension
+            xml_list:
+                inline: true
+                entry_name: Dimension
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            type: array<Ubl21\CommonAggregateComponents\Dimension>

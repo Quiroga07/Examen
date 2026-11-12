@@ -1,0 +1,56 @@
+Ubl21\CommonAggregateComponents\ConditionType:
+    properties:
+        attributeID:
+            expose: true
+            access_type: public_method
+            serialized_name: AttributeID
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getAttributeID
+                setter: setAttributeID
+            type: Ubl21\CommonBasicComponents\AttributeID
+        measure:
+            expose: true
+            access_type: public_method
+            serialized_name: Measure
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getMeasure
+                setter: setMeasure
+            type: Ubl21\CommonBasicComponents\Measure
+        description:
+            expose: true
+            access_type: public_method
+            serialized_name: Description
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getDescription
+                setter: setDescription
+            xml_list:
+                inline: true
+                entry_name: Description
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            type: array<Ubl21\CommonBasicComponents\Description>
+        minimumMeasure:
+            expose: true
+            access_type: public_method
+            serialized_name: MinimumMeasure
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getMinimumMeasure
+                setter: setMinimumMeasure
+            type: Ubl21\CommonBasicComponents\MinimumMeasure
+        maximumMeasure:
+            expose: true
+            access_type: public_method
+            serialized_name: MaximumMeasure
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getMaximumMeasure
+                setter: setMaximumMeasure
+            type: Ubl21\CommonBasicComponents\MaximumMeasure

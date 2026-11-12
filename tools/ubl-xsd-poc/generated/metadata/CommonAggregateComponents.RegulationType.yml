@@ -1,0 +1,32 @@
+Ubl21\CommonAggregateComponents\RegulationType:
+    properties:
+        name:
+            expose: true
+            access_type: public_method
+            serialized_name: Name
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getName
+                setter: setName
+            type: Ubl21\CommonBasicComponents\Name
+        legalReference:
+            expose: true
+            access_type: public_method
+            serialized_name: LegalReference
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getLegalReference
+                setter: setLegalReference
+            type: Ubl21\CommonBasicComponents\LegalReference
+        ontologyURI:
+            expose: true
+            access_type: public_method
+            serialized_name: OntologyURI
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getOntologyURI
+                setter: setOntologyURI
+            type: Ubl21\CommonBasicComponents\OntologyURI

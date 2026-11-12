@@ -1,0 +1,112 @@
+Ubl21\CommonAggregateComponents\CardAccountType:
+    properties:
+        primaryAccountNumberID:
+            expose: true
+            access_type: public_method
+            serialized_name: PrimaryAccountNumberID
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getPrimaryAccountNumberID
+                setter: setPrimaryAccountNumberID
+            type: Ubl21\CommonBasicComponents\PrimaryAccountNumberID
+        networkID:
+            expose: true
+            access_type: public_method
+            serialized_name: NetworkID
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getNetworkID
+                setter: setNetworkID
+            type: Ubl21\CommonBasicComponents\NetworkID
+        cardTypeCode:
+            expose: true
+            access_type: public_method
+            serialized_name: CardTypeCode
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getCardTypeCode
+                setter: setCardTypeCode
+            type: Ubl21\CommonBasicComponents\CardTypeCode
+        validityStartDate:
+            expose: true
+            access_type: public_method
+            serialized_name: ValidityStartDate
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getValidityStartDate
+                setter: setValidityStartDate
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\Date
+        expiryDate:
+            expose: true
+            access_type: public_method
+            serialized_name: ExpiryDate
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getExpiryDate
+                setter: setExpiryDate
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\Date
+        issuerID:
+            expose: true
+            access_type: public_method
+            serialized_name: IssuerID
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getIssuerID
+                setter: setIssuerID
+            type: Ubl21\CommonBasicComponents\IssuerID
+        issueNumberID:
+            expose: true
+            access_type: public_method
+            serialized_name: IssueNumberID
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getIssueNumberID
+                setter: setIssueNumberID
+            type: Ubl21\CommonBasicComponents\IssueNumberID
+        cV2ID:
+            expose: true
+            access_type: public_method
+            serialized_name: CV2ID
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getCV2ID
+                setter: setCV2ID
+            type: Ubl21\CommonBasicComponents\CV2ID
+        cardChipCode:
+            expose: true
+            access_type: public_method
+            serialized_name: CardChipCode
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getCardChipCode
+                setter: setCardChipCode
+            type: Ubl21\CommonBasicComponents\CardChipCode
+        chipApplicationID:
+            expose: true
+            access_type: public_method
+            serialized_name: ChipApplicationID
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getChipApplicationID
+                setter: setChipApplicationID
+            type: Ubl21\CommonBasicComponents\ChipApplicationID
+        holderName:
+            expose: true
+            access_type: public_method
+            serialized_name: HolderName
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getHolderName
+                setter: setHolderName
+            type: Ubl21\CommonBasicComponents\HolderName

@@ -1,0 +1,90 @@
+Ubl21\CommonAggregateComponents\RequestForQuotationLineType:
+    properties:
+        iD:
+            expose: true
+            access_type: public_method
+            serialized_name: ID
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getID
+                setter: setID
+            type: Ubl21\CommonBasicComponents\ID
+        uUID:
+            expose: true
+            access_type: public_method
+            serialized_name: UUID
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getUUID
+                setter: setUUID
+            type: Ubl21\CommonBasicComponents\UUID
+        note:
+            expose: true
+            access_type: public_method
+            serialized_name: Note
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getNote
+                setter: setNote
+            xml_list:
+                inline: true
+                entry_name: Note
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            type: array<Ubl21\CommonBasicComponents\Note>
+        optionalLineItemIndicator:
+            expose: true
+            access_type: public_method
+            serialized_name: OptionalLineItemIndicator
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getOptionalLineItemIndicator
+                setter: setOptionalLineItemIndicator
+            type: bool
+        privacyCode:
+            expose: true
+            access_type: public_method
+            serialized_name: PrivacyCode
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getPrivacyCode
+                setter: setPrivacyCode
+            type: Ubl21\CommonBasicComponents\PrivacyCode
+        securityClassificationCode:
+            expose: true
+            access_type: public_method
+            serialized_name: SecurityClassificationCode
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getSecurityClassificationCode
+                setter: setSecurityClassificationCode
+            type: Ubl21\CommonBasicComponents\SecurityClassificationCode
+        documentReference:
+            expose: true
+            access_type: public_method
+            serialized_name: DocumentReference
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getDocumentReference
+                setter: setDocumentReference
+            xml_list:
+                inline: true
+                entry_name: DocumentReference
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            type: array<Ubl21\CommonAggregateComponents\DocumentReference>
+        lineItem:
+            expose: true
+            access_type: public_method
+            serialized_name: LineItem
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getLineItem
+                setter: setLineItem
+            type: Ubl21\CommonAggregateComponents\LineItem

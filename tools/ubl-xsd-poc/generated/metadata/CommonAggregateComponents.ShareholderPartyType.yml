@@ -1,0 +1,22 @@
+Ubl21\CommonAggregateComponents\ShareholderPartyType:
+    properties:
+        partecipationPercent:
+            expose: true
+            access_type: public_method
+            serialized_name: PartecipationPercent
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getPartecipationPercent
+                setter: setPartecipationPercent
+            type: Ubl21\CommonBasicComponents\PartecipationPercent
+        party:
+            expose: true
+            access_type: public_method
+            serialized_name: Party
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getParty
+                setter: setParty
+            type: Ubl21\CommonAggregateComponents\Party

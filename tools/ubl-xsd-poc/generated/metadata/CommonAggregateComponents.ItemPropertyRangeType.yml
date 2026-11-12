@@ -1,0 +1,22 @@
+Ubl21\CommonAggregateComponents\ItemPropertyRangeType:
+    properties:
+        minimumValue:
+            expose: true
+            access_type: public_method
+            serialized_name: MinimumValue
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getMinimumValue
+                setter: setMinimumValue
+            type: Ubl21\CommonBasicComponents\MinimumValue
+        maximumValue:
+            expose: true
+            access_type: public_method
+            serialized_name: MaximumValue
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getMaximumValue
+                setter: setMaximumValue
+            type: Ubl21\CommonBasicComponents\MaximumValue

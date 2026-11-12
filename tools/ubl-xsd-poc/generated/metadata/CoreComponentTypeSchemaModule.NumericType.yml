@@ -1,0 +1,19 @@
+Ubl21\CoreComponentTypeSchemaModule\NumericType:
+    properties:
+        __value:
+            expose: true
+            xml_value: true
+            access_type: public_method
+            accessor:
+                getter: value
+                setter: value
+            type: float
+        format:
+            expose: true
+            access_type: public_method
+            serialized_name: format
+            accessor:
+                getter: getFormat
+                setter: setFormat
+            xml_attribute: true
+            type: string

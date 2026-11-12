@@ -1,0 +1,3 @@
+Ubl21\CommonBasicComponents\ReturnableQuantity:
+    xml_root_name: ReturnableQuantity
+    xml_root_namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'

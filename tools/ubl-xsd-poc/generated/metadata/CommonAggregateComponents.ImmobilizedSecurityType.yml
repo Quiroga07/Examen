@@ -1,0 +1,72 @@
+Ubl21\CommonAggregateComponents\ImmobilizedSecurityType:
+    properties:
+        immobilizationCertificateID:
+            expose: true
+            access_type: public_method
+            serialized_name: ImmobilizationCertificateID
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getImmobilizationCertificateID
+                setter: setImmobilizationCertificateID
+            type: Ubl21\CommonBasicComponents\ImmobilizationCertificateID
+        securityID:
+            expose: true
+            access_type: public_method
+            serialized_name: SecurityID
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getSecurityID
+                setter: setSecurityID
+            type: Ubl21\CommonBasicComponents\SecurityID
+        issueDate:
+            expose: true
+            access_type: public_method
+            serialized_name: IssueDate
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getIssueDate
+                setter: setIssueDate
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\Date
+        faceValueAmount:
+            expose: true
+            access_type: public_method
+            serialized_name: FaceValueAmount
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getFaceValueAmount
+                setter: setFaceValueAmount
+            type: Ubl21\CommonBasicComponents\FaceValueAmount
+        marketValueAmount:
+            expose: true
+            access_type: public_method
+            serialized_name: MarketValueAmount
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getMarketValueAmount
+                setter: setMarketValueAmount
+            type: Ubl21\CommonBasicComponents\MarketValueAmount
+        sharesNumberQuantity:
+            expose: true
+            access_type: public_method
+            serialized_name: SharesNumberQuantity
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getSharesNumberQuantity
+                setter: setSharesNumberQuantity
+            type: Ubl21\CommonBasicComponents\SharesNumberQuantity
+        issuerParty:
+            expose: true
+            access_type: public_method
+            serialized_name: IssuerParty
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getIssuerParty
+                setter: setIssuerParty
+            type: Ubl21\CommonAggregateComponents\IssuerParty

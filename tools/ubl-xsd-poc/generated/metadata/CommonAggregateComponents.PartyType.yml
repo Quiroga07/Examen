@@ -1,0 +1,220 @@
+Ubl21\CommonAggregateComponents\PartyType:
+    properties:
+        markCareIndicator:
+            expose: true
+            access_type: public_method
+            serialized_name: MarkCareIndicator
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getMarkCareIndicator
+                setter: setMarkCareIndicator
+            type: bool
+        markAttentionIndicator:
+            expose: true
+            access_type: public_method
+            serialized_name: MarkAttentionIndicator
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getMarkAttentionIndicator
+                setter: setMarkAttentionIndicator
+            type: bool
+        websiteURI:
+            expose: true
+            access_type: public_method
+            serialized_name: WebsiteURI
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getWebsiteURI
+                setter: setWebsiteURI
+            type: Ubl21\CommonBasicComponents\WebsiteURI
+        logoReferenceID:
+            expose: true
+            access_type: public_method
+            serialized_name: LogoReferenceID
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getLogoReferenceID
+                setter: setLogoReferenceID
+            type: Ubl21\CommonBasicComponents\LogoReferenceID
+        endpointID:
+            expose: true
+            access_type: public_method
+            serialized_name: EndpointID
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getEndpointID
+                setter: setEndpointID
+            type: Ubl21\CommonBasicComponents\EndpointID
+        industryClassificationCode:
+            expose: true
+            access_type: public_method
+            serialized_name: IndustryClassificationCode
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getIndustryClassificationCode
+                setter: setIndustryClassificationCode
+            type: Ubl21\CommonBasicComponents\IndustryClassificationCode
+        partyIdentification:
+            expose: true
+            access_type: public_method
+            serialized_name: PartyIdentification
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getPartyIdentification
+                setter: setPartyIdentification
+            xml_list:
+                inline: true
+                entry_name: PartyIdentification
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            type: array<Ubl21\CommonAggregateComponents\PartyIdentification>
+        partyName:
+            expose: true
+            access_type: public_method
+            serialized_name: PartyName
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getPartyName
+                setter: setPartyName
+            xml_list:
+                inline: true
+                entry_name: PartyName
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            type: array<Ubl21\CommonAggregateComponents\PartyName>
+        language:
+            expose: true
+            access_type: public_method
+            serialized_name: Language
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getLanguage
+                setter: setLanguage
+            type: Ubl21\CommonAggregateComponents\Language
+        postalAddress:
+            expose: true
+            access_type: public_method
+            serialized_name: PostalAddress
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getPostalAddress
+                setter: setPostalAddress
+            type: Ubl21\CommonAggregateComponents\PostalAddress
+        physicalLocation:
+            expose: true
+            access_type: public_method
+            serialized_name: PhysicalLocation
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getPhysicalLocation
+                setter: setPhysicalLocation
+            type: Ubl21\CommonAggregateComponents\PhysicalLocation
+        partyTaxScheme:
+            expose: true
+            access_type: public_method
+            serialized_name: PartyTaxScheme
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getPartyTaxScheme
+                setter: setPartyTaxScheme
+            xml_list:
+                inline: true
+                entry_name: PartyTaxScheme
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            type: array<Ubl21\CommonAggregateComponents\PartyTaxScheme>
+        partyLegalEntity:
+            expose: true
+            access_type: public_method
+            serialized_name: PartyLegalEntity
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getPartyLegalEntity
+                setter: setPartyLegalEntity
+            xml_list:
+                inline: true
+                entry_name: PartyLegalEntity
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            type: array<Ubl21\CommonAggregateComponents\PartyLegalEntity>
+        contact:
+            expose: true
+            access_type: public_method
+            serialized_name: Contact
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getContact
+                setter: setContact
+            type: Ubl21\CommonAggregateComponents\Contact
+        person:
+            expose: true
+            access_type: public_method
+            serialized_name: Person
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getPerson
+                setter: setPerson
+            xml_list:
+                inline: true
+                entry_name: Person
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            type: array<Ubl21\CommonAggregateComponents\Person>
+        agentParty:
+            expose: true
+            access_type: public_method
+            serialized_name: AgentParty
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getAgentParty
+                setter: setAgentParty
+            type: Ubl21\CommonAggregateComponents\AgentParty
+        serviceProviderParty:
+            expose: true
+            access_type: public_method
+            serialized_name: ServiceProviderParty
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getServiceProviderParty
+                setter: setServiceProviderParty
+            xml_list:
+                inline: true
+                entry_name: ServiceProviderParty
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            type: array<Ubl21\CommonAggregateComponents\ServiceProviderParty>
+        powerOfAttorney:
+            expose: true
+            access_type: public_method
+            serialized_name: PowerOfAttorney
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getPowerOfAttorney
+                setter: setPowerOfAttorney
+            xml_list:
+                inline: true
+                entry_name: PowerOfAttorney
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            type: array<Ubl21\CommonAggregateComponents\PowerOfAttorney>
+        financialAccount:
+            expose: true
+            access_type: public_method
+            serialized_name: FinancialAccount
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getFinancialAccount
+                setter: setFinancialAccount
+            type: Ubl21\CommonAggregateComponents\FinancialAccount

@@ -1,0 +1,3 @@
+Ubl21\CommonAggregateComponents\InventoryLocation:
+    xml_root_name: InventoryLocation
+    xml_root_namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'

@@ -1,0 +1,56 @@
+Ubl21\CommonAggregateComponents\AppealTermsType:
+    properties:
+        description:
+            expose: true
+            access_type: public_method
+            serialized_name: Description
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getDescription
+                setter: setDescription
+            xml_list:
+                inline: true
+                entry_name: Description
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            type: array<Ubl21\CommonBasicComponents\Description>
+        presentationPeriod:
+            expose: true
+            access_type: public_method
+            serialized_name: PresentationPeriod
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getPresentationPeriod
+                setter: setPresentationPeriod
+            type: Ubl21\CommonAggregateComponents\PresentationPeriod
+        appealInformationParty:
+            expose: true
+            access_type: public_method
+            serialized_name: AppealInformationParty
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getAppealInformationParty
+                setter: setAppealInformationParty
+            type: Ubl21\CommonAggregateComponents\AppealInformationParty
+        appealReceiverParty:
+            expose: true
+            access_type: public_method
+            serialized_name: AppealReceiverParty
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getAppealReceiverParty
+                setter: setAppealReceiverParty
+            type: Ubl21\CommonAggregateComponents\AppealReceiverParty
+        mediationParty:
+            expose: true
+            access_type: public_method
+            serialized_name: MediationParty
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getMediationParty
+                setter: setMediationParty
+            type: Ubl21\CommonAggregateComponents\MediationParty

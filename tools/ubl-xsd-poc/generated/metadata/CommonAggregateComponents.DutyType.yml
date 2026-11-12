@@ -1,0 +1,42 @@
+Ubl21\CommonAggregateComponents\DutyType:
+    properties:
+        amount:
+            expose: true
+            access_type: public_method
+            serialized_name: Amount
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getAmount
+                setter: setAmount
+            type: Ubl21\CommonBasicComponents\Amount
+        duty:
+            expose: true
+            access_type: public_method
+            serialized_name: Duty
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getDuty
+                setter: setDuty
+            type: Ubl21\CommonBasicComponents\Duty
+        dutyCode:
+            expose: true
+            access_type: public_method
+            serialized_name: DutyCode
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getDutyCode
+                setter: setDutyCode
+            type: Ubl21\CommonBasicComponents\DutyCode
+        taxCategory:
+            expose: true
+            access_type: public_method
+            serialized_name: TaxCategory
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getTaxCategory
+                setter: setTaxCategory
+            type: Ubl21\CommonAggregateComponents\TaxCategory

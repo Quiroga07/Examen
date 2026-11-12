@@ -1,0 +1,42 @@
+Ubl21\CommonAggregateComponents\RetailPlannedImpactType:
+    properties:
+        amount:
+            expose: true
+            access_type: public_method
+            serialized_name: Amount
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getAmount
+                setter: setAmount
+            type: Ubl21\CommonBasicComponents\Amount
+        forecastPurposeCode:
+            expose: true
+            access_type: public_method
+            serialized_name: ForecastPurposeCode
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getForecastPurposeCode
+                setter: setForecastPurposeCode
+            type: Ubl21\CommonBasicComponents\ForecastPurposeCode
+        forecastTypeCode:
+            expose: true
+            access_type: public_method
+            serialized_name: ForecastTypeCode
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getForecastTypeCode
+                setter: setForecastTypeCode
+            type: Ubl21\CommonBasicComponents\ForecastTypeCode
+        period:
+            expose: true
+            access_type: public_method
+            serialized_name: Period
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getPeriod
+                setter: setPeriod
+            type: Ubl21\CommonAggregateComponents\Period

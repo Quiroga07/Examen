@@ -1,0 +1,354 @@
+Ubl21\CommonAggregateComponents\LineItemType:
+    properties:
+        iD:
+            expose: true
+            access_type: public_method
+            serialized_name: ID
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getID
+                setter: setID
+            type: Ubl21\CommonBasicComponents\ID
+        salesOrderID:
+            expose: true
+            access_type: public_method
+            serialized_name: SalesOrderID
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getSalesOrderID
+                setter: setSalesOrderID
+            type: Ubl21\CommonBasicComponents\SalesOrderID
+        uUID:
+            expose: true
+            access_type: public_method
+            serialized_name: UUID
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getUUID
+                setter: setUUID
+            type: Ubl21\CommonBasicComponents\UUID
+        note:
+            expose: true
+            access_type: public_method
+            serialized_name: Note
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getNote
+                setter: setNote
+            xml_list:
+                inline: true
+                entry_name: Note
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            type: array<Ubl21\CommonBasicComponents\Note>
+        lineStatusCode:
+            expose: true
+            access_type: public_method
+            serialized_name: LineStatusCode
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getLineStatusCode
+                setter: setLineStatusCode
+            type: Ubl21\CommonBasicComponents\LineStatusCode
+        quantity:
+            expose: true
+            access_type: public_method
+            serialized_name: Quantity
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getQuantity
+                setter: setQuantity
+            type: Ubl21\CommonBasicComponents\Quantity
+        lineExtensionAmount:
+            expose: true
+            access_type: public_method
+            serialized_name: LineExtensionAmount
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getLineExtensionAmount
+                setter: setLineExtensionAmount
+            type: Ubl21\CommonBasicComponents\LineExtensionAmount
+        totalTaxAmount:
+            expose: true
+            access_type: public_method
+            serialized_name: TotalTaxAmount
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getTotalTaxAmount
+                setter: setTotalTaxAmount
+            type: Ubl21\CommonBasicComponents\TotalTaxAmount
+        minimumQuantity:
+            expose: true
+            access_type: public_method
+            serialized_name: MinimumQuantity
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getMinimumQuantity
+                setter: setMinimumQuantity
+            type: Ubl21\CommonBasicComponents\MinimumQuantity
+        maximumQuantity:
+            expose: true
+            access_type: public_method
+            serialized_name: MaximumQuantity
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getMaximumQuantity
+                setter: setMaximumQuantity
+            type: Ubl21\CommonBasicComponents\MaximumQuantity
+        minimumBackorderQuantity:
+            expose: true
+            access_type: public_method
+            serialized_name: MinimumBackorderQuantity
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getMinimumBackorderQuantity
+                setter: setMinimumBackorderQuantity
+            type: Ubl21\CommonBasicComponents\MinimumBackorderQuantity
+        maximumBackorderQuantity:
+            expose: true
+            access_type: public_method
+            serialized_name: MaximumBackorderQuantity
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getMaximumBackorderQuantity
+                setter: setMaximumBackorderQuantity
+            type: Ubl21\CommonBasicComponents\MaximumBackorderQuantity
+        inspectionMethodCode:
+            expose: true
+            access_type: public_method
+            serialized_name: InspectionMethodCode
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getInspectionMethodCode
+                setter: setInspectionMethodCode
+            type: Ubl21\CommonBasicComponents\InspectionMethodCode
+        partialDeliveryIndicator:
+            expose: true
+            access_type: public_method
+            serialized_name: PartialDeliveryIndicator
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getPartialDeliveryIndicator
+                setter: setPartialDeliveryIndicator
+            type: bool
+        backOrderAllowedIndicator:
+            expose: true
+            access_type: public_method
+            serialized_name: BackOrderAllowedIndicator
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getBackOrderAllowedIndicator
+                setter: setBackOrderAllowedIndicator
+            type: bool
+        accountingCostCode:
+            expose: true
+            access_type: public_method
+            serialized_name: AccountingCostCode
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getAccountingCostCode
+                setter: setAccountingCostCode
+            type: Ubl21\CommonBasicComponents\AccountingCostCode
+        accountingCost:
+            expose: true
+            access_type: public_method
+            serialized_name: AccountingCost
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getAccountingCost
+                setter: setAccountingCost
+            type: Ubl21\CommonBasicComponents\AccountingCost
+        warrantyInformation:
+            expose: true
+            access_type: public_method
+            serialized_name: WarrantyInformation
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getWarrantyInformation
+                setter: setWarrantyInformation
+            xml_list:
+                inline: true
+                entry_name: WarrantyInformation
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            type: array<Ubl21\CommonBasicComponents\WarrantyInformation>
+        delivery:
+            expose: true
+            access_type: public_method
+            serialized_name: Delivery
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getDelivery
+                setter: setDelivery
+            xml_list:
+                inline: true
+                entry_name: Delivery
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            type: array<Ubl21\CommonAggregateComponents\Delivery>
+        deliveryTerms:
+            expose: true
+            access_type: public_method
+            serialized_name: DeliveryTerms
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getDeliveryTerms
+                setter: setDeliveryTerms
+            type: Ubl21\CommonAggregateComponents\DeliveryTerms
+        originatorParty:
+            expose: true
+            access_type: public_method
+            serialized_name: OriginatorParty
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getOriginatorParty
+                setter: setOriginatorParty
+            type: Ubl21\CommonAggregateComponents\OriginatorParty
+        orderedShipment:
+            expose: true
+            access_type: public_method
+            serialized_name: OrderedShipment
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getOrderedShipment
+                setter: setOrderedShipment
+            xml_list:
+                inline: true
+                entry_name: OrderedShipment
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            type: array<Ubl21\CommonAggregateComponents\OrderedShipment>
+        pricingReference:
+            expose: true
+            access_type: public_method
+            serialized_name: PricingReference
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getPricingReference
+                setter: setPricingReference
+            type: Ubl21\CommonAggregateComponents\PricingReference
+        allowanceCharge:
+            expose: true
+            access_type: public_method
+            serialized_name: AllowanceCharge
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getAllowanceCharge
+                setter: setAllowanceCharge
+            xml_list:
+                inline: true
+                entry_name: AllowanceCharge
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            type: array<Ubl21\CommonAggregateComponents\AllowanceCharge>
+        price:
+            expose: true
+            access_type: public_method
+            serialized_name: Price
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getPrice
+                setter: setPrice
+            type: Ubl21\CommonAggregateComponents\Price
+        item:
+            expose: true
+            access_type: public_method
+            serialized_name: Item
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getItem
+                setter: setItem
+            type: Ubl21\CommonAggregateComponents\Item
+        subLineItem:
+            expose: true
+            access_type: public_method
+            serialized_name: SubLineItem
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getSubLineItem
+                setter: setSubLineItem
+            xml_list:
+                inline: true
+                entry_name: SubLineItem
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            type: array<Ubl21\CommonAggregateComponents\SubLineItem>
+        warrantyValidityPeriod:
+            expose: true
+            access_type: public_method
+            serialized_name: WarrantyValidityPeriod
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getWarrantyValidityPeriod
+                setter: setWarrantyValidityPeriod
+            type: Ubl21\CommonAggregateComponents\WarrantyValidityPeriod
+        warrantyParty:
+            expose: true
+            access_type: public_method
+            serialized_name: WarrantyParty
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getWarrantyParty
+                setter: setWarrantyParty
+            type: Ubl21\CommonAggregateComponents\WarrantyParty
+        taxTotal:
+            expose: true
+            access_type: public_method
+            serialized_name: TaxTotal
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getTaxTotal
+                setter: setTaxTotal
+            xml_list:
+                inline: true
+                entry_name: TaxTotal
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            type: array<Ubl21\CommonAggregateComponents\TaxTotal>
+        itemPriceExtension:
+            expose: true
+            access_type: public_method
+            serialized_name: ItemPriceExtension
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getItemPriceExtension
+                setter: setItemPriceExtension
+            type: Ubl21\CommonAggregateComponents\ItemPriceExtension
+        lineReference:
+            expose: true
+            access_type: public_method
+            serialized_name: LineReference
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getLineReference
+                setter: setLineReference
+            xml_list:
+                inline: true
+                entry_name: LineReference
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            type: array<Ubl21\CommonAggregateComponents\LineReference>

@@ -1,0 +1,22 @@
+Ubl21\Xades\V132\DigestAlgAndValueType:
+    properties:
+        digestMethod:
+            expose: true
+            access_type: public_method
+            serialized_name: DigestMethod
+            xml_element:
+                namespace: 'http://www.w3.org/2000/09/xmldsig#'
+            accessor:
+                getter: getDigestMethod
+                setter: setDigestMethod
+            type: Ubl21\XmlDsig\DigestMethod
+        digestValue:
+            expose: true
+            access_type: public_method
+            serialized_name: DigestValue
+            xml_element:
+                namespace: 'http://www.w3.org/2000/09/xmldsig#'
+            accessor:
+                getter: getDigestValue
+                setter: setDigestValue
+            type: GoetasWebservices\Xsd\XsdToPhp\Jms\Base64Encoded

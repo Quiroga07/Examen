@@ -1,0 +1,42 @@
+Ubl21\CommonAggregateComponents\CommodityClassificationType:
+    properties:
+        natureCode:
+            expose: true
+            access_type: public_method
+            serialized_name: NatureCode
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getNatureCode
+                setter: setNatureCode
+            type: Ubl21\CommonBasicComponents\NatureCode
+        cargoTypeCode:
+            expose: true
+            access_type: public_method
+            serialized_name: CargoTypeCode
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getCargoTypeCode
+                setter: setCargoTypeCode
+            type: Ubl21\CommonBasicComponents\CargoTypeCode
+        commodityCode:
+            expose: true
+            access_type: public_method
+            serialized_name: CommodityCode
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getCommodityCode
+                setter: setCommodityCode
+            type: Ubl21\CommonBasicComponents\CommodityCode
+        itemClassificationCode:
+            expose: true
+            access_type: public_method
+            serialized_name: ItemClassificationCode
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getItemClassificationCode
+                setter: setItemClassificationCode
+            type: Ubl21\CommonBasicComponents\ItemClassificationCode

@@ -1,0 +1,74 @@
+Ubl21\CommonAggregateComponents\FrameworkAgreementType:
+    properties:
+        expectedOperatorQuantity:
+            expose: true
+            access_type: public_method
+            serialized_name: ExpectedOperatorQuantity
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getExpectedOperatorQuantity
+                setter: setExpectedOperatorQuantity
+            type: Ubl21\CommonBasicComponents\ExpectedOperatorQuantity
+        maximumOperatorQuantity:
+            expose: true
+            access_type: public_method
+            serialized_name: MaximumOperatorQuantity
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getMaximumOperatorQuantity
+                setter: setMaximumOperatorQuantity
+            type: Ubl21\CommonBasicComponents\MaximumOperatorQuantity
+        justification:
+            expose: true
+            access_type: public_method
+            serialized_name: Justification
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getJustification
+                setter: setJustification
+            xml_list:
+                inline: true
+                entry_name: Justification
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            type: array<Ubl21\CommonBasicComponents\Justification>
+        frequency:
+            expose: true
+            access_type: public_method
+            serialized_name: Frequency
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getFrequency
+                setter: setFrequency
+            xml_list:
+                inline: true
+                entry_name: Frequency
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            type: array<Ubl21\CommonBasicComponents\Frequency>
+        durationPeriod:
+            expose: true
+            access_type: public_method
+            serialized_name: DurationPeriod
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getDurationPeriod
+                setter: setDurationPeriod
+            type: Ubl21\CommonAggregateComponents\DurationPeriod
+        subsequentProcessTenderRequirement:
+            expose: true
+            access_type: public_method
+            serialized_name: SubsequentProcessTenderRequirement
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getSubsequentProcessTenderRequirement
+                setter: setSubsequentProcessTenderRequirement
+            xml_list:
+                inline: true
+                entry_name: SubsequentProcessTenderRequirement
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            type: array<Ubl21\CommonAggregateComponents\SubsequentProcessTenderRequirement>

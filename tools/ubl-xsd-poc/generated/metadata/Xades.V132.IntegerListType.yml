@@ -1,0 +1,16 @@
+Ubl21\Xades\V132\IntegerListType:
+    properties:
+        int:
+            expose: true
+            access_type: public_method
+            serialized_name: int
+            xml_element:
+                namespace: 'http://uri.etsi.org/01903/v1.3.2#'
+            accessor:
+                getter: getInt
+                setter: setInt
+            xml_list:
+                inline: true
+                entry_name: int
+                namespace: 'http://uri.etsi.org/01903/v1.3.2#'
+            type: array<int>

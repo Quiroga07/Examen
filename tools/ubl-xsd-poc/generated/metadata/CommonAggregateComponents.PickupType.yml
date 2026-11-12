@@ -1,0 +1,92 @@
+Ubl21\CommonAggregateComponents\PickupType:
+    properties:
+        iD:
+            expose: true
+            access_type: public_method
+            serialized_name: ID
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getID
+                setter: setID
+            type: Ubl21\CommonBasicComponents\ID
+        actualPickupDate:
+            expose: true
+            access_type: public_method
+            serialized_name: ActualPickupDate
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getActualPickupDate
+                setter: setActualPickupDate
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\Date
+        actualPickupTime:
+            expose: true
+            access_type: public_method
+            serialized_name: ActualPickupTime
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getActualPickupTime
+                setter: setActualPickupTime
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\Time
+        earliestPickupDate:
+            expose: true
+            access_type: public_method
+            serialized_name: EarliestPickupDate
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getEarliestPickupDate
+                setter: setEarliestPickupDate
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\Date
+        earliestPickupTime:
+            expose: true
+            access_type: public_method
+            serialized_name: EarliestPickupTime
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getEarliestPickupTime
+                setter: setEarliestPickupTime
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\Time
+        latestPickupDate:
+            expose: true
+            access_type: public_method
+            serialized_name: LatestPickupDate
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getLatestPickupDate
+                setter: setLatestPickupDate
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\Date
+        latestPickupTime:
+            expose: true
+            access_type: public_method
+            serialized_name: LatestPickupTime
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getLatestPickupTime
+                setter: setLatestPickupTime
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\Time
+        pickupLocation:
+            expose: true
+            access_type: public_method
+            serialized_name: PickupLocation
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getPickupLocation
+                setter: setPickupLocation
+            type: Ubl21\CommonAggregateComponents\PickupLocation
+        pickupParty:
+            expose: true
+            access_type: public_method
+            serialized_name: PickupParty
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getPickupParty
+                setter: setPickupParty
+            type: Ubl21\CommonAggregateComponents\PickupParty

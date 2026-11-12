@@ -1,0 +1,116 @@
+Ubl21\CommonAggregateComponents\ExternalReferenceType:
+    properties:
+        uRI:
+            expose: true
+            access_type: public_method
+            serialized_name: URI
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getURI
+                setter: setURI
+            type: Ubl21\CommonBasicComponents\URI
+        documentHash:
+            expose: true
+            access_type: public_method
+            serialized_name: DocumentHash
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getDocumentHash
+                setter: setDocumentHash
+            type: Ubl21\CommonBasicComponents\DocumentHash
+        hashAlgorithmMethod:
+            expose: true
+            access_type: public_method
+            serialized_name: HashAlgorithmMethod
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getHashAlgorithmMethod
+                setter: setHashAlgorithmMethod
+            type: Ubl21\CommonBasicComponents\HashAlgorithmMethod
+        expiryDate:
+            expose: true
+            access_type: public_method
+            serialized_name: ExpiryDate
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getExpiryDate
+                setter: setExpiryDate
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\Date
+        expiryTime:
+            expose: true
+            access_type: public_method
+            serialized_name: ExpiryTime
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getExpiryTime
+                setter: setExpiryTime
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\Time
+        mimeCode:
+            expose: true
+            access_type: public_method
+            serialized_name: MimeCode
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getMimeCode
+                setter: setMimeCode
+            type: Ubl21\CommonBasicComponents\MimeCode
+        formatCode:
+            expose: true
+            access_type: public_method
+            serialized_name: FormatCode
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getFormatCode
+                setter: setFormatCode
+            type: Ubl21\CommonBasicComponents\FormatCode
+        encodingCode:
+            expose: true
+            access_type: public_method
+            serialized_name: EncodingCode
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getEncodingCode
+                setter: setEncodingCode
+            type: Ubl21\CommonBasicComponents\EncodingCode
+        characterSetCode:
+            expose: true
+            access_type: public_method
+            serialized_name: CharacterSetCode
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getCharacterSetCode
+                setter: setCharacterSetCode
+            type: Ubl21\CommonBasicComponents\CharacterSetCode
+        fileName:
+            expose: true
+            access_type: public_method
+            serialized_name: FileName
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getFileName
+                setter: setFileName
+            type: Ubl21\CommonBasicComponents\FileName
+        description:
+            expose: true
+            access_type: public_method
+            serialized_name: Description
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getDescription
+                setter: setDescription
+            xml_list:
+                inline: true
+                entry_name: Description
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            type: array<Ubl21\CommonBasicComponents\Description>

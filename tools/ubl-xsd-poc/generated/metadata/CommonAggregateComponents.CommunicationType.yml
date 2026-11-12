@@ -1,0 +1,32 @@
+Ubl21\CommonAggregateComponents\CommunicationType:
+    properties:
+        channelCode:
+            expose: true
+            access_type: public_method
+            serialized_name: ChannelCode
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getChannelCode
+                setter: setChannelCode
+            type: Ubl21\CommonBasicComponents\ChannelCode
+        channel:
+            expose: true
+            access_type: public_method
+            serialized_name: Channel
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getChannel
+                setter: setChannel
+            type: Ubl21\CommonBasicComponents\Channel
+        value:
+            expose: true
+            access_type: public_method
+            serialized_name: Value
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getValue
+                setter: setValue
+            type: Ubl21\CommonBasicComponents\Value

@@ -1,0 +1,176 @@
+Ubl21\CommonAggregateComponents\PersonType:
+    properties:
+        iD:
+            expose: true
+            access_type: public_method
+            serialized_name: ID
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getID
+                setter: setID
+            type: Ubl21\CommonBasicComponents\ID
+        firstName:
+            expose: true
+            access_type: public_method
+            serialized_name: FirstName
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getFirstName
+                setter: setFirstName
+            type: Ubl21\CommonBasicComponents\FirstName
+        familyName:
+            expose: true
+            access_type: public_method
+            serialized_name: FamilyName
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getFamilyName
+                setter: setFamilyName
+            type: Ubl21\CommonBasicComponents\FamilyName
+        title:
+            expose: true
+            access_type: public_method
+            serialized_name: Title
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getTitle
+                setter: setTitle
+            type: Ubl21\CommonBasicComponents\Title
+        middleName:
+            expose: true
+            access_type: public_method
+            serialized_name: MiddleName
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getMiddleName
+                setter: setMiddleName
+            type: Ubl21\CommonBasicComponents\MiddleName
+        otherName:
+            expose: true
+            access_type: public_method
+            serialized_name: OtherName
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getOtherName
+                setter: setOtherName
+            type: Ubl21\CommonBasicComponents\OtherName
+        nameSuffix:
+            expose: true
+            access_type: public_method
+            serialized_name: NameSuffix
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getNameSuffix
+                setter: setNameSuffix
+            type: Ubl21\CommonBasicComponents\NameSuffix
+        jobTitle:
+            expose: true
+            access_type: public_method
+            serialized_name: JobTitle
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getJobTitle
+                setter: setJobTitle
+            type: Ubl21\CommonBasicComponents\JobTitle
+        nationalityID:
+            expose: true
+            access_type: public_method
+            serialized_name: NationalityID
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getNationalityID
+                setter: setNationalityID
+            type: Ubl21\CommonBasicComponents\NationalityID
+        genderCode:
+            expose: true
+            access_type: public_method
+            serialized_name: GenderCode
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getGenderCode
+                setter: setGenderCode
+            type: Ubl21\CommonBasicComponents\GenderCode
+        birthDate:
+            expose: true
+            access_type: public_method
+            serialized_name: BirthDate
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getBirthDate
+                setter: setBirthDate
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\Date
+        birthplaceName:
+            expose: true
+            access_type: public_method
+            serialized_name: BirthplaceName
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getBirthplaceName
+                setter: setBirthplaceName
+            type: Ubl21\CommonBasicComponents\BirthplaceName
+        organizationDepartment:
+            expose: true
+            access_type: public_method
+            serialized_name: OrganizationDepartment
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getOrganizationDepartment
+                setter: setOrganizationDepartment
+            type: Ubl21\CommonBasicComponents\OrganizationDepartment
+        contact:
+            expose: true
+            access_type: public_method
+            serialized_name: Contact
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getContact
+                setter: setContact
+            type: Ubl21\CommonAggregateComponents\Contact
+        financialAccount:
+            expose: true
+            access_type: public_method
+            serialized_name: FinancialAccount
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getFinancialAccount
+                setter: setFinancialAccount
+            type: Ubl21\CommonAggregateComponents\FinancialAccount
+        identityDocumentReference:
+            expose: true
+            access_type: public_method
+            serialized_name: IdentityDocumentReference
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getIdentityDocumentReference
+                setter: setIdentityDocumentReference
+            xml_list:
+                inline: true
+                entry_name: IdentityDocumentReference
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            type: array<Ubl21\CommonAggregateComponents\IdentityDocumentReference>
+        residenceAddress:
+            expose: true
+            access_type: public_method
+            serialized_name: ResidenceAddress
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getResidenceAddress
+                setter: setResidenceAddress
+            type: Ubl21\CommonAggregateComponents\ResidenceAddress

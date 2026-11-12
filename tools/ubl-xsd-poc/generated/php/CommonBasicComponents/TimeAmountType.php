@@ -1,0 +1,16 @@
+<?php
+
+namespace Ubl21\CommonBasicComponents;
+
+use Ubl21\UnqualifiedDataTypes\TextType;
+
+/**
+ * Class representing TimeAmountType
+ *
+ *
+ * XSD Type: TimeAmountType
+ */
+class TimeAmountType extends TextType
+{
+}
+

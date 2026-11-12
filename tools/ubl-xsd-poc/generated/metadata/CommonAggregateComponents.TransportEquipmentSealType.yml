@@ -1,0 +1,52 @@
+Ubl21\CommonAggregateComponents\TransportEquipmentSealType:
+    properties:
+        iD:
+            expose: true
+            access_type: public_method
+            serialized_name: ID
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getID
+                setter: setID
+            type: Ubl21\CommonBasicComponents\ID
+        sealIssuerTypeCode:
+            expose: true
+            access_type: public_method
+            serialized_name: SealIssuerTypeCode
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getSealIssuerTypeCode
+                setter: setSealIssuerTypeCode
+            type: Ubl21\CommonBasicComponents\SealIssuerTypeCode
+        condition:
+            expose: true
+            access_type: public_method
+            serialized_name: Condition
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getCondition
+                setter: setCondition
+            type: Ubl21\CommonBasicComponents\Condition
+        sealStatusCode:
+            expose: true
+            access_type: public_method
+            serialized_name: SealStatusCode
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getSealStatusCode
+                setter: setSealStatusCode
+            type: Ubl21\CommonBasicComponents\SealStatusCode
+        sealingPartyType:
+            expose: true
+            access_type: public_method
+            serialized_name: SealingPartyType
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getSealingPartyType
+                setter: setSealingPartyType
+            type: Ubl21\CommonBasicComponents\SealingPartyType

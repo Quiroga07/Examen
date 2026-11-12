@@ -1,0 +1,126 @@
+Ubl21\CommonAggregateComponents\TransportScheduleType:
+    properties:
+        sequenceNumeric:
+            expose: true
+            access_type: public_method
+            serialized_name: SequenceNumeric
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getSequenceNumeric
+                setter: setSequenceNumeric
+            type: Ubl21\CommonBasicComponents\SequenceNumeric
+        referenceDate:
+            expose: true
+            access_type: public_method
+            serialized_name: ReferenceDate
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getReferenceDate
+                setter: setReferenceDate
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\Date
+        referenceTime:
+            expose: true
+            access_type: public_method
+            serialized_name: ReferenceTime
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getReferenceTime
+                setter: setReferenceTime
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\Time
+        reliabilityPercent:
+            expose: true
+            access_type: public_method
+            serialized_name: ReliabilityPercent
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getReliabilityPercent
+                setter: setReliabilityPercent
+            type: Ubl21\CommonBasicComponents\ReliabilityPercent
+        remarks:
+            expose: true
+            access_type: public_method
+            serialized_name: Remarks
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getRemarks
+                setter: setRemarks
+            xml_list:
+                inline: true
+                entry_name: Remarks
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            type: array<Ubl21\CommonBasicComponents\Remarks>
+        statusLocation:
+            expose: true
+            access_type: public_method
+            serialized_name: StatusLocation
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getStatusLocation
+                setter: setStatusLocation
+            type: Ubl21\CommonAggregateComponents\StatusLocation
+        actualArrivalTransportEvent:
+            expose: true
+            access_type: public_method
+            serialized_name: ActualArrivalTransportEvent
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getActualArrivalTransportEvent
+                setter: setActualArrivalTransportEvent
+            type: Ubl21\CommonAggregateComponents\ActualArrivalTransportEvent
+        actualDepartureTransportEvent:
+            expose: true
+            access_type: public_method
+            serialized_name: ActualDepartureTransportEvent
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getActualDepartureTransportEvent
+                setter: setActualDepartureTransportEvent
+            type: Ubl21\CommonAggregateComponents\ActualDepartureTransportEvent
+        estimatedDepartureTransportEvent:
+            expose: true
+            access_type: public_method
+            serialized_name: EstimatedDepartureTransportEvent
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getEstimatedDepartureTransportEvent
+                setter: setEstimatedDepartureTransportEvent
+            type: Ubl21\CommonAggregateComponents\EstimatedDepartureTransportEvent
+        estimatedArrivalTransportEvent:
+            expose: true
+            access_type: public_method
+            serialized_name: EstimatedArrivalTransportEvent
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getEstimatedArrivalTransportEvent
+                setter: setEstimatedArrivalTransportEvent
+            type: Ubl21\CommonAggregateComponents\EstimatedArrivalTransportEvent
+        plannedDepartureTransportEvent:
+            expose: true
+            access_type: public_method
+            serialized_name: PlannedDepartureTransportEvent
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getPlannedDepartureTransportEvent
+                setter: setPlannedDepartureTransportEvent
+            type: Ubl21\CommonAggregateComponents\PlannedDepartureTransportEvent
+        plannedArrivalTransportEvent:
+            expose: true
+            access_type: public_method
+            serialized_name: PlannedArrivalTransportEvent
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getPlannedArrivalTransportEvent
+                setter: setPlannedArrivalTransportEvent
+            type: Ubl21\CommonAggregateComponents\PlannedArrivalTransportEvent

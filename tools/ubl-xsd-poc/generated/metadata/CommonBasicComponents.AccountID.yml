@@ -1,0 +1,3 @@
+Ubl21\CommonBasicComponents\AccountID:
+    xml_root_name: AccountID
+    xml_root_namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'

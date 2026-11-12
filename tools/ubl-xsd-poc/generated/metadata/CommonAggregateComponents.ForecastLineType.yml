@@ -1,0 +1,66 @@
+Ubl21\CommonAggregateComponents\ForecastLineType:
+    properties:
+        iD:
+            expose: true
+            access_type: public_method
+            serialized_name: ID
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getID
+                setter: setID
+            type: Ubl21\CommonBasicComponents\ID
+        note:
+            expose: true
+            access_type: public_method
+            serialized_name: Note
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getNote
+                setter: setNote
+            xml_list:
+                inline: true
+                entry_name: Note
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            type: array<Ubl21\CommonBasicComponents\Note>
+        frozenDocumentIndicator:
+            expose: true
+            access_type: public_method
+            serialized_name: FrozenDocumentIndicator
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getFrozenDocumentIndicator
+                setter: setFrozenDocumentIndicator
+            type: bool
+        forecastTypeCode:
+            expose: true
+            access_type: public_method
+            serialized_name: ForecastTypeCode
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getForecastTypeCode
+                setter: setForecastTypeCode
+            type: Ubl21\CommonBasicComponents\ForecastTypeCode
+        forecastPeriod:
+            expose: true
+            access_type: public_method
+            serialized_name: ForecastPeriod
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getForecastPeriod
+                setter: setForecastPeriod
+            type: Ubl21\CommonAggregateComponents\ForecastPeriod
+        salesItem:
+            expose: true
+            access_type: public_method
+            serialized_name: SalesItem
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getSalesItem
+                setter: setSalesItem
+            type: Ubl21\CommonAggregateComponents\SalesItem

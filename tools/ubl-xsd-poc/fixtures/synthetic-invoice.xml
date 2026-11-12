@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2">
+  <ns-e4c2ceaa:ID xmlns:ns-e4c2ceaa="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2"><![CDATA[TEST-INV-0001]]></ns-e4c2ceaa:ID>
+  <ns-e4c2ceaa:IssueDate xmlns:ns-e4c2ceaa="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">2026-01-15</ns-e4c2ceaa:IssueDate>
+  <ns-e4c2ceaa:InvoiceTypeCode xmlns:ns-e4c2ceaa="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2"><![CDATA[01]]></ns-e4c2ceaa:InvoiceTypeCode>
+  <ns-e4c2ceaa:DocumentCurrencyCode xmlns:ns-e4c2ceaa="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2"><![CDATA[PEN]]></ns-e4c2ceaa:DocumentCurrencyCode>
+  <ns-716b5bb3:AccountingSupplierParty xmlns:ns-716b5bb3="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2">
+    <ns-716b5bb3:Party>
+      <ns-716b5bb3:PartyIdentification>
+        <ns-e4c2ceaa:ID xmlns:ns-e4c2ceaa="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2"><![CDATA[SYNTHETIC-ISSUER-001]]></ns-e4c2ceaa:ID>
+      </ns-716b5bb3:PartyIdentification>
+      <ns-716b5bb3:PartyName>
+        <ns-e4c2ceaa:Name xmlns:ns-e4c2ceaa="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2"><![CDATA[SYNTHETIC ISSUER (NOT REAL)]]></ns-e4c2ceaa:Name>
+      </ns-716b5bb3:PartyName>
+      <ns-716b5bb3:PartyLegalEntity>
+        <ns-e4c2ceaa:RegistrationName xmlns:ns-e4c2ceaa="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2"><![CDATA[SYNTHETIC ISSUER (NOT REAL)]]></ns-e4c2ceaa:RegistrationName>
+      </ns-716b5bb3:PartyLegalEntity>
+    </ns-716b5bb3:Party>
+  </ns-716b5bb3:AccountingSupplierParty>
+  <ns-716b5bb3:AccountingCustomerParty xmlns:ns-716b5bb3="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2">
+    <ns-716b5bb3:Party>
+      <ns-716b5bb3:PartyIdentification>
+        <ns-e4c2ceaa:ID xmlns:ns-e4c2ceaa="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2" schemeID="6"><![CDATA[SYNTHETIC-CUSTOMER-001]]></ns-e4c2ceaa:ID>
+      </ns-716b5bb3:PartyIdentification>
+      <ns-716b5bb3:PartyName>
+        <ns-e4c2ceaa:Name xmlns:ns-e4c2ceaa="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2"><![CDATA[SYNTHETIC CUSTOMER (NOT REAL)]]></ns-e4c2ceaa:Name>
+      </ns-716b5bb3:PartyName>
+      <ns-716b5bb3:PartyLegalEntity>
+        <ns-e4c2ceaa:RegistrationName xmlns:ns-e4c2ceaa="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2"><![CDATA[SYNTHETIC CUSTOMER (NOT REAL)]]></ns-e4c2ceaa:RegistrationName>
+      </ns-716b5bb3:PartyLegalEntity>
+    </ns-716b5bb3:Party>
+  </ns-716b5bb3:AccountingCustomerParty>
+  <ns-716b5bb3:TaxTotal xmlns:ns-716b5bb3="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2">
+    <ns-e4c2ceaa:TaxAmount xmlns:ns-e4c2ceaa="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2" currencyID="PEN">4.5</ns-e4c2ceaa:TaxAmount>
+    <ns-716b5bb3:TaxSubtotal>
+      <ns-e4c2ceaa:TaxableAmount xmlns:ns-e4c2ceaa="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2" currencyID="PEN">25.0</ns-e4c2ceaa:TaxableAmount>
+      <ns-e4c2ceaa:TaxAmount xmlns:ns-e4c2ceaa="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2" currencyID="PEN">4.5</ns-e4c2ceaa:TaxAmount>
+      <ns-716b5bb3:TaxCategory>
+        <ns-e4c2ceaa:ID xmlns:ns-e4c2ceaa="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2"><![CDATA[TEST-CATEGORY]]></ns-e4c2ceaa:ID>
+        <ns-716b5bb3:TaxScheme>
+          <ns-e4c2ceaa:ID xmlns:ns-e4c2ceaa="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2"><![CDATA[TEST-TAX-SCHEME]]></ns-e4c2ceaa:ID>
+        </ns-716b5bb3:TaxScheme>
+      </ns-716b5bb3:TaxCategory>
+    </ns-716b5bb3:TaxSubtotal>
+  </ns-716b5bb3:TaxTotal>
+  <ns-716b5bb3:LegalMonetaryTotal xmlns:ns-716b5bb3="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2">
+    <ns-e4c2ceaa:LineExtensionAmount xmlns:ns-e4c2ceaa="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2" currencyID="PEN">25.0</ns-e4c2ceaa:LineExtensionAmount>
+    <ns-e4c2ceaa:TaxExclusiveAmount xmlns:ns-e4c2ceaa="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2" currencyID="PEN">25.0</ns-e4c2ceaa:TaxExclusiveAmount>
+    <ns-e4c2ceaa:TaxInclusiveAmount xmlns:ns-e4c2ceaa="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2" currencyID="PEN">29.5</ns-e4c2ceaa:TaxInclusiveAmount>
+    <ns-e4c2ceaa:PayableAmount xmlns:ns-e4c2ceaa="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2" currencyID="PEN">29.5</ns-e4c2ceaa:PayableAmount>
+  </ns-716b5bb3:LegalMonetaryTotal>
+  <ns-716b5bb3:InvoiceLine xmlns:ns-716b5bb3="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2">
+    <ns-e4c2ceaa:ID xmlns:ns-e4c2ceaa="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2"><![CDATA[1]]></ns-e4c2ceaa:ID>
+    <ns-e4c2ceaa:InvoicedQuantity xmlns:ns-e4c2ceaa="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2" unitCode="NIU">2.0</ns-e4c2ceaa:InvoicedQuantity>
+    <ns-e4c2ceaa:LineExtensionAmount xmlns:ns-e4c2ceaa="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2" currencyID="PEN">25.0</ns-e4c2ceaa:LineExtensionAmount>
+    <ns-716b5bb3:TaxTotal>
+      <ns-e4c2ceaa:TaxAmount xmlns:ns-e4c2ceaa="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2" currencyID="PEN">4.5</ns-e4c2ceaa:TaxAmount>
+      <ns-716b5bb3:TaxSubtotal>
+        <ns-e4c2ceaa:TaxableAmount xmlns:ns-e4c2ceaa="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2" currencyID="PEN">25.0</ns-e4c2ceaa:TaxableAmount>
+        <ns-e4c2ceaa:TaxAmount xmlns:ns-e4c2ceaa="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2" currencyID="PEN">4.5</ns-e4c2ceaa:TaxAmount>
+        <ns-716b5bb3:TaxCategory>
+          <ns-e4c2ceaa:ID xmlns:ns-e4c2ceaa="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2"><![CDATA[TEST-CATEGORY]]></ns-e4c2ceaa:ID>
+          <ns-716b5bb3:TaxScheme>
+            <ns-e4c2ceaa:ID xmlns:ns-e4c2ceaa="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2"><![CDATA[TEST-TAX-SCHEME]]></ns-e4c2ceaa:ID>
+          </ns-716b5bb3:TaxScheme>
+        </ns-716b5bb3:TaxCategory>
+      </ns-716b5bb3:TaxSubtotal>
+    </ns-716b5bb3:TaxTotal>
+    <ns-716b5bb3:Item>
+      <ns-e4c2ceaa:Description xmlns:ns-e4c2ceaa="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2"><![CDATA[Synthetic item & < >]]></ns-e4c2ceaa:Description>
+      <ns-e4c2ceaa:Name xmlns:ns-e4c2ceaa="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2"><![CDATA[TEST-PRODUCT-001]]></ns-e4c2ceaa:Name>
+    </ns-716b5bb3:Item>
+    <ns-716b5bb3:Price>
+      <ns-e4c2ceaa:PriceAmount xmlns:ns-e4c2ceaa="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2" currencyID="PEN">12.5</ns-e4c2ceaa:PriceAmount>
+    </ns-716b5bb3:Price>
+  </ns-716b5bb3:InvoiceLine>
+</Invoice>

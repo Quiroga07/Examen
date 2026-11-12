@@ -1,0 +1,46 @@
+Ubl21\CommonAggregateComponents\PriceListType:
+    properties:
+        iD:
+            expose: true
+            access_type: public_method
+            serialized_name: ID
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getID
+                setter: setID
+            type: Ubl21\CommonBasicComponents\ID
+        statusCode:
+            expose: true
+            access_type: public_method
+            serialized_name: StatusCode
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getStatusCode
+                setter: setStatusCode
+            type: Ubl21\CommonBasicComponents\StatusCode
+        validityPeriod:
+            expose: true
+            access_type: public_method
+            serialized_name: ValidityPeriod
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getValidityPeriod
+                setter: setValidityPeriod
+            xml_list:
+                inline: true
+                entry_name: ValidityPeriod
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            type: array<Ubl21\CommonAggregateComponents\ValidityPeriod>
+        previousPriceList:
+            expose: true
+            access_type: public_method
+            serialized_name: PreviousPriceList
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getPreviousPriceList
+                setter: setPreviousPriceList
+            type: Ubl21\CommonAggregateComponents\PreviousPriceList

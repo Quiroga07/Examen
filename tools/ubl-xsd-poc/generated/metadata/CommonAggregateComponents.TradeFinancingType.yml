@@ -1,0 +1,80 @@
+Ubl21\CommonAggregateComponents\TradeFinancingType:
+    properties:
+        iD:
+            expose: true
+            access_type: public_method
+            serialized_name: ID
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getID
+                setter: setID
+            type: Ubl21\CommonBasicComponents\ID
+        financingInstrumentCode:
+            expose: true
+            access_type: public_method
+            serialized_name: FinancingInstrumentCode
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getFinancingInstrumentCode
+                setter: setFinancingInstrumentCode
+            type: Ubl21\CommonBasicComponents\FinancingInstrumentCode
+        contractDocumentReference:
+            expose: true
+            access_type: public_method
+            serialized_name: ContractDocumentReference
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getContractDocumentReference
+                setter: setContractDocumentReference
+            type: Ubl21\CommonAggregateComponents\ContractDocumentReference
+        documentReference:
+            expose: true
+            access_type: public_method
+            serialized_name: DocumentReference
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getDocumentReference
+                setter: setDocumentReference
+            xml_list:
+                inline: true
+                entry_name: DocumentReference
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            type: array<Ubl21\CommonAggregateComponents\DocumentReference>
+        financingParty:
+            expose: true
+            access_type: public_method
+            serialized_name: FinancingParty
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getFinancingParty
+                setter: setFinancingParty
+            type: Ubl21\CommonAggregateComponents\FinancingParty
+        financingFinancialAccount:
+            expose: true
+            access_type: public_method
+            serialized_name: FinancingFinancialAccount
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getFinancingFinancialAccount
+                setter: setFinancingFinancialAccount
+            type: Ubl21\CommonAggregateComponents\FinancingFinancialAccount
+        clause:
+            expose: true
+            access_type: public_method
+            serialized_name: Clause
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getClause
+                setter: setClause
+            xml_list:
+                inline: true
+                entry_name: Clause
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            type: array<Ubl21\CommonAggregateComponents\Clause>

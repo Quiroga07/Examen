@@ -1,0 +1,146 @@
+Ubl21\CommonAggregateComponents\PartyLegalEntityType:
+    properties:
+        registrationName:
+            expose: true
+            access_type: public_method
+            serialized_name: RegistrationName
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getRegistrationName
+                setter: setRegistrationName
+            type: Ubl21\CommonBasicComponents\RegistrationName
+        companyID:
+            expose: true
+            access_type: public_method
+            serialized_name: CompanyID
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getCompanyID
+                setter: setCompanyID
+            type: Ubl21\CommonBasicComponents\CompanyID
+        registrationDate:
+            expose: true
+            access_type: public_method
+            serialized_name: RegistrationDate
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getRegistrationDate
+                setter: setRegistrationDate
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\Date
+        registrationExpirationDate:
+            expose: true
+            access_type: public_method
+            serialized_name: RegistrationExpirationDate
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getRegistrationExpirationDate
+                setter: setRegistrationExpirationDate
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\Date
+        companyLegalFormCode:
+            expose: true
+            access_type: public_method
+            serialized_name: CompanyLegalFormCode
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getCompanyLegalFormCode
+                setter: setCompanyLegalFormCode
+            type: Ubl21\CommonBasicComponents\CompanyLegalFormCode
+        companyLegalForm:
+            expose: true
+            access_type: public_method
+            serialized_name: CompanyLegalForm
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getCompanyLegalForm
+                setter: setCompanyLegalForm
+            type: Ubl21\CommonBasicComponents\CompanyLegalForm
+        soleProprietorshipIndicator:
+            expose: true
+            access_type: public_method
+            serialized_name: SoleProprietorshipIndicator
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getSoleProprietorshipIndicator
+                setter: setSoleProprietorshipIndicator
+            type: bool
+        companyLiquidationStatusCode:
+            expose: true
+            access_type: public_method
+            serialized_name: CompanyLiquidationStatusCode
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getCompanyLiquidationStatusCode
+                setter: setCompanyLiquidationStatusCode
+            type: Ubl21\CommonBasicComponents\CompanyLiquidationStatusCode
+        corporateStockAmount:
+            expose: true
+            access_type: public_method
+            serialized_name: CorporateStockAmount
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getCorporateStockAmount
+                setter: setCorporateStockAmount
+            type: Ubl21\CommonBasicComponents\CorporateStockAmount
+        fullyPaidSharesIndicator:
+            expose: true
+            access_type: public_method
+            serialized_name: FullyPaidSharesIndicator
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getFullyPaidSharesIndicator
+                setter: setFullyPaidSharesIndicator
+            type: bool
+        registrationAddress:
+            expose: true
+            access_type: public_method
+            serialized_name: RegistrationAddress
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getRegistrationAddress
+                setter: setRegistrationAddress
+            type: Ubl21\CommonAggregateComponents\RegistrationAddress
+        corporateRegistrationScheme:
+            expose: true
+            access_type: public_method
+            serialized_name: CorporateRegistrationScheme
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getCorporateRegistrationScheme
+                setter: setCorporateRegistrationScheme
+            type: Ubl21\CommonAggregateComponents\CorporateRegistrationScheme
+        headOfficeParty:
+            expose: true
+            access_type: public_method
+            serialized_name: HeadOfficeParty
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getHeadOfficeParty
+                setter: setHeadOfficeParty
+            type: Ubl21\CommonAggregateComponents\HeadOfficeParty
+        shareholderParty:
+            expose: true
+            access_type: public_method
+            serialized_name: ShareholderParty
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getShareholderParty
+                setter: setShareholderParty
+            xml_list:
+                inline: true
+                entry_name: ShareholderParty
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            type: array<Ubl21\CommonAggregateComponents\ShareholderParty>

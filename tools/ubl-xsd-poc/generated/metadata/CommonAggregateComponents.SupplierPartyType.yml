@@ -1,0 +1,76 @@
+Ubl21\CommonAggregateComponents\SupplierPartyType:
+    properties:
+        customerAssignedAccountID:
+            expose: true
+            access_type: public_method
+            serialized_name: CustomerAssignedAccountID
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getCustomerAssignedAccountID
+                setter: setCustomerAssignedAccountID
+            type: Ubl21\CommonBasicComponents\CustomerAssignedAccountID
+        additionalAccountID:
+            expose: true
+            access_type: public_method
+            serialized_name: AdditionalAccountID
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getAdditionalAccountID
+                setter: setAdditionalAccountID
+            xml_list:
+                inline: true
+                entry_name: AdditionalAccountID
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            type: array<Ubl21\CommonBasicComponents\AdditionalAccountID>
+        dataSendingCapability:
+            expose: true
+            access_type: public_method
+            serialized_name: DataSendingCapability
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getDataSendingCapability
+                setter: setDataSendingCapability
+            type: Ubl21\CommonBasicComponents\DataSendingCapability
+        party:
+            expose: true
+            access_type: public_method
+            serialized_name: Party
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getParty
+                setter: setParty
+            type: Ubl21\CommonAggregateComponents\Party
+        despatchContact:
+            expose: true
+            access_type: public_method
+            serialized_name: DespatchContact
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getDespatchContact
+                setter: setDespatchContact
+            type: Ubl21\CommonAggregateComponents\DespatchContact
+        accountingContact:
+            expose: true
+            access_type: public_method
+            serialized_name: AccountingContact
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getAccountingContact
+                setter: setAccountingContact
+            type: Ubl21\CommonAggregateComponents\AccountingContact
+        sellerContact:
+            expose: true
+            access_type: public_method
+            serialized_name: SellerContact
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getSellerContact
+                setter: setSellerContact
+            type: Ubl21\CommonAggregateComponents\SellerContact

@@ -1,0 +1,106 @@
+Ubl21\CommonAggregateComponents\TaxCategoryType:
+    properties:
+        iD:
+            expose: true
+            access_type: public_method
+            serialized_name: ID
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getID
+                setter: setID
+            type: Ubl21\CommonBasicComponents\ID
+        name:
+            expose: true
+            access_type: public_method
+            serialized_name: Name
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getName
+                setter: setName
+            type: Ubl21\CommonBasicComponents\Name
+        percent:
+            expose: true
+            access_type: public_method
+            serialized_name: Percent
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getPercent
+                setter: setPercent
+            type: Ubl21\CommonBasicComponents\Percent
+        baseUnitMeasure:
+            expose: true
+            access_type: public_method
+            serialized_name: BaseUnitMeasure
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getBaseUnitMeasure
+                setter: setBaseUnitMeasure
+            type: Ubl21\CommonBasicComponents\BaseUnitMeasure
+        perUnitAmount:
+            expose: true
+            access_type: public_method
+            serialized_name: PerUnitAmount
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getPerUnitAmount
+                setter: setPerUnitAmount
+            type: Ubl21\CommonBasicComponents\PerUnitAmount
+        taxExemptionReasonCode:
+            expose: true
+            access_type: public_method
+            serialized_name: TaxExemptionReasonCode
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getTaxExemptionReasonCode
+                setter: setTaxExemptionReasonCode
+            type: Ubl21\CommonBasicComponents\TaxExemptionReasonCode
+        taxExemptionReason:
+            expose: true
+            access_type: public_method
+            serialized_name: TaxExemptionReason
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getTaxExemptionReason
+                setter: setTaxExemptionReason
+            xml_list:
+                inline: true
+                entry_name: TaxExemptionReason
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            type: array<Ubl21\CommonBasicComponents\TaxExemptionReason>
+        tierRange:
+            expose: true
+            access_type: public_method
+            serialized_name: TierRange
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getTierRange
+                setter: setTierRange
+            type: Ubl21\CommonBasicComponents\TierRange
+        tierRatePercent:
+            expose: true
+            access_type: public_method
+            serialized_name: TierRatePercent
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getTierRatePercent
+                setter: setTierRatePercent
+            type: Ubl21\CommonBasicComponents\TierRatePercent
+        taxScheme:
+            expose: true
+            access_type: public_method
+            serialized_name: TaxScheme
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getTaxScheme
+                setter: setTaxScheme
+            type: Ubl21\CommonAggregateComponents\TaxScheme

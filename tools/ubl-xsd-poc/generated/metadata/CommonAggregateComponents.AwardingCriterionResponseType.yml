@@ -1,0 +1,84 @@
+Ubl21\CommonAggregateComponents\AwardingCriterionResponseType:
+    properties:
+        iD:
+            expose: true
+            access_type: public_method
+            serialized_name: ID
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getID
+                setter: setID
+            type: Ubl21\CommonBasicComponents\ID
+        awardingCriterionID:
+            expose: true
+            access_type: public_method
+            serialized_name: AwardingCriterionID
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getAwardingCriterionID
+                setter: setAwardingCriterionID
+            type: Ubl21\CommonBasicComponents\AwardingCriterionID
+        awardingCriterionDescription:
+            expose: true
+            access_type: public_method
+            serialized_name: AwardingCriterionDescription
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getAwardingCriterionDescription
+                setter: setAwardingCriterionDescription
+            xml_list:
+                inline: true
+                entry_name: AwardingCriterionDescription
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            type: array<Ubl21\CommonBasicComponents\AwardingCriterionDescription>
+        description:
+            expose: true
+            access_type: public_method
+            serialized_name: Description
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getDescription
+                setter: setDescription
+            xml_list:
+                inline: true
+                entry_name: Description
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            type: array<Ubl21\CommonBasicComponents\Description>
+        quantity:
+            expose: true
+            access_type: public_method
+            serialized_name: Quantity
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getQuantity
+                setter: setQuantity
+            type: Ubl21\CommonBasicComponents\Quantity
+        amount:
+            expose: true
+            access_type: public_method
+            serialized_name: Amount
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getAmount
+                setter: setAmount
+            type: Ubl21\CommonBasicComponents\Amount
+        subordinateAwardingCriterionResponse:
+            expose: true
+            access_type: public_method
+            serialized_name: SubordinateAwardingCriterionResponse
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getSubordinateAwardingCriterionResponse
+                setter: setSubordinateAwardingCriterionResponse
+            xml_list:
+                inline: true
+                entry_name: SubordinateAwardingCriterionResponse
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            type: array<Ubl21\CommonAggregateComponents\SubordinateAwardingCriterionResponse>

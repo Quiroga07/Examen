@@ -1,0 +1,54 @@
+Ubl21\CommonAggregateComponents\DeclarationType:
+    properties:
+        name:
+            expose: true
+            access_type: public_method
+            serialized_name: Name
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getName
+                setter: setName
+            xml_list:
+                inline: true
+                entry_name: Name
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            type: array<Ubl21\CommonBasicComponents\Name>
+        declarationTypeCode:
+            expose: true
+            access_type: public_method
+            serialized_name: DeclarationTypeCode
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getDeclarationTypeCode
+                setter: setDeclarationTypeCode
+            type: Ubl21\CommonBasicComponents\DeclarationTypeCode
+        description:
+            expose: true
+            access_type: public_method
+            serialized_name: Description
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getDescription
+                setter: setDescription
+            xml_list:
+                inline: true
+                entry_name: Description
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            type: array<Ubl21\CommonBasicComponents\Description>
+        evidenceSupplied:
+            expose: true
+            access_type: public_method
+            serialized_name: EvidenceSupplied
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getEvidenceSupplied
+                setter: setEvidenceSupplied
+            xml_list:
+                inline: true
+                entry_name: EvidenceSupplied
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            type: array<Ubl21\CommonAggregateComponents\EvidenceSupplied>

@@ -1,0 +1,3 @@
+Ubl21\CommonBasicComponents\LocaleCode:
+    xml_root_name: LocaleCode
+    xml_root_namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'

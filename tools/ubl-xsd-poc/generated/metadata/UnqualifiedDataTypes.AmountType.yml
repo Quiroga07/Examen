@@ -1,0 +1,11 @@
+Ubl21\UnqualifiedDataTypes\AmountType:
+    properties:
+        currencyID:
+            expose: true
+            access_type: public_method
+            serialized_name: currencyID
+            accessor:
+                getter: getCurrencyID
+                setter: setCurrencyID
+            xml_attribute: true
+            type: string

@@ -1,0 +1,21 @@
+xsd2php:
+  namespaces:
+    'urn:oasis:names:specification:ubl:schema:xsd:Invoice-2': 'Ubl21\Invoice'
+    'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2': 'Ubl21\CommonAggregateComponents'
+    'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2': 'Ubl21\CommonBasicComponents'
+    'urn:oasis:names:specification:ubl:schema:xsd:CommonExtensionComponents-2': 'Ubl21\CommonExtensionComponents'
+    'urn:oasis:names:specification:ubl:schema:xsd:CommonSignatureComponents-2': 'Ubl21\CommonSignatureComponents'
+    'urn:oasis:names:specification:ubl:schema:xsd:SignatureAggregateComponents-2': 'Ubl21\SignatureAggregateComponents'
+    'urn:oasis:names:specification:ubl:schema:xsd:SignatureBasicComponents-2': 'Ubl21\SignatureBasicComponents'
+    'urn:oasis:names:specification:ubl:schema:xsd:QualifiedDataTypes-2': 'Ubl21\QualifiedDataTypes'
+    'urn:oasis:names:specification:ubl:schema:xsd:UnqualifiedDataTypes-2': 'Ubl21\UnqualifiedDataTypes'
+    'urn:un:unece:uncefact:data:specification:CoreComponentTypeSchemaModule:2': 'Ubl21\CoreComponentTypeSchemaModule'
+    'http://www.w3.org/2000/09/xmldsig#': 'Ubl21\XmlDsig'
+    'http://uri.etsi.org/01903/v1.3.2#': 'Ubl21\Xades\V132'
+    'http://uri.etsi.org/01903/v1.4.1#': 'Ubl21\Xades\V141'
+  destinations_php:
+    'Ubl21': 'generated/php'
+  destinations_jms:
+    'Ubl21': 'generated/metadata'
+  naming_strategy: short
+  path_generator: psr4

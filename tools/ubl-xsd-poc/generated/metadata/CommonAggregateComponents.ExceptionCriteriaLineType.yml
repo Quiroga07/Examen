@@ -1,0 +1,130 @@
+Ubl21\CommonAggregateComponents\ExceptionCriteriaLineType:
+    properties:
+        iD:
+            expose: true
+            access_type: public_method
+            serialized_name: ID
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getID
+                setter: setID
+            type: Ubl21\CommonBasicComponents\ID
+        note:
+            expose: true
+            access_type: public_method
+            serialized_name: Note
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getNote
+                setter: setNote
+            xml_list:
+                inline: true
+                entry_name: Note
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            type: array<Ubl21\CommonBasicComponents\Note>
+        thresholdValueComparisonCode:
+            expose: true
+            access_type: public_method
+            serialized_name: ThresholdValueComparisonCode
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getThresholdValueComparisonCode
+                setter: setThresholdValueComparisonCode
+            type: Ubl21\CommonBasicComponents\ThresholdValueComparisonCode
+        thresholdQuantity:
+            expose: true
+            access_type: public_method
+            serialized_name: ThresholdQuantity
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getThresholdQuantity
+                setter: setThresholdQuantity
+            type: Ubl21\CommonBasicComponents\ThresholdQuantity
+        exceptionStatusCode:
+            expose: true
+            access_type: public_method
+            serialized_name: ExceptionStatusCode
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getExceptionStatusCode
+                setter: setExceptionStatusCode
+            type: Ubl21\CommonBasicComponents\ExceptionStatusCode
+        collaborationPriorityCode:
+            expose: true
+            access_type: public_method
+            serialized_name: CollaborationPriorityCode
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getCollaborationPriorityCode
+                setter: setCollaborationPriorityCode
+            type: Ubl21\CommonBasicComponents\CollaborationPriorityCode
+        exceptionResolutionCode:
+            expose: true
+            access_type: public_method
+            serialized_name: ExceptionResolutionCode
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getExceptionResolutionCode
+                setter: setExceptionResolutionCode
+            type: Ubl21\CommonBasicComponents\ExceptionResolutionCode
+        supplyChainActivityTypeCode:
+            expose: true
+            access_type: public_method
+            serialized_name: SupplyChainActivityTypeCode
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getSupplyChainActivityTypeCode
+                setter: setSupplyChainActivityTypeCode
+            type: Ubl21\CommonBasicComponents\SupplyChainActivityTypeCode
+        performanceMetricTypeCode:
+            expose: true
+            access_type: public_method
+            serialized_name: PerformanceMetricTypeCode
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getPerformanceMetricTypeCode
+                setter: setPerformanceMetricTypeCode
+            type: Ubl21\CommonBasicComponents\PerformanceMetricTypeCode
+        effectivePeriod:
+            expose: true
+            access_type: public_method
+            serialized_name: EffectivePeriod
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getEffectivePeriod
+                setter: setEffectivePeriod
+            type: Ubl21\CommonAggregateComponents\EffectivePeriod
+        supplyItem:
+            expose: true
+            access_type: public_method
+            serialized_name: SupplyItem
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getSupplyItem
+                setter: setSupplyItem
+            xml_list:
+                inline: true
+                entry_name: SupplyItem
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            type: array<Ubl21\CommonAggregateComponents\SupplyItem>
+        forecastExceptionCriterionLine:
+            expose: true
+            access_type: public_method
+            serialized_name: ForecastExceptionCriterionLine
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getForecastExceptionCriterionLine
+                setter: setForecastExceptionCriterionLine
+            type: Ubl21\CommonAggregateComponents\ForecastExceptionCriterionLine

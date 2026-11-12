@@ -1,0 +1,66 @@
+Ubl21\CommonAggregateComponents\PerformanceDataLineType:
+    properties:
+        iD:
+            expose: true
+            access_type: public_method
+            serialized_name: ID
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getID
+                setter: setID
+            type: Ubl21\CommonBasicComponents\ID
+        note:
+            expose: true
+            access_type: public_method
+            serialized_name: Note
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getNote
+                setter: setNote
+            xml_list:
+                inline: true
+                entry_name: Note
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            type: array<Ubl21\CommonBasicComponents\Note>
+        performanceValueQuantity:
+            expose: true
+            access_type: public_method
+            serialized_name: PerformanceValueQuantity
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getPerformanceValueQuantity
+                setter: setPerformanceValueQuantity
+            type: Ubl21\CommonBasicComponents\PerformanceValueQuantity
+        performanceMetricTypeCode:
+            expose: true
+            access_type: public_method
+            serialized_name: PerformanceMetricTypeCode
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getPerformanceMetricTypeCode
+                setter: setPerformanceMetricTypeCode
+            type: Ubl21\CommonBasicComponents\PerformanceMetricTypeCode
+        period:
+            expose: true
+            access_type: public_method
+            serialized_name: Period
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getPeriod
+                setter: setPeriod
+            type: Ubl21\CommonAggregateComponents\Period
+        item:
+            expose: true
+            access_type: public_method
+            serialized_name: Item
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getItem
+                setter: setItem
+            type: Ubl21\CommonAggregateComponents\Item

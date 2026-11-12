@@ -1,0 +1,26 @@
+Ubl21\CommonAggregateComponents\EconomicOperatorRoleType:
+    properties:
+        roleCode:
+            expose: true
+            access_type: public_method
+            serialized_name: RoleCode
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getRoleCode
+                setter: setRoleCode
+            type: Ubl21\CommonBasicComponents\RoleCode
+        roleDescription:
+            expose: true
+            access_type: public_method
+            serialized_name: RoleDescription
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getRoleDescription
+                setter: setRoleDescription
+            xml_list:
+                inline: true
+                entry_name: RoleDescription
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            type: array<Ubl21\CommonBasicComponents\RoleDescription>

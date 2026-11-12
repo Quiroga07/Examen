@@ -1,0 +1,100 @@
+Ubl21\CommonAggregateComponents\ForecastRevisionLineType:
+    properties:
+        iD:
+            expose: true
+            access_type: public_method
+            serialized_name: ID
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getID
+                setter: setID
+            type: Ubl21\CommonBasicComponents\ID
+        note:
+            expose: true
+            access_type: public_method
+            serialized_name: Note
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getNote
+                setter: setNote
+            xml_list:
+                inline: true
+                entry_name: Note
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            type: array<Ubl21\CommonBasicComponents\Note>
+        description:
+            expose: true
+            access_type: public_method
+            serialized_name: Description
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getDescription
+                setter: setDescription
+            xml_list:
+                inline: true
+                entry_name: Description
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            type: array<Ubl21\CommonBasicComponents\Description>
+        revisedForecastLineID:
+            expose: true
+            access_type: public_method
+            serialized_name: RevisedForecastLineID
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getRevisedForecastLineID
+                setter: setRevisedForecastLineID
+            type: Ubl21\CommonBasicComponents\RevisedForecastLineID
+        sourceForecastIssueDate:
+            expose: true
+            access_type: public_method
+            serialized_name: SourceForecastIssueDate
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getSourceForecastIssueDate
+                setter: setSourceForecastIssueDate
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\Date
+        sourceForecastIssueTime:
+            expose: true
+            access_type: public_method
+            serialized_name: SourceForecastIssueTime
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getSourceForecastIssueTime
+                setter: setSourceForecastIssueTime
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\Time
+        adjustmentReasonCode:
+            expose: true
+            access_type: public_method
+            serialized_name: AdjustmentReasonCode
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getAdjustmentReasonCode
+                setter: setAdjustmentReasonCode
+            type: Ubl21\CommonBasicComponents\AdjustmentReasonCode
+        forecastPeriod:
+            expose: true
+            access_type: public_method
+            serialized_name: ForecastPeriod
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getForecastPeriod
+                setter: setForecastPeriod
+            type: Ubl21\CommonAggregateComponents\ForecastPeriod
+        salesItem:
+            expose: true
+            access_type: public_method
+            serialized_name: SalesItem
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getSalesItem
+                setter: setSalesItem
+            type: Ubl21\CommonAggregateComponents\SalesItem

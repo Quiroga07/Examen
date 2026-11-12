@@ -1,0 +1,11 @@
+Ubl21\UnqualifiedDataTypes\PictureType:
+    properties:
+        mimeCode:
+            expose: true
+            access_type: public_method
+            serialized_name: mimeCode
+            accessor:
+                getter: getMimeCode
+                setter: setMimeCode
+            xml_attribute: true
+            type: string

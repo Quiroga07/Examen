@@ -1,0 +1,164 @@
+Ubl21\CommonAggregateComponents\ExceptionNotificationLineType:
+    properties:
+        iD:
+            expose: true
+            access_type: public_method
+            serialized_name: ID
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getID
+                setter: setID
+            type: Ubl21\CommonBasicComponents\ID
+        note:
+            expose: true
+            access_type: public_method
+            serialized_name: Note
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getNote
+                setter: setNote
+            xml_list:
+                inline: true
+                entry_name: Note
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            type: array<Ubl21\CommonBasicComponents\Note>
+        description:
+            expose: true
+            access_type: public_method
+            serialized_name: Description
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getDescription
+                setter: setDescription
+            xml_list:
+                inline: true
+                entry_name: Description
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            type: array<Ubl21\CommonBasicComponents\Description>
+        exceptionStatusCode:
+            expose: true
+            access_type: public_method
+            serialized_name: ExceptionStatusCode
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getExceptionStatusCode
+                setter: setExceptionStatusCode
+            type: Ubl21\CommonBasicComponents\ExceptionStatusCode
+        collaborationPriorityCode:
+            expose: true
+            access_type: public_method
+            serialized_name: CollaborationPriorityCode
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getCollaborationPriorityCode
+                setter: setCollaborationPriorityCode
+            type: Ubl21\CommonBasicComponents\CollaborationPriorityCode
+        resolutionCode:
+            expose: true
+            access_type: public_method
+            serialized_name: ResolutionCode
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getResolutionCode
+                setter: setResolutionCode
+            type: Ubl21\CommonBasicComponents\ResolutionCode
+        comparedValueMeasure:
+            expose: true
+            access_type: public_method
+            serialized_name: ComparedValueMeasure
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getComparedValueMeasure
+                setter: setComparedValueMeasure
+            type: Ubl21\CommonBasicComponents\ComparedValueMeasure
+        sourceValueMeasure:
+            expose: true
+            access_type: public_method
+            serialized_name: SourceValueMeasure
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getSourceValueMeasure
+                setter: setSourceValueMeasure
+            type: Ubl21\CommonBasicComponents\SourceValueMeasure
+        varianceQuantity:
+            expose: true
+            access_type: public_method
+            serialized_name: VarianceQuantity
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getVarianceQuantity
+                setter: setVarianceQuantity
+            type: Ubl21\CommonBasicComponents\VarianceQuantity
+        supplyChainActivityTypeCode:
+            expose: true
+            access_type: public_method
+            serialized_name: SupplyChainActivityTypeCode
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getSupplyChainActivityTypeCode
+                setter: setSupplyChainActivityTypeCode
+            type: Ubl21\CommonBasicComponents\SupplyChainActivityTypeCode
+        performanceMetricTypeCode:
+            expose: true
+            access_type: public_method
+            serialized_name: PerformanceMetricTypeCode
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getPerformanceMetricTypeCode
+                setter: setPerformanceMetricTypeCode
+            type: Ubl21\CommonBasicComponents\PerformanceMetricTypeCode
+        exceptionObservationPeriod:
+            expose: true
+            access_type: public_method
+            serialized_name: ExceptionObservationPeriod
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getExceptionObservationPeriod
+                setter: setExceptionObservationPeriod
+            type: Ubl21\CommonAggregateComponents\ExceptionObservationPeriod
+        documentReference:
+            expose: true
+            access_type: public_method
+            serialized_name: DocumentReference
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getDocumentReference
+                setter: setDocumentReference
+            xml_list:
+                inline: true
+                entry_name: DocumentReference
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            type: array<Ubl21\CommonAggregateComponents\DocumentReference>
+        forecastException:
+            expose: true
+            access_type: public_method
+            serialized_name: ForecastException
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getForecastException
+                setter: setForecastException
+            type: Ubl21\CommonAggregateComponents\ForecastException
+        supplyItem:
+            expose: true
+            access_type: public_method
+            serialized_name: SupplyItem
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getSupplyItem
+                setter: setSupplyItem
+            type: Ubl21\CommonAggregateComponents\SupplyItem

@@ -1,0 +1,86 @@
+Ubl21\CommonAggregateComponents\ActivityDataLineType:
+    properties:
+        iD:
+            expose: true
+            access_type: public_method
+            serialized_name: ID
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getID
+                setter: setID
+            type: Ubl21\CommonBasicComponents\ID
+        supplyChainActivityTypeCode:
+            expose: true
+            access_type: public_method
+            serialized_name: SupplyChainActivityTypeCode
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getSupplyChainActivityTypeCode
+                setter: setSupplyChainActivityTypeCode
+            type: Ubl21\CommonBasicComponents\SupplyChainActivityTypeCode
+        buyerCustomerParty:
+            expose: true
+            access_type: public_method
+            serialized_name: BuyerCustomerParty
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getBuyerCustomerParty
+                setter: setBuyerCustomerParty
+            type: Ubl21\CommonAggregateComponents\BuyerCustomerParty
+        sellerSupplierParty:
+            expose: true
+            access_type: public_method
+            serialized_name: SellerSupplierParty
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getSellerSupplierParty
+                setter: setSellerSupplierParty
+            type: Ubl21\CommonAggregateComponents\SellerSupplierParty
+        activityPeriod:
+            expose: true
+            access_type: public_method
+            serialized_name: ActivityPeriod
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getActivityPeriod
+                setter: setActivityPeriod
+            type: Ubl21\CommonAggregateComponents\ActivityPeriod
+        activityOriginLocation:
+            expose: true
+            access_type: public_method
+            serialized_name: ActivityOriginLocation
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getActivityOriginLocation
+                setter: setActivityOriginLocation
+            type: Ubl21\CommonAggregateComponents\ActivityOriginLocation
+        activityFinalLocation:
+            expose: true
+            access_type: public_method
+            serialized_name: ActivityFinalLocation
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getActivityFinalLocation
+                setter: setActivityFinalLocation
+            type: Ubl21\CommonAggregateComponents\ActivityFinalLocation
+        salesItem:
+            expose: true
+            access_type: public_method
+            serialized_name: SalesItem
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getSalesItem
+                setter: setSalesItem
+            xml_list:
+                inline: true
+                entry_name: SalesItem
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            type: array<Ubl21\CommonAggregateComponents\SalesItem>

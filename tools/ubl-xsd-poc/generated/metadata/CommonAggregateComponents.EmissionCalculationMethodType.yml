@@ -1,0 +1,42 @@
+Ubl21\CommonAggregateComponents\EmissionCalculationMethodType:
+    properties:
+        calculationMethodCode:
+            expose: true
+            access_type: public_method
+            serialized_name: CalculationMethodCode
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getCalculationMethodCode
+                setter: setCalculationMethodCode
+            type: Ubl21\CommonBasicComponents\CalculationMethodCode
+        fullnessIndicationCode:
+            expose: true
+            access_type: public_method
+            serialized_name: FullnessIndicationCode
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getFullnessIndicationCode
+                setter: setFullnessIndicationCode
+            type: Ubl21\CommonBasicComponents\FullnessIndicationCode
+        measurementFromLocation:
+            expose: true
+            access_type: public_method
+            serialized_name: MeasurementFromLocation
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getMeasurementFromLocation
+                setter: setMeasurementFromLocation
+            type: Ubl21\CommonAggregateComponents\MeasurementFromLocation
+        measurementToLocation:
+            expose: true
+            access_type: public_method
+            serialized_name: MeasurementToLocation
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getMeasurementToLocation
+                setter: setMeasurementToLocation
+            type: Ubl21\CommonAggregateComponents\MeasurementToLocation

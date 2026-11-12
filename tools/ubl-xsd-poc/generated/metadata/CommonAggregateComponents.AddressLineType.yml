@@ -1,0 +1,12 @@
+Ubl21\CommonAggregateComponents\AddressLineType:
+    properties:
+        line:
+            expose: true
+            access_type: public_method
+            serialized_name: Line
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getLine
+                setter: setLine
+            type: Ubl21\CommonBasicComponents\Line

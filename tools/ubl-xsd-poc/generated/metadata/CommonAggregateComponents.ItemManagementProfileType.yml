@@ -1,0 +1,106 @@
+Ubl21\CommonAggregateComponents\ItemManagementProfileType:
+    properties:
+        frozenPeriodDaysNumeric:
+            expose: true
+            access_type: public_method
+            serialized_name: FrozenPeriodDaysNumeric
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getFrozenPeriodDaysNumeric
+                setter: setFrozenPeriodDaysNumeric
+            type: Ubl21\CommonBasicComponents\FrozenPeriodDaysNumeric
+        minimumInventoryQuantity:
+            expose: true
+            access_type: public_method
+            serialized_name: MinimumInventoryQuantity
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getMinimumInventoryQuantity
+                setter: setMinimumInventoryQuantity
+            type: Ubl21\CommonBasicComponents\MinimumInventoryQuantity
+        multipleOrderQuantity:
+            expose: true
+            access_type: public_method
+            serialized_name: MultipleOrderQuantity
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getMultipleOrderQuantity
+                setter: setMultipleOrderQuantity
+            type: Ubl21\CommonBasicComponents\MultipleOrderQuantity
+        orderIntervalDaysNumeric:
+            expose: true
+            access_type: public_method
+            serialized_name: OrderIntervalDaysNumeric
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getOrderIntervalDaysNumeric
+                setter: setOrderIntervalDaysNumeric
+            type: Ubl21\CommonBasicComponents\OrderIntervalDaysNumeric
+        replenishmentOwnerDescription:
+            expose: true
+            access_type: public_method
+            serialized_name: ReplenishmentOwnerDescription
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getReplenishmentOwnerDescription
+                setter: setReplenishmentOwnerDescription
+            xml_list:
+                inline: true
+                entry_name: ReplenishmentOwnerDescription
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            type: array<Ubl21\CommonBasicComponents\ReplenishmentOwnerDescription>
+        targetServicePercent:
+            expose: true
+            access_type: public_method
+            serialized_name: TargetServicePercent
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getTargetServicePercent
+                setter: setTargetServicePercent
+            type: Ubl21\CommonBasicComponents\TargetServicePercent
+        targetInventoryQuantity:
+            expose: true
+            access_type: public_method
+            serialized_name: TargetInventoryQuantity
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getTargetInventoryQuantity
+                setter: setTargetInventoryQuantity
+            type: Ubl21\CommonBasicComponents\TargetInventoryQuantity
+        effectivePeriod:
+            expose: true
+            access_type: public_method
+            serialized_name: EffectivePeriod
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getEffectivePeriod
+                setter: setEffectivePeriod
+            type: Ubl21\CommonAggregateComponents\EffectivePeriod
+        item:
+            expose: true
+            access_type: public_method
+            serialized_name: Item
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getItem
+                setter: setItem
+            type: Ubl21\CommonAggregateComponents\Item
+        itemLocationQuantity:
+            expose: true
+            access_type: public_method
+            serialized_name: ItemLocationQuantity
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getItemLocationQuantity
+                setter: setItemLocationQuantity
+            type: Ubl21\CommonAggregateComponents\ItemLocationQuantity

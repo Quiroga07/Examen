@@ -1,0 +1,154 @@
+Ubl21\CommonAggregateComponents\ReminderLineType:
+    properties:
+        iD:
+            expose: true
+            access_type: public_method
+            serialized_name: ID
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getID
+                setter: setID
+            type: Ubl21\CommonBasicComponents\ID
+        note:
+            expose: true
+            access_type: public_method
+            serialized_name: Note
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getNote
+                setter: setNote
+            xml_list:
+                inline: true
+                entry_name: Note
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            type: array<Ubl21\CommonBasicComponents\Note>
+        uUID:
+            expose: true
+            access_type: public_method
+            serialized_name: UUID
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getUUID
+                setter: setUUID
+            type: Ubl21\CommonBasicComponents\UUID
+        balanceBroughtForwardIndicator:
+            expose: true
+            access_type: public_method
+            serialized_name: BalanceBroughtForwardIndicator
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getBalanceBroughtForwardIndicator
+                setter: setBalanceBroughtForwardIndicator
+            type: bool
+        debitLineAmount:
+            expose: true
+            access_type: public_method
+            serialized_name: DebitLineAmount
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getDebitLineAmount
+                setter: setDebitLineAmount
+            type: Ubl21\CommonBasicComponents\DebitLineAmount
+        creditLineAmount:
+            expose: true
+            access_type: public_method
+            serialized_name: CreditLineAmount
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getCreditLineAmount
+                setter: setCreditLineAmount
+            type: Ubl21\CommonBasicComponents\CreditLineAmount
+        accountingCostCode:
+            expose: true
+            access_type: public_method
+            serialized_name: AccountingCostCode
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getAccountingCostCode
+                setter: setAccountingCostCode
+            type: Ubl21\CommonBasicComponents\AccountingCostCode
+        accountingCost:
+            expose: true
+            access_type: public_method
+            serialized_name: AccountingCost
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getAccountingCost
+                setter: setAccountingCost
+            type: Ubl21\CommonBasicComponents\AccountingCost
+        penaltySurchargePercent:
+            expose: true
+            access_type: public_method
+            serialized_name: PenaltySurchargePercent
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getPenaltySurchargePercent
+                setter: setPenaltySurchargePercent
+            type: Ubl21\CommonBasicComponents\PenaltySurchargePercent
+        amount:
+            expose: true
+            access_type: public_method
+            serialized_name: Amount
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getAmount
+                setter: setAmount
+            type: Ubl21\CommonBasicComponents\Amount
+        paymentPurposeCode:
+            expose: true
+            access_type: public_method
+            serialized_name: PaymentPurposeCode
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getPaymentPurposeCode
+                setter: setPaymentPurposeCode
+            type: Ubl21\CommonBasicComponents\PaymentPurposeCode
+        reminderPeriod:
+            expose: true
+            access_type: public_method
+            serialized_name: ReminderPeriod
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getReminderPeriod
+                setter: setReminderPeriod
+            xml_list:
+                inline: true
+                entry_name: ReminderPeriod
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            type: array<Ubl21\CommonAggregateComponents\ReminderPeriod>
+        billingReference:
+            expose: true
+            access_type: public_method
+            serialized_name: BillingReference
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getBillingReference
+                setter: setBillingReference
+            xml_list:
+                inline: true
+                entry_name: BillingReference
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            type: array<Ubl21\CommonAggregateComponents\BillingReference>
+        exchangeRate:
+            expose: true
+            access_type: public_method
+            serialized_name: ExchangeRate
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getExchangeRate
+                setter: setExchangeRate
+            type: Ubl21\CommonAggregateComponents\ExchangeRate

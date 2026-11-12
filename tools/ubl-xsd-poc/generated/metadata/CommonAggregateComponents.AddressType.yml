@@ -1,0 +1,280 @@
+Ubl21\CommonAggregateComponents\AddressType:
+    properties:
+        iD:
+            expose: true
+            access_type: public_method
+            serialized_name: ID
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getID
+                setter: setID
+            type: Ubl21\CommonBasicComponents\ID
+        addressTypeCode:
+            expose: true
+            access_type: public_method
+            serialized_name: AddressTypeCode
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getAddressTypeCode
+                setter: setAddressTypeCode
+            type: Ubl21\CommonBasicComponents\AddressTypeCode
+        addressFormatCode:
+            expose: true
+            access_type: public_method
+            serialized_name: AddressFormatCode
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getAddressFormatCode
+                setter: setAddressFormatCode
+            type: Ubl21\CommonBasicComponents\AddressFormatCode
+        postbox:
+            expose: true
+            access_type: public_method
+            serialized_name: Postbox
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getPostbox
+                setter: setPostbox
+            type: Ubl21\CommonBasicComponents\Postbox
+        floor:
+            expose: true
+            access_type: public_method
+            serialized_name: Floor
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getFloor
+                setter: setFloor
+            type: Ubl21\CommonBasicComponents\Floor
+        room:
+            expose: true
+            access_type: public_method
+            serialized_name: Room
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getRoom
+                setter: setRoom
+            type: Ubl21\CommonBasicComponents\Room
+        streetName:
+            expose: true
+            access_type: public_method
+            serialized_name: StreetName
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getStreetName
+                setter: setStreetName
+            type: Ubl21\CommonBasicComponents\StreetName
+        additionalStreetName:
+            expose: true
+            access_type: public_method
+            serialized_name: AdditionalStreetName
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getAdditionalStreetName
+                setter: setAdditionalStreetName
+            type: Ubl21\CommonBasicComponents\AdditionalStreetName
+        blockName:
+            expose: true
+            access_type: public_method
+            serialized_name: BlockName
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getBlockName
+                setter: setBlockName
+            type: Ubl21\CommonBasicComponents\BlockName
+        buildingName:
+            expose: true
+            access_type: public_method
+            serialized_name: BuildingName
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getBuildingName
+                setter: setBuildingName
+            type: Ubl21\CommonBasicComponents\BuildingName
+        buildingNumber:
+            expose: true
+            access_type: public_method
+            serialized_name: BuildingNumber
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getBuildingNumber
+                setter: setBuildingNumber
+            type: Ubl21\CommonBasicComponents\BuildingNumber
+        inhouseMail:
+            expose: true
+            access_type: public_method
+            serialized_name: InhouseMail
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getInhouseMail
+                setter: setInhouseMail
+            type: Ubl21\CommonBasicComponents\InhouseMail
+        department:
+            expose: true
+            access_type: public_method
+            serialized_name: Department
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getDepartment
+                setter: setDepartment
+            type: Ubl21\CommonBasicComponents\Department
+        markAttention:
+            expose: true
+            access_type: public_method
+            serialized_name: MarkAttention
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getMarkAttention
+                setter: setMarkAttention
+            type: Ubl21\CommonBasicComponents\MarkAttention
+        markCare:
+            expose: true
+            access_type: public_method
+            serialized_name: MarkCare
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getMarkCare
+                setter: setMarkCare
+            type: Ubl21\CommonBasicComponents\MarkCare
+        plotIdentification:
+            expose: true
+            access_type: public_method
+            serialized_name: PlotIdentification
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getPlotIdentification
+                setter: setPlotIdentification
+            type: Ubl21\CommonBasicComponents\PlotIdentification
+        citySubdivisionName:
+            expose: true
+            access_type: public_method
+            serialized_name: CitySubdivisionName
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getCitySubdivisionName
+                setter: setCitySubdivisionName
+            type: Ubl21\CommonBasicComponents\CitySubdivisionName
+        cityName:
+            expose: true
+            access_type: public_method
+            serialized_name: CityName
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getCityName
+                setter: setCityName
+            type: Ubl21\CommonBasicComponents\CityName
+        postalZone:
+            expose: true
+            access_type: public_method
+            serialized_name: PostalZone
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getPostalZone
+                setter: setPostalZone
+            type: Ubl21\CommonBasicComponents\PostalZone
+        countrySubentity:
+            expose: true
+            access_type: public_method
+            serialized_name: CountrySubentity
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getCountrySubentity
+                setter: setCountrySubentity
+            type: Ubl21\CommonBasicComponents\CountrySubentity
+        countrySubentityCode:
+            expose: true
+            access_type: public_method
+            serialized_name: CountrySubentityCode
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getCountrySubentityCode
+                setter: setCountrySubentityCode
+            type: Ubl21\CommonBasicComponents\CountrySubentityCode
+        region:
+            expose: true
+            access_type: public_method
+            serialized_name: Region
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getRegion
+                setter: setRegion
+            type: Ubl21\CommonBasicComponents\Region
+        district:
+            expose: true
+            access_type: public_method
+            serialized_name: District
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getDistrict
+                setter: setDistrict
+            type: Ubl21\CommonBasicComponents\District
+        timezoneOffset:
+            expose: true
+            access_type: public_method
+            serialized_name: TimezoneOffset
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getTimezoneOffset
+                setter: setTimezoneOffset
+            type: Ubl21\CommonBasicComponents\TimezoneOffset
+        addressLine:
+            expose: true
+            access_type: public_method
+            serialized_name: AddressLine
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getAddressLine
+                setter: setAddressLine
+            xml_list:
+                inline: true
+                entry_name: AddressLine
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            type: array<Ubl21\CommonAggregateComponents\AddressLine>
+        country:
+            expose: true
+            access_type: public_method
+            serialized_name: Country
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getCountry
+                setter: setCountry
+            type: Ubl21\CommonAggregateComponents\Country
+        locationCoordinate:
+            expose: true
+            access_type: public_method
+            serialized_name: LocationCoordinate
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getLocationCoordinate
+                setter: setLocationCoordinate
+            xml_list:
+                inline: true
+                entry_name: LocationCoordinate
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            type: array<Ubl21\CommonAggregateComponents\LocationCoordinate>

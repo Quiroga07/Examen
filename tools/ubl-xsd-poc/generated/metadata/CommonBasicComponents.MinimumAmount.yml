@@ -1,0 +1,3 @@
+Ubl21\CommonBasicComponents\MinimumAmount:
+    xml_root_name: MinimumAmount
+    xml_root_namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'

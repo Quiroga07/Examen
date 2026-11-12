@@ -1,0 +1,3 @@
+Ubl21\CommonAggregateComponents\Delivery:
+    xml_root_name: Delivery
+    xml_root_namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'

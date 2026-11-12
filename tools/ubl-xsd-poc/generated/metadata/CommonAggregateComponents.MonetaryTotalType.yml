@@ -1,0 +1,92 @@
+Ubl21\CommonAggregateComponents\MonetaryTotalType:
+    properties:
+        lineExtensionAmount:
+            expose: true
+            access_type: public_method
+            serialized_name: LineExtensionAmount
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getLineExtensionAmount
+                setter: setLineExtensionAmount
+            type: Ubl21\CommonBasicComponents\LineExtensionAmount
+        taxExclusiveAmount:
+            expose: true
+            access_type: public_method
+            serialized_name: TaxExclusiveAmount
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getTaxExclusiveAmount
+                setter: setTaxExclusiveAmount
+            type: Ubl21\CommonBasicComponents\TaxExclusiveAmount
+        taxInclusiveAmount:
+            expose: true
+            access_type: public_method
+            serialized_name: TaxInclusiveAmount
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getTaxInclusiveAmount
+                setter: setTaxInclusiveAmount
+            type: Ubl21\CommonBasicComponents\TaxInclusiveAmount
+        allowanceTotalAmount:
+            expose: true
+            access_type: public_method
+            serialized_name: AllowanceTotalAmount
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getAllowanceTotalAmount
+                setter: setAllowanceTotalAmount
+            type: Ubl21\CommonBasicComponents\AllowanceTotalAmount
+        chargeTotalAmount:
+            expose: true
+            access_type: public_method
+            serialized_name: ChargeTotalAmount
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getChargeTotalAmount
+                setter: setChargeTotalAmount
+            type: Ubl21\CommonBasicComponents\ChargeTotalAmount
+        prepaidAmount:
+            expose: true
+            access_type: public_method
+            serialized_name: PrepaidAmount
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getPrepaidAmount
+                setter: setPrepaidAmount
+            type: Ubl21\CommonBasicComponents\PrepaidAmount
+        payableRoundingAmount:
+            expose: true
+            access_type: public_method
+            serialized_name: PayableRoundingAmount
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getPayableRoundingAmount
+                setter: setPayableRoundingAmount
+            type: Ubl21\CommonBasicComponents\PayableRoundingAmount
+        payableAmount:
+            expose: true
+            access_type: public_method
+            serialized_name: PayableAmount
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getPayableAmount
+                setter: setPayableAmount
+            type: Ubl21\CommonBasicComponents\PayableAmount
+        payableAlternativeAmount:
+            expose: true
+            access_type: public_method
+            serialized_name: PayableAlternativeAmount
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getPayableAlternativeAmount
+                setter: setPayableAlternativeAmount
+            type: Ubl21\CommonBasicComponents\PayableAlternativeAmount

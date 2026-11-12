@@ -1,0 +1,232 @@
+Ubl21\CommonAggregateComponents\TelecommunicationsServiceType:
+    properties:
+        iD:
+            expose: true
+            access_type: public_method
+            serialized_name: ID
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getID
+                setter: setID
+            type: Ubl21\CommonBasicComponents\ID
+        callDate:
+            expose: true
+            access_type: public_method
+            serialized_name: CallDate
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getCallDate
+                setter: setCallDate
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\Date
+        callTime:
+            expose: true
+            access_type: public_method
+            serialized_name: CallTime
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getCallTime
+                setter: setCallTime
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\Time
+        serviceNumberCalled:
+            expose: true
+            access_type: public_method
+            serialized_name: ServiceNumberCalled
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getServiceNumberCalled
+                setter: setServiceNumberCalled
+            type: Ubl21\CommonBasicComponents\ServiceNumberCalled
+        telecommunicationsServiceCategory:
+            expose: true
+            access_type: public_method
+            serialized_name: TelecommunicationsServiceCategory
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getTelecommunicationsServiceCategory
+                setter: setTelecommunicationsServiceCategory
+            type: Ubl21\CommonBasicComponents\TelecommunicationsServiceCategory
+        telecommunicationsServiceCategoryCode:
+            expose: true
+            access_type: public_method
+            serialized_name: TelecommunicationsServiceCategoryCode
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getTelecommunicationsServiceCategoryCode
+                setter: setTelecommunicationsServiceCategoryCode
+            type: Ubl21\CommonBasicComponents\TelecommunicationsServiceCategoryCode
+        movieTitle:
+            expose: true
+            access_type: public_method
+            serialized_name: MovieTitle
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getMovieTitle
+                setter: setMovieTitle
+            type: Ubl21\CommonBasicComponents\MovieTitle
+        roamingPartnerName:
+            expose: true
+            access_type: public_method
+            serialized_name: RoamingPartnerName
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getRoamingPartnerName
+                setter: setRoamingPartnerName
+            type: Ubl21\CommonBasicComponents\RoamingPartnerName
+        payPerView:
+            expose: true
+            access_type: public_method
+            serialized_name: PayPerView
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getPayPerView
+                setter: setPayPerView
+            type: Ubl21\CommonBasicComponents\PayPerView
+        quantity:
+            expose: true
+            access_type: public_method
+            serialized_name: Quantity
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getQuantity
+                setter: setQuantity
+            type: Ubl21\CommonBasicComponents\Quantity
+        telecommunicationsServiceCall:
+            expose: true
+            access_type: public_method
+            serialized_name: TelecommunicationsServiceCall
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getTelecommunicationsServiceCall
+                setter: setTelecommunicationsServiceCall
+            type: Ubl21\CommonBasicComponents\TelecommunicationsServiceCall
+        telecommunicationsServiceCallCode:
+            expose: true
+            access_type: public_method
+            serialized_name: TelecommunicationsServiceCallCode
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getTelecommunicationsServiceCallCode
+                setter: setTelecommunicationsServiceCallCode
+            type: Ubl21\CommonBasicComponents\TelecommunicationsServiceCallCode
+        callBaseAmount:
+            expose: true
+            access_type: public_method
+            serialized_name: CallBaseAmount
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getCallBaseAmount
+                setter: setCallBaseAmount
+            type: Ubl21\CommonBasicComponents\CallBaseAmount
+        callExtensionAmount:
+            expose: true
+            access_type: public_method
+            serialized_name: CallExtensionAmount
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getCallExtensionAmount
+                setter: setCallExtensionAmount
+            type: Ubl21\CommonBasicComponents\CallExtensionAmount
+        price:
+            expose: true
+            access_type: public_method
+            serialized_name: Price
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getPrice
+                setter: setPrice
+            type: Ubl21\CommonAggregateComponents\Price
+        country:
+            expose: true
+            access_type: public_method
+            serialized_name: Country
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getCountry
+                setter: setCountry
+            type: Ubl21\CommonAggregateComponents\Country
+        exchangeRate:
+            expose: true
+            access_type: public_method
+            serialized_name: ExchangeRate
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getExchangeRate
+                setter: setExchangeRate
+            xml_list:
+                inline: true
+                entry_name: ExchangeRate
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            type: array<Ubl21\CommonAggregateComponents\ExchangeRate>
+        allowanceCharge:
+            expose: true
+            access_type: public_method
+            serialized_name: AllowanceCharge
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getAllowanceCharge
+                setter: setAllowanceCharge
+            xml_list:
+                inline: true
+                entry_name: AllowanceCharge
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            type: array<Ubl21\CommonAggregateComponents\AllowanceCharge>
+        taxTotal:
+            expose: true
+            access_type: public_method
+            serialized_name: TaxTotal
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getTaxTotal
+                setter: setTaxTotal
+            xml_list:
+                inline: true
+                entry_name: TaxTotal
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            type: array<Ubl21\CommonAggregateComponents\TaxTotal>
+        callDuty:
+            expose: true
+            access_type: public_method
+            serialized_name: CallDuty
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getCallDuty
+                setter: setCallDuty
+            xml_list:
+                inline: true
+                entry_name: CallDuty
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            type: array<Ubl21\CommonAggregateComponents\CallDuty>
+        timeDuty:
+            expose: true
+            access_type: public_method
+            serialized_name: TimeDuty
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getTimeDuty
+                setter: setTimeDuty
+            xml_list:
+                inline: true
+                entry_name: TimeDuty
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            type: array<Ubl21\CommonAggregateComponents\TimeDuty>

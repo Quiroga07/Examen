@@ -1,0 +1,22 @@
+Ubl21\CommonAggregateComponents\RailTransportType:
+    properties:
+        trainID:
+            expose: true
+            access_type: public_method
+            serialized_name: TrainID
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getTrainID
+                setter: setTrainID
+            type: Ubl21\CommonBasicComponents\TrainID
+        railCarID:
+            expose: true
+            access_type: public_method
+            serialized_name: RailCarID
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getRailCarID
+                setter: setRailCarID
+            type: Ubl21\CommonBasicComponents\RailCarID

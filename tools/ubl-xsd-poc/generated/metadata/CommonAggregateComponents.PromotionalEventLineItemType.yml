@@ -1,0 +1,22 @@
+Ubl21\CommonAggregateComponents\PromotionalEventLineItemType:
+    properties:
+        amount:
+            expose: true
+            access_type: public_method
+            serialized_name: Amount
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getAmount
+                setter: setAmount
+            type: Ubl21\CommonBasicComponents\Amount
+        eventLineItem:
+            expose: true
+            access_type: public_method
+            serialized_name: EventLineItem
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getEventLineItem
+                setter: setEventLineItem
+            type: Ubl21\CommonAggregateComponents\EventLineItem

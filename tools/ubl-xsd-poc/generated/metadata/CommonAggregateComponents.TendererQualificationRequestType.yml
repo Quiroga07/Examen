@@ -1,0 +1,140 @@
+Ubl21\CommonAggregateComponents\TendererQualificationRequestType:
+    properties:
+        companyLegalFormCode:
+            expose: true
+            access_type: public_method
+            serialized_name: CompanyLegalFormCode
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getCompanyLegalFormCode
+                setter: setCompanyLegalFormCode
+            type: Ubl21\CommonBasicComponents\CompanyLegalFormCode
+        companyLegalForm:
+            expose: true
+            access_type: public_method
+            serialized_name: CompanyLegalForm
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getCompanyLegalForm
+                setter: setCompanyLegalForm
+            type: Ubl21\CommonBasicComponents\CompanyLegalForm
+        personalSituation:
+            expose: true
+            access_type: public_method
+            serialized_name: PersonalSituation
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getPersonalSituation
+                setter: setPersonalSituation
+            xml_list:
+                inline: true
+                entry_name: PersonalSituation
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            type: array<Ubl21\CommonBasicComponents\PersonalSituation>
+        operatingYearsQuantity:
+            expose: true
+            access_type: public_method
+            serialized_name: OperatingYearsQuantity
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getOperatingYearsQuantity
+                setter: setOperatingYearsQuantity
+            type: Ubl21\CommonBasicComponents\OperatingYearsQuantity
+        employeeQuantity:
+            expose: true
+            access_type: public_method
+            serialized_name: EmployeeQuantity
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getEmployeeQuantity
+                setter: setEmployeeQuantity
+            type: Ubl21\CommonBasicComponents\EmployeeQuantity
+        description:
+            expose: true
+            access_type: public_method
+            serialized_name: Description
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getDescription
+                setter: setDescription
+            xml_list:
+                inline: true
+                entry_name: Description
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            type: array<Ubl21\CommonBasicComponents\Description>
+        requiredBusinessClassificationScheme:
+            expose: true
+            access_type: public_method
+            serialized_name: RequiredBusinessClassificationScheme
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getRequiredBusinessClassificationScheme
+                setter: setRequiredBusinessClassificationScheme
+            xml_list:
+                inline: true
+                entry_name: RequiredBusinessClassificationScheme
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            type: array<Ubl21\CommonAggregateComponents\RequiredBusinessClassificationScheme>
+        technicalEvaluationCriterion:
+            expose: true
+            access_type: public_method
+            serialized_name: TechnicalEvaluationCriterion
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getTechnicalEvaluationCriterion
+                setter: setTechnicalEvaluationCriterion
+            xml_list:
+                inline: true
+                entry_name: TechnicalEvaluationCriterion
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            type: array<Ubl21\CommonAggregateComponents\TechnicalEvaluationCriterion>
+        financialEvaluationCriterion:
+            expose: true
+            access_type: public_method
+            serialized_name: FinancialEvaluationCriterion
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getFinancialEvaluationCriterion
+                setter: setFinancialEvaluationCriterion
+            xml_list:
+                inline: true
+                entry_name: FinancialEvaluationCriterion
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            type: array<Ubl21\CommonAggregateComponents\FinancialEvaluationCriterion>
+        specificTendererRequirement:
+            expose: true
+            access_type: public_method
+            serialized_name: SpecificTendererRequirement
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getSpecificTendererRequirement
+                setter: setSpecificTendererRequirement
+            xml_list:
+                inline: true
+                entry_name: SpecificTendererRequirement
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            type: array<Ubl21\CommonAggregateComponents\SpecificTendererRequirement>
+        economicOperatorRole:
+            expose: true
+            access_type: public_method
+            serialized_name: EconomicOperatorRole
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getEconomicOperatorRole
+                setter: setEconomicOperatorRole
+            xml_list:
+                inline: true
+                entry_name: EconomicOperatorRole
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            type: array<Ubl21\CommonAggregateComponents\EconomicOperatorRole>

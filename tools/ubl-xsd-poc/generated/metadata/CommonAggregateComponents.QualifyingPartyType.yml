@@ -1,0 +1,162 @@
+Ubl21\CommonAggregateComponents\QualifyingPartyType:
+    properties:
+        participationPercent:
+            expose: true
+            access_type: public_method
+            serialized_name: ParticipationPercent
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getParticipationPercent
+                setter: setParticipationPercent
+            type: Ubl21\CommonBasicComponents\ParticipationPercent
+        personalSituation:
+            expose: true
+            access_type: public_method
+            serialized_name: PersonalSituation
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getPersonalSituation
+                setter: setPersonalSituation
+            xml_list:
+                inline: true
+                entry_name: PersonalSituation
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            type: array<Ubl21\CommonBasicComponents\PersonalSituation>
+        operatingYearsQuantity:
+            expose: true
+            access_type: public_method
+            serialized_name: OperatingYearsQuantity
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getOperatingYearsQuantity
+                setter: setOperatingYearsQuantity
+            type: Ubl21\CommonBasicComponents\OperatingYearsQuantity
+        employeeQuantity:
+            expose: true
+            access_type: public_method
+            serialized_name: EmployeeQuantity
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getEmployeeQuantity
+                setter: setEmployeeQuantity
+            type: Ubl21\CommonBasicComponents\EmployeeQuantity
+        businessClassificationEvidenceID:
+            expose: true
+            access_type: public_method
+            serialized_name: BusinessClassificationEvidenceID
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getBusinessClassificationEvidenceID
+                setter: setBusinessClassificationEvidenceID
+            type: Ubl21\CommonBasicComponents\BusinessClassificationEvidenceID
+        businessIdentityEvidenceID:
+            expose: true
+            access_type: public_method
+            serialized_name: BusinessIdentityEvidenceID
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getBusinessIdentityEvidenceID
+                setter: setBusinessIdentityEvidenceID
+            type: Ubl21\CommonBasicComponents\BusinessIdentityEvidenceID
+        tendererRoleCode:
+            expose: true
+            access_type: public_method
+            serialized_name: TendererRoleCode
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getTendererRoleCode
+                setter: setTendererRoleCode
+            type: Ubl21\CommonBasicComponents\TendererRoleCode
+        businessClassificationScheme:
+            expose: true
+            access_type: public_method
+            serialized_name: BusinessClassificationScheme
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getBusinessClassificationScheme
+                setter: setBusinessClassificationScheme
+            type: Ubl21\CommonAggregateComponents\BusinessClassificationScheme
+        technicalCapability:
+            expose: true
+            access_type: public_method
+            serialized_name: TechnicalCapability
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getTechnicalCapability
+                setter: setTechnicalCapability
+            xml_list:
+                inline: true
+                entry_name: TechnicalCapability
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            type: array<Ubl21\CommonAggregateComponents\TechnicalCapability>
+        financialCapability:
+            expose: true
+            access_type: public_method
+            serialized_name: FinancialCapability
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getFinancialCapability
+                setter: setFinancialCapability
+            xml_list:
+                inline: true
+                entry_name: FinancialCapability
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            type: array<Ubl21\CommonAggregateComponents\FinancialCapability>
+        completedTask:
+            expose: true
+            access_type: public_method
+            serialized_name: CompletedTask
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getCompletedTask
+                setter: setCompletedTask
+            xml_list:
+                inline: true
+                entry_name: CompletedTask
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            type: array<Ubl21\CommonAggregateComponents\CompletedTask>
+        declaration:
+            expose: true
+            access_type: public_method
+            serialized_name: Declaration
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getDeclaration
+                setter: setDeclaration
+            xml_list:
+                inline: true
+                entry_name: Declaration
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            type: array<Ubl21\CommonAggregateComponents\Declaration>
+        party:
+            expose: true
+            access_type: public_method
+            serialized_name: Party
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getParty
+                setter: setParty
+            type: Ubl21\CommonAggregateComponents\Party
+        economicOperatorRole:
+            expose: true
+            access_type: public_method
+            serialized_name: EconomicOperatorRole
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getEconomicOperatorRole
+                setter: setEconomicOperatorRole
+            type: Ubl21\CommonAggregateComponents\EconomicOperatorRole

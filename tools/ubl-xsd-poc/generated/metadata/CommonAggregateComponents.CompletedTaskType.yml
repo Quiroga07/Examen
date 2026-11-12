@@ -1,0 +1,80 @@
+Ubl21\CommonAggregateComponents\CompletedTaskType:
+    properties:
+        annualAverageAmount:
+            expose: true
+            access_type: public_method
+            serialized_name: AnnualAverageAmount
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getAnnualAverageAmount
+                setter: setAnnualAverageAmount
+            type: Ubl21\CommonBasicComponents\AnnualAverageAmount
+        totalTaskAmount:
+            expose: true
+            access_type: public_method
+            serialized_name: TotalTaskAmount
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getTotalTaskAmount
+                setter: setTotalTaskAmount
+            type: Ubl21\CommonBasicComponents\TotalTaskAmount
+        partyCapacityAmount:
+            expose: true
+            access_type: public_method
+            serialized_name: PartyCapacityAmount
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getPartyCapacityAmount
+                setter: setPartyCapacityAmount
+            type: Ubl21\CommonBasicComponents\PartyCapacityAmount
+        description:
+            expose: true
+            access_type: public_method
+            serialized_name: Description
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getDescription
+                setter: setDescription
+            xml_list:
+                inline: true
+                entry_name: Description
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            type: array<Ubl21\CommonBasicComponents\Description>
+        evidenceSupplied:
+            expose: true
+            access_type: public_method
+            serialized_name: EvidenceSupplied
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getEvidenceSupplied
+                setter: setEvidenceSupplied
+            xml_list:
+                inline: true
+                entry_name: EvidenceSupplied
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            type: array<Ubl21\CommonAggregateComponents\EvidenceSupplied>
+        period:
+            expose: true
+            access_type: public_method
+            serialized_name: Period
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getPeriod
+                setter: setPeriod
+            type: Ubl21\CommonAggregateComponents\Period
+        recipientCustomerParty:
+            expose: true
+            access_type: public_method
+            serialized_name: RecipientCustomerParty
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getRecipientCustomerParty
+                setter: setRecipientCustomerParty
+            type: Ubl21\CommonAggregateComponents\RecipientCustomerParty

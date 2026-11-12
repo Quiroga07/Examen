@@ -1,0 +1,180 @@
+Ubl21\CommonAggregateComponents\DocumentReferenceType:
+    properties:
+        iD:
+            expose: true
+            access_type: public_method
+            serialized_name: ID
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getID
+                setter: setID
+            type: Ubl21\CommonBasicComponents\ID
+        copyIndicator:
+            expose: true
+            access_type: public_method
+            serialized_name: CopyIndicator
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getCopyIndicator
+                setter: setCopyIndicator
+            type: bool
+        uUID:
+            expose: true
+            access_type: public_method
+            serialized_name: UUID
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getUUID
+                setter: setUUID
+            type: Ubl21\CommonBasicComponents\UUID
+        issueDate:
+            expose: true
+            access_type: public_method
+            serialized_name: IssueDate
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getIssueDate
+                setter: setIssueDate
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\Date
+        issueTime:
+            expose: true
+            access_type: public_method
+            serialized_name: IssueTime
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getIssueTime
+                setter: setIssueTime
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\Time
+        documentTypeCode:
+            expose: true
+            access_type: public_method
+            serialized_name: DocumentTypeCode
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getDocumentTypeCode
+                setter: setDocumentTypeCode
+            type: Ubl21\CommonBasicComponents\DocumentTypeCode
+        documentType:
+            expose: true
+            access_type: public_method
+            serialized_name: DocumentType
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getDocumentType
+                setter: setDocumentType
+            type: Ubl21\CommonBasicComponents\DocumentType
+        xPath:
+            expose: true
+            access_type: public_method
+            serialized_name: XPath
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getXPath
+                setter: setXPath
+            xml_list:
+                inline: true
+                entry_name: XPath
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            type: array<Ubl21\CommonBasicComponents\XPath>
+        languageID:
+            expose: true
+            access_type: public_method
+            serialized_name: LanguageID
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getLanguageID
+                setter: setLanguageID
+            type: Ubl21\CommonBasicComponents\LanguageID
+        localeCode:
+            expose: true
+            access_type: public_method
+            serialized_name: LocaleCode
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getLocaleCode
+                setter: setLocaleCode
+            type: Ubl21\CommonBasicComponents\LocaleCode
+        versionID:
+            expose: true
+            access_type: public_method
+            serialized_name: VersionID
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getVersionID
+                setter: setVersionID
+            type: Ubl21\CommonBasicComponents\VersionID
+        documentStatusCode:
+            expose: true
+            access_type: public_method
+            serialized_name: DocumentStatusCode
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getDocumentStatusCode
+                setter: setDocumentStatusCode
+            type: Ubl21\CommonBasicComponents\DocumentStatusCode
+        documentDescription:
+            expose: true
+            access_type: public_method
+            serialized_name: DocumentDescription
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            accessor:
+                getter: getDocumentDescription
+                setter: setDocumentDescription
+            xml_list:
+                inline: true
+                entry_name: DocumentDescription
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2'
+            type: array<Ubl21\CommonBasicComponents\DocumentDescription>
+        attachment:
+            expose: true
+            access_type: public_method
+            serialized_name: Attachment
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getAttachment
+                setter: setAttachment
+            type: Ubl21\CommonAggregateComponents\Attachment
+        validityPeriod:
+            expose: true
+            access_type: public_method
+            serialized_name: ValidityPeriod
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getValidityPeriod
+                setter: setValidityPeriod
+            type: Ubl21\CommonAggregateComponents\ValidityPeriod
+        issuerParty:
+            expose: true
+            access_type: public_method
+            serialized_name: IssuerParty
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getIssuerParty
+                setter: setIssuerParty
+            type: Ubl21\CommonAggregateComponents\IssuerParty
+        resultOfVerification:
+            expose: true
+            access_type: public_method
+            serialized_name: ResultOfVerification
+            xml_element:
+                namespace: 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2'
+            accessor:
+                getter: getResultOfVerification
+                setter: setResultOfVerification
+            type: Ubl21\CommonAggregateComponents\ResultOfVerification
